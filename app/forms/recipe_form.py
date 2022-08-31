@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, IntegerField
 from wtforms.validators import DataRequired, Length, NumberRange, ValidationError
-from app.models import Recipe
+# from app.models import Recipe
 
 def validate_str(form, field):
     if field.data is None or field.data != str(field.data):
