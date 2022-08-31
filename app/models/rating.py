@@ -10,4 +10,4 @@ class Rating(db.Model, UserMixin):
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'), nullable=False)
 
     user = db.relationship('User', back_populates='ratings', foreign_keys=[user_id])
-    recipe = db.relationship('Recipe', back_populates='ratings', foreign_keys=[recipe_id])
+    recipe = db.relationship('Recipe', back_populates='rating', foreign_keys=[recipe_id])
