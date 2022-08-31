@@ -15,3 +15,18 @@ class Recipe(db.Model, UserMixin):
     image_url = db.Column(db.String(255))
 
     user = db.relationship('User', back_populates='recipes', foreign_keys=[user_id])
+
+    @property
+    def recipe_details(self):
+        return self.to_dict()
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "time": self.time,
+            "user_id": self.user_id,
+            "yield_servings": self.yield_servings,
+            "image_url": self.image_url
+        }
