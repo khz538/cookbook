@@ -63,6 +63,7 @@ def edit_recipe(recipe_id):
         .options(db.joinedLoad(Recipe.steps))\
         .get(recipe_id)
     print(recipe.to_dict())
+    return recipe.to_dict()
     # if recipe is not None:
     #     recipe_dict = recipe.to_dict()
     #     if recipe_dict['user_id'] != current_user.id:
