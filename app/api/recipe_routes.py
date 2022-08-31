@@ -6,3 +6,4 @@ from .auth_routes import validation_errors_to_error_messages
 import statistics
 
 recipe_routes = Blueprint('recipes', __name__)
+
