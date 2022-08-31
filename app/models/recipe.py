@@ -8,7 +8,7 @@ class Recipe(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(1000), nullable=False)
-    time = db.Column(db.Integer, nullable=False)
+    time = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     yield_servings = db.Column(db.Integer, nullable=False)
     image_url = db.Column(db.String(255))
