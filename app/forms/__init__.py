@@ -3,3 +3,4 @@ from .signup_form import SignUpForm
 from .recipe_form import RecipeForm
 from .rating_form import RatingForm
 from .ingredient_form import IngredientForm
+from .step_form import StepForm

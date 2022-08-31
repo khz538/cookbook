@@ -16,6 +16,7 @@ class Recipe(db.Model, UserMixin):
     user = db.relationship('User', back_populates='recipes', foreign_keys=[user_id])
     rating = db.relationship('Rating', back_populates='recipe', cascade='all, delete')
     ingredients = db.relationship('Ingredient', back_populates='recipe', cascade='all, delete')
+    steps = db.relationship('Step', back_populates='recipe', cascade='all, delete')
 
     @property
     def recipe_details(self):
