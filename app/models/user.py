@@ -1,3 +1,4 @@
+from tkinter import CASCADE
 from .db import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -14,6 +15,7 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
 
     recipes = db.relationship('Recipe', back_populates='user')
+    ratings = db.relationship('Rating', back_populates='user', cascade='all, delete')
 
     @property
     def password(self):
