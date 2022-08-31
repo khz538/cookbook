@@ -1,4 +1,3 @@
-from time import time
 from .db import db
 from flask_login import UserMixin
 
