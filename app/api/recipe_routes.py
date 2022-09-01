@@ -1,7 +1,7 @@
 from sqlalchemy.orm import joinedload
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
-from app.models import db, Recipe, User, Rating
+from app.models import db, Recipe, User, Rating, Step, Ingredient
 from app.forms import RecipeForm, RatingForm, IngredientForm, StepForm
 from app.models import ingredient
 from app.models.ingredient import Ingredient
@@ -108,12 +108,26 @@ def add_steps(recipe_id):
 @login_required
 def edit_recipe(recipe_id):
     # Need to return the recipe along with the ingredients and steps
-    recipe = db.session.query(Recipe)\
-        .options(db.joinedLoad(Recipe.ingredients))\
-        .options(db.joinedLoad(Recipe.steps))\
-        .get(recipe_id)
-    print(recipe.to_dict())
-    return recipe.to_dict()
+    recipe = db.session.query(Recipe).get(recipe_id)
+    if recipe is not None:
+        recipe_dict = recipe.to_dict()
+        if recipe_dict['user_id'] != current_user.id:
+            return {'errors': ['You are not authorized to edit this recipe']}, 401
+        form = RecipeForm()
+        form['csrf_token'].data = request.cookies['csrf_token']
+        for k in form.data:
+            if not form.data[k]:
+                form[k].data = recipe_dict[k]
+        if form.validate_on_submit():
+            for k in form.data:
+                if k !='csrf_token':
+                    setattr(recipe, k, form.data[k])
+            db.session.commit()
+            return recipe_dict
+        else:
+            return {'errors': validation_errors_to_error_messages(form.errors)}
+    else:
+        return {'errors': ['product not found']}, 404
     # if recipe is not None:
     #     recipe_dict = recipe.to_dict()
     #     if recipe_dict['user_id'] != current_user.id:
@@ -133,3 +147,27 @@ def edit_recipe(recipe_id):
     #     return {'errors': ['Recipe not found']}, 404
 
 # Edit a recipe's ingredients
+@recipe_routes.route('/<int:recipe_id>/ingredients/edit', methods=['PUT'])
+@recipe_routes.route('/<int:recipe_id>/ingredients/edit/', methods=['PUT'])
+@login_required
+def edit_ingredients(recipe_id):
+    ingredients = db.session.query(Ingredient).filter(Ingredient.recipe_id == recipe_id).all()
+    if ingredients:
+        for ingredient in ingredients:
+            form = IngredientForm()
+            form['csrf_token'].data = request.cookies['csrf_token']
+            if ingredient.id == form.data['id']:
+                for k in form.data:
+                    if not form.data[k]:
+                        form[k].data = ingredient.to_dict()[k]
+                if form.validate_on_submit():
+                    for k in form.data:
+                        if k != 'csrf_token':
+                            setattr(ingredient, k, form.data[k])
+                    db.session.commit()
+                    return ingredient.to_dict()
+                else:
+                    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+            return {'message': 'Ingredients updated successfully'}
+    else:
+        return {'errors': ['Ingredients not found']}, 404
