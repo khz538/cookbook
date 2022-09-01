@@ -1,9 +1,8 @@
 from sqlalchemy.orm import joinedload
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
-from app.models import db, Recipe, User, Rating, Step, Ingredient
-from app.forms import RecipeForm, RatingForm, IngredientForm, StepForm
-from app.models import ingredient
+from app.models import db, Recipe, Step, Ingredient
+from app.forms import RecipeForm, IngredientForm, StepForm
 from app.models.ingredient import Ingredient
 from .auth_routes import validation_errors_to_error_messages
 import statistics
@@ -26,7 +25,7 @@ def all_recipes():
 def single_recipe(recipe_id):
     recipe = (db.session.query(Recipe).
                 options(joinedload(Recipe.ingredients)).
-                options(db.joinedload(Recipe.steps)).get(recipe_id))
+                options(db.joinedload(Recipe.steps)).order_by(Step.step_number).get(recipe_id))
     if recipe:
         recipe_dict = recipe.to_dict()
         steps = [s.to_dict() for s in recipe.steps]
@@ -64,8 +63,8 @@ def create_recipe():
 
 
 # Add ingredients to a recipe
-@recipe_routes.route('/recipes/<int:recipe_id>/ingredients/new', methods=['POST'])
-@recipe_routes.route('/recipes/<int:recipe_id>/ingredients/new/', methods=['POST'])
+@recipe_routes.route('/<int:recipe_id>/ingredients/new', methods=['POST'])
+@recipe_routes.route('/<int:recipe_id>/ingredients/new/', methods=['POST'])
 @login_required
 def add_ingredients(recipe_id):
     form=IngredientForm()
@@ -84,8 +83,8 @@ def add_ingredients(recipe_id):
 
 
 # Add steps to a recipe
-@recipe_routes.route('/recipes/<int:recipe_id>/steps/new', methods=['POST'])
-@recipe_routes.route('/recipes/<int:recipe_id>/steps/new/', methods=['POST'])
+@recipe_routes.route('/<int:recipe_id>/steps/new', methods=['POST'])
+@recipe_routes.route('/<int:recipe_id>/steps/new/', methods=['POST'])
 @login_required
 def add_steps(recipe_id):
     form=StepForm()
@@ -146,58 +145,60 @@ def edit_recipe(recipe_id):
     # else:
     #     return {'errors': ['Recipe not found']}, 404
 
-# Edit a recipe's ingredients
-@recipe_routes.route('/<int:recipe_id>/ingredients/edit', methods=['PUT'])
-@recipe_routes.route('/<int:recipe_id>/ingredients/edit/', methods=['PUT'])
-@login_required
-def edit_ingredients(recipe_id):
-    ingredients = db.session.query(Ingredient).filter(Ingredient.recipe_id == recipe_id).all()
-    if ingredients:
-        for ingredient in ingredients:
-            form = IngredientForm()
-            form['csrf_token'].data = request.cookies['csrf_token']
-            if ingredient.id == form.data['id']:
-                for k in form.data:
-                    if not form.data[k]:
-                        form[k].data = ingredient.to_dict()[k]
-                if form.validate_on_submit():
-                    for k in form.data:
-                        if k != 'csrf_token':
-                            setattr(ingredient, k, form.data[k])
-                    db.session.commit()
-                    return ingredient.to_dict()
-                else:
-                    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
-            return {'message': 'Ingredients updated successfully'}
-    else:
-        return {'errors': ['Ingredients not found']}, 404
+# # Edit a recipe's ingredients
+# @recipe_routes.route('/<int:recipe_id>/ingredients/edit', methods=['PUT'])
+# @recipe_routes.route('/<int:recipe_id>/ingredients/edit/', methods=['PUT'])
+# @login_required
+# def edit_ingredients(recipe_id):
+#     ingredients = db.session.query(Ingredient).filter(Ingredient.recipe_id == recipe_id).all()
+#     if ingredients:
+#         for ingredient in ingredients:
+#             form = IngredientForm()
+#             form['csrf_token'].data = request.cookies['csrf_token']
+#             if ingredient.id == form.data['id']:
+#                 for k in form.data:
+#                     if not form.data[k]:
+#                         form[k].data = ingredient.to_dict()[k]
+#                 if form.validate_on_submit():
+#                     for k in form.data:
+#                         if k != 'csrf_token':
+#                             setattr(ingredient, k, form.data[k])
+#                     db.session.commit()
+#                     return ingredient.to_dict()
+#                 else:
+#                     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+#             return {'message': 'Ingredients updated successfully'}
+#     else:
+#         return {'errors': ['Ingredients not found']}, 404
 
 
-# Edit a recipe's steps
-@recipe_routes.route('/<int:recipe_id>/steps/edit', methods=['PUT'])
-@recipe_routes.route('/<int:recipe_id>/steps/edit/', methods=['PUT'])
-@login_required
-def edit_steps(recipe_id):
-    steps = db.session.query(Step).filter(Step.recipe_id == recipe_id).all()
-    if steps:
-        for step in steps:
-            form = StepForm()
-            form['csrf_token'].data = request.cookies['csrf_token']
-            if step.id == form.data['id']:
-                for k in form.data:
-                    if not form.data[k]:
-                        form[k].data = step.to_dict()[k]
-                if form.validate_on_submit():
-                    for k in form.data:
-                        if k != 'csrf_token':
-                            setattr(step, k, form.data[k])
-                    db.session.commit()
-                    return step.to_dict()
-                else:
-                    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
-            return {'message': 'Steps updated successfully'}
-    else:
-        return {'errors': ['Steps not found']}, 404
+# # Edit a recipe's steps
+# @recipe_routes.route('/steps/<int:step_id>/edit', methods=['PUT'])
+# @recipe_routes.route('/steps/<int:step_id>/edit/', methods=['PUT'])
+# @login_required
+# def edit_steps(step_id):
+#     steps = db.session.query(Step).get(step_id)
+#     print(steps.to_dict())
+#     if steps:
+#         for step in steps:
+#             form = StepForm()
+#             print(form.data.keys())
+#             form['csrf_token'].data = request.cookies['csrf_token']
+#             if step.id == form.data['id']:
+#                 for k in form.data:
+#                     if not form.data[k]:
+#                         form[k].data = step.to_dict()[k]
+#                 if form.validate_on_submit():
+#                     for k in form.data:
+#                         if k != 'csrf_token':
+#                             setattr(step, k, form.data[k])
+#                     db.session.commit()
+#                     return step.to_dict()
+#                 else:
+#                     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+#             return {'message': 'Steps updated successfully'}
+#     else:
+#         return {'errors': ['Steps not found']}, 404
 
 
 # Delete a recipe by its ID
