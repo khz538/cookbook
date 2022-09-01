@@ -12,5 +12,19 @@ ingredient_routes = Blueprint('ingredients', __name__)
 @login_required
 def edit_ingredient(ingredient_id):
     ingredient = db.session.query(Ingredient).get(ingredient_id)
-    if ingredient:
-        pass
+    print('ingredient', ingredient)
+    if ingredient is None:
+        return {'errors': ['Ingredient not found']}, 404
+    elif ingredient.recipe.user_id != current_user.id:
+        return {'errors': ['You are not authorized to edit this ingredient']}, 401
+    elif ingredient:
+        form = IngredientForm()
+        form['csrf_token'].data = request.cookies['csrf_token']
+        if form.validate_on_submit():
+            ingredient.name = form.data['name']
+            ingredient.quantity = form.data['quantity']
+            ingredient.unit = form.data['unit']
+            db.session.commit()
+            return ingredient.to_dict()
+    else:
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 400
