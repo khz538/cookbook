@@ -1,14 +1,17 @@
-from crypt import methods
+from sqlalchemy.orm import joinedload
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from app.models import db, Recipe, User, Rating
-from app.forms import RecipeForm, RatingForm
+from app.forms import RecipeForm, RatingForm, IngredientForm, StepForm
+from app.models import ingredient
+from app.models.ingredient import Ingredient
 from .auth_routes import validation_errors_to_error_messages
 import statistics
 
 recipe_routes = Blueprint('recipes', __name__)
 
 # Get all recipes
+# Tested--working
 @recipe_routes.route('/')
 @recipe_routes.route('')
 def all_recipes():
@@ -20,10 +23,12 @@ def all_recipes():
 @recipe_routes.route('/<int:recipe_id>')
 @recipe_routes.route('/<int:recipe_id>/')
 def single_recipe(recipe_id):
-    recipe = db.session.query(Recipe)\
-        .options(db.joinedLoad(Recipe.ingredients))\
-        .options(db.joinedLoad(Recipe.steps))\
-        .get(recipe_id)
+    # recipe = (db.session.query(Recipe).
+    #             options(
+    #                 joinedload(Recipe.ingredients),
+    #                 joinedload(Recipe.steps)
+    #             ).get(recipe_id))
+    recipe = db.session.query(Recipe).options(db.joinedload('*')).get(recipe_id)
     if recipe:
         return recipe.to_dict()
     else:
@@ -31,6 +36,7 @@ def single_recipe(recipe_id):
 
 
 # Create a new recipe
+# Tested--working
 @recipe_routes.route('/new', methods=['POST'])
 @recipe_routes.route('/new/', methods=['POST'])
 @login_required
@@ -50,6 +56,27 @@ def create_recipe():
         db.session.commit()
         return recipe.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+# Add ingredients to a recipe
+@recipe_routes.route('/recipes/<int:recipe_id>/ingredients/new', methods=['POST'])
+@recipe_routes.route('/recipes/<int:recipe_id>/ingredients/new/', methods=['POST'])
+@login_required
+def add_ingredients(recipe_id):
+    form=IngredientForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        ingredient = Ingredient(
+            quantity=form.data['quantity'],
+            unit=form.data['unit'],
+            name=form.data['name'],
+            recipe_id=recipe_id
+        )
+        db.session.add(ingredient)
+        db.session.commit()
+        return ingredient.to_dict()
+    return {'errors': validation_errors_to_error_messages(form.errors)}
+
+# Add steps to a recipe
 
 
 # Edit a recipe by its ID
