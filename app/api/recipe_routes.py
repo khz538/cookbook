@@ -171,3 +171,48 @@ def edit_ingredients(recipe_id):
             return {'message': 'Ingredients updated successfully'}
     else:
         return {'errors': ['Ingredients not found']}, 404
+
+
+# Edit a recipe's steps
+@recipe_routes.route('/<int:recipe_id>/steps/edit', methods=['PUT'])
+@recipe_routes.route('/<int:recipe_id>/steps/edit/', methods=['PUT'])
+@login_required
+def edit_steps(recipe_id):
+    steps = db.session.query(Step).filter(Step.recipe_id == recipe_id).all()
+    if steps:
+        for step in steps:
+            form = StepForm()
+            form['csrf_token'].data = request.cookies['csrf_token']
+            if step.id == form.data['id']:
+                for k in form.data:
+                    if not form.data[k]:
+                        form[k].data = step.to_dict()[k]
+                if form.validate_on_submit():
+                    for k in form.data:
+                        if k != 'csrf_token':
+                            setattr(step, k, form.data[k])
+                    db.session.commit()
+                    return step.to_dict()
+                else:
+                    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+            return {'message': 'Steps updated successfully'}
+    else:
+        return {'errors': ['Steps not found']}, 404
+
+
+# Delete a recipe by its ID
+@recipe_routes.route('/<int:recipe_id>/delete', methods=['DELETE'])
+@recipe_routes.route('/<int:recipe_id>/delete/', methods=['DELETE'])
+@login_required
+def delete_recipe(recipe_id):
+    recipe = db.session.query(Recipe).get(recipe_id)
+    if recipe is not None:
+        recipe_dict = recipe.to_dict()
+        if recipe_dict['user_id'] != current_user.id:
+            return {'errors': ['You are not authorized to delete this recipe']}, 401
+        else:
+            db.session.delete(recipe)
+            db.session.commit()
+            return {'message': 'Recipe deleted successfully'}
+    else:
+        return {'errors': ['Recipe not found']}, 404
