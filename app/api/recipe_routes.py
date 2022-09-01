@@ -63,6 +63,7 @@ def create_recipe():
 
 
 # Add ingredients to a recipe
+# Tested--working
 @recipe_routes.route('/<int:recipe_id>/ingredients/new', methods=['POST'])
 @recipe_routes.route('/<int:recipe_id>/ingredients/new/', methods=['POST'])
 @login_required
