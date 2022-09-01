@@ -28,3 +28,10 @@ def edit_ingredient(ingredient_id):
             return ingredient.to_dict()
     else:
         return {'errors': validation_errors_to_error_messages(form.errors)}, 400
+
+# Delete an ingredient
+@ingredient_routes.route('/<int:ingredient_id>', methods=['DELETE'])
+@ingredient_routes.route('/<int:ingredient_id>/', methods=['DELETE'])
+@login_required
+def delete_ingredient(ingredient_id):
+    pass
