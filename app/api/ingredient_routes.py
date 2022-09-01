@@ -12,7 +12,7 @@ ingredient_routes = Blueprint('ingredients', __name__)
 @login_required
 def edit_ingredient(ingredient_id):
     ingredient = db.session.query(Ingredient).get(ingredient_id)
-    print('ingredient', ingredient)
+    # print('ingredient', ingredient)
     if ingredient is None:
         return {'errors': ['Ingredient not found']}, 404
     elif ingredient.recipe.user_id != current_user.id:
@@ -34,4 +34,12 @@ def edit_ingredient(ingredient_id):
 @ingredient_routes.route('/<int:ingredient_id>/', methods=['DELETE'])
 @login_required
 def delete_ingredient(ingredient_id):
-    pass
+    ingredient = db.session.query(Ingredient).get(ingredient_id)
+    if ingredient is None:
+        return {'errors': ['Ingredient not found']}, 404
+    elif ingredient.recipe.user_id != current_user.id:
+        return {'errors': ['You are not authorized to delete this ingredient']}, 401
+    else:
+        db.session.delete(ingredient)
+        db.session.commit()
+        return {'message': 'Ingredient deleted'}
