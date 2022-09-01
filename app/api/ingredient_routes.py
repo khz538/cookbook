@@ -13,8 +13,4 @@ ingredient_routes = Blueprint('ingredients', __name__)
 def edit_ingredient(ingredient_id):
     ingredient = db.session.query(Ingredient).get(ingredient_id)
     if ingredient:
-        ingredient_dict = ingredient.to_dict()
-        if ingredient_dict['recipe']['user_id'] != current_user.id:
-            return {'errors': ['You are not authorized to edit this ingredient']}, 401
-        else:
-            return ingredient_dict
+        pass
