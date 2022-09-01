@@ -16,7 +16,7 @@ def seed():
     # Add other seed functions here
     seed_recipes()
     seed_ingredients()
-    seed_steps
+    seed_steps()
 
 
 # Creates the `flask seed undo` command

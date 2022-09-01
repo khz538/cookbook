@@ -12,25 +12,30 @@ recipe_routes = Blueprint('recipes', __name__)
 
 # Get all recipes
 # Tested--working
-@recipe_routes.route('/')
 @recipe_routes.route('')
+@recipe_routes.route('/')
 def all_recipes():
     recipes = Recipe.query.all()
     return {"recipes": [recipe.to_dict() for recipe in recipes]}
 
 
 # Get a single recipe by the recipe's ID
+# Tested--working
 @recipe_routes.route('/<int:recipe_id>')
 @recipe_routes.route('/<int:recipe_id>/')
 def single_recipe(recipe_id):
-    # recipe = (db.session.query(Recipe).
-    #             options(
-    #                 joinedload(Recipe.ingredients),
-    #                 joinedload(Recipe.steps)
-    #             ).get(recipe_id))
-    recipe = db.session.query(Recipe).options(db.joinedload('*')).get(recipe_id)
+    recipe = (db.session.query(Recipe).
+                options(joinedload(Recipe.ingredients)).
+                options(db.joinedload(Recipe.steps)).get(recipe_id))
     if recipe:
-        return recipe.to_dict()
+        recipe_dict = recipe.to_dict()
+        steps = [s.to_dict() for s in recipe.steps]
+        ingredients = [i.to_dict() for i in recipe.ingredients]
+        print(steps)
+        recipe_dict['steps'] = steps
+        recipe_dict['ingredients'] = ingredients
+        return recipe_dict
+
     else:
         return {'errors': ['Recipe not found']}, 404
 
@@ -57,6 +62,7 @@ def create_recipe():
         return recipe.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
+
 # Add ingredients to a recipe
 @recipe_routes.route('/recipes/<int:recipe_id>/ingredients/new', methods=['POST'])
 @recipe_routes.route('/recipes/<int:recipe_id>/ingredients/new/', methods=['POST'])
@@ -76,12 +82,29 @@ def add_ingredients(recipe_id):
         return ingredient.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}
 
+
 # Add steps to a recipe
+@recipe_routes.route('/recipes/<int:recipe_id>/steps/new', methods=['POST'])
+@recipe_routes.route('/recipes/<int:recipe_id>/steps/new/', methods=['POST'])
+@login_required
+def add_steps(recipe_id):
+    form=StepForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        step = Step(
+            step_number=form.data['step_number'],
+            description=form.data['description'],
+            recipe_id=recipe_id
+        )
+        db.session.add(step)
+        db.session.commit()
+        return step.to_dict()
+    return {'errors': validation_errors_to_error_messages(form.errors)},
 
 
 # Edit a recipe by its ID
-@recipe_routes.route('/<int:recipe_id>/edit/', methods=['PUT'])
 @recipe_routes.route('/<int:recipe_id>/edit', methods=['PUT'])
+@recipe_routes.route('/<int:recipe_id>/edit/', methods=['PUT'])
 @login_required
 def edit_recipe(recipe_id):
     # Need to return the recipe along with the ingredients and steps
@@ -108,3 +131,5 @@ def edit_recipe(recipe_id):
     #             return {'errors': validation_errors_to_error_messages(form.errors)}, 401
     # else:
     #     return {'errors': ['Recipe not found']}, 404
+
+# Edit a recipe's ingredients
