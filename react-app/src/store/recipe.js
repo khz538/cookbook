@@ -50,10 +50,10 @@ const createRecipeThunk = payload => async dispatch => {
     };
 };
 
-const editRecipeAction = recipeId => {
+const editRecipeAction = recipe => {
     return {
         type: EDIT_RECIPE,
-        recipeId
+        recipe
     }
 };
 
