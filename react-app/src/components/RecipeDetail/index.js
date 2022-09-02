@@ -3,6 +3,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOneRecipeThunk } from '../../store/recipes';
 
+function testImage(url, call)
+
 
 const RecipeDetail = () => {
     const { recipeId } = useParams();
@@ -29,6 +31,7 @@ const RecipeDetail = () => {
                 <h1 className='recipe-title'>{recipe.title}</h1>
                 <p className='recipe-author'>By: {recipe.user.first_name}&nbsp;{recipe.user.last_name}</p>
             </div>
+            {/* Need to add an image URL checker */}
             <img className='recipe-image' src={recipe.image} alt={recipe.title} />
         </div>
     );
