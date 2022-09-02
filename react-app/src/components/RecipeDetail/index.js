@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOneRecipeThunk } from '../../store/recipes';
-
-function testImage(url, call)
+// import { isValidUrl } from '../../util';
 
 
 const RecipeDetail = () => {
@@ -15,7 +14,7 @@ const RecipeDetail = () => {
 
     useEffect(() => {
         dispatch(getOneRecipeThunk(recipeId));
-    }, [dispatch])
+    }, [dispatch, recipeId])
 
     if (!recipe) return null;
 
@@ -28,11 +27,46 @@ const RecipeDetail = () => {
     return (
         <div className='recipe-outer-wrapper'>
             <div className='top-recipe-wrapper'>
-                <h1 className='recipe-title'>{recipe.title}</h1>
-                <p className='recipe-author'>By: {recipe.user.first_name}&nbsp;{recipe.user.last_name}</p>
+                <div className='top-left-quadrant'>
+                    <h1 className='recipe-title'>{recipe.title}</h1>
+                    <p className='recipe-author'>By: {recipe.user.first_name}&nbsp;{recipe.user.last_name}</p>
+                </div>
+                <div className='top-right-quadrant'>
+                    <div className='recipe-image-container'>
+                        {/* Need to add an image URL checker */}
+                        <img className='recipe-image' src={recipe.image} alt={recipe.title} />
+                    </div>
+                    <p className='recipe-description'>{recipe.description}</p>
+                </div>
             </div>
-            {/* Need to add an image URL checker */}
-            <img className='recipe-image' src={recipe.image} alt={recipe.title} />
+            {/* Render ingredients if they exist */}
+
+            {recipe.ingredients.length > 0 &&
+                <div className='lower-left-quadrant'>
+                    <h2>Ingredients</h2>
+                    <ul className='ingredients-list'>
+                    {recipe.ingredients.map(ingredient => (
+                            <li className='ingredient'>
+                                <p>{ingredient.quantity} {ingredient.unit} of {ingredient.name}</p>
+                            </li>
+                    ))}
+                    </ul>
+                </div>
+            }
+            {/* Render steps if they exist */}
+            {recipe.steps.length > 0 &&
+                <div className='lower-right-quadrant'>
+                    <h2>Preparation</h2>
+                    <ul className='steps-list'>
+                        {recipe.steps.map(step => (
+                            <li className='step'>
+                                <h4>Step&nbsp;{step.step_number}</h4>
+                                <p>{step.description}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            }
         </div>
     );
 }
