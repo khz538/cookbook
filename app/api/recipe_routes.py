@@ -25,7 +25,9 @@ def all_recipes():
 def single_recipe(recipe_id):
     recipe = (db.session.query(Recipe).
                 options(joinedload(Recipe.ingredients)).
-                options(db.joinedload(Recipe.steps)).order_by(Step.step_number).get(recipe_id))
+                options(db.joinedload(Recipe.steps)).
+                options(db.joinedload(Recipe.user)).
+                order_by(Step.step_number).get(recipe_id))
     if recipe:
         recipe_dict = recipe.to_dict()
         steps = [s.to_dict() for s in recipe.steps]
@@ -33,6 +35,7 @@ def single_recipe(recipe_id):
         print(steps)
         recipe_dict['steps'] = steps
         recipe_dict['ingredients'] = ingredients
+        recipe_dict['user'] = recipe.user.to_dict()
         return recipe_dict
 
     else:
