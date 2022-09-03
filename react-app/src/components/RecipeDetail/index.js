@@ -67,6 +67,11 @@ const RecipeDetail = () => {
                     </ul>
                 </div>
             }
+            {(recipe.steps === 0 && current) &&
+                <div className='add-step-form'>
+
+                </div>
+            }
         </div>
     );
 }
