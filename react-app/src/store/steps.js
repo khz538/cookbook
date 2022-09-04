@@ -1,10 +1,14 @@
+
+const GET_STEPS = 'steps/GET_STEPS';
 const CREATE_STEP = 'step/CREATE_STEP';
 const EDIT_STEP = 'step/EDIT_STEP';
 const DELETE_STEP = 'step/DELETE_STEP';
 
-const createStepAction = step => {
+
+const createStepAction = (recipeId, step) => {
     return {
         type: CREATE_STEP,
+        recipeId,
         step,
     };
 }
@@ -31,7 +35,7 @@ export const createStepThunk = step => async dispatch => {
     });
     if (res.ok) {
         const step = await res.json();
-        dispatch(createStepAction(step));
+        dispatch(createStepAction(step, step.recipe_id));
         return step;
     };
 }
@@ -63,7 +67,7 @@ export default function stepsReducer(state = {}, action) {
     switch(action.type) {
         case CREATE_STEP: {
             const newState = { ...state };
-            newState[action.step.id] = action.step;
+            newState[action.recipe.recipeId.step.id] = action.step;
             return newState;
         };
         case EDIT_STEP: {

@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOneRecipeThunk } from '../../store/recipes';
+import { createStepThunk } from '../../store/steps';
 // import { isValidUrl } from '../../util';
 
 
@@ -11,7 +12,8 @@ const RecipeDetail = () => {
     const history = useHistory();
     const recipe = useSelector(state => state.recipes)[recipeId];
     const currentUser = useSelector(state => state.session.user);
-    console.log(recipe)
+    // console.log(recipe)
+    const [newStep, setNewStep] = useState('');
 
     useEffect(() => {
         dispatch(getOneRecipeThunk(recipeId));
@@ -24,9 +26,14 @@ const RecipeDetail = () => {
     //     await dispatch(deleteRecipeThunk(recipeId));
     //     history.push('/');
     // }
-    const addStep = e => {
+    const addStep = async e => {
         e.preventDefault();
-        
+        const step = {
+            recipe_id: recipeId,
+            step_number: recipe.steps.length + 1,
+            description: newStep,
+        }
+        dispatch(createStepThunk(step));
     }
 
     return (
@@ -63,19 +70,21 @@ const RecipeDetail = () => {
                     <h2>Preparation</h2>
                     <ul className='steps-list'>
                         {recipe.steps.map(step => (
-                            <li className='step'>
+                            <li className='step' key={step.id}>
                                 <h4>Step&nbsp;{step.step_number}</h4>
                                 <p>{step.description}</p>
                             </li>
                         ))}
                     </ul>
 
-                    {currentUser.id === recipe.user.id &&
+                    {currentUser?.id === recipe.user.id &&
                     <form onSubmit={addStep}>
                         <label for='add-step'>Add a step</label>
                         <textarea
                             placeholder='Add another step to this recipe'
                             name='add-step'
+                            value={newStep}
+                            onChange={e => setNewStep(e.target.value)}
                         />
                         <button type='submit'>Add This Step</button>
                     </form>
