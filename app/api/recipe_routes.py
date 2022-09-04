@@ -99,8 +99,8 @@ def add_ingredients(recipe_id):
 
 
 # Add steps to a recipe
-@recipe_routes.route('/<int:recipe_id>/steps/new', methods=['POST'])
 @recipe_routes.route('/<int:recipe_id>/steps/new/', methods=['POST'])
+# @recipe_routes.route('/<int:recipe_id>/steps/new', methods=['POST'])
 @login_required
 def add_steps(recipe_id):
     form=StepForm()

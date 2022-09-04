@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOneRecipeThunk } from '../../store/recipes';
-import { getStepsThunk } from '../../store/steps';
+import { getStepsThunk, createStepThunk } from '../../store/steps';
 import { getIngredientsThunk } from '../../store/ingredients';
 
 
@@ -15,7 +15,7 @@ const RecipeDetail = () => {
     const ingredients = useSelector(state => state.ingredients.ingredients);
     const currentUser = useSelector(state => state.session.user);
     const [newStep, setNewStep] = useState('');
-    console.log(newStep)
+    // console.log(newStep)
 
     useEffect(() => {
         dispatch(getOneRecipeThunk(recipeId));
@@ -25,21 +25,16 @@ const RecipeDetail = () => {
 
     if (!recipe) return null;
 
-    // const handleDelete = async (e) => {
-    //     e.preventDefault();
-    //     await dispatch(deleteRecipeThunk(recipeId));
-    //     history.push('/');
-    // }
+
     const addStep = async e => {
         e.preventDefault();
-        console.log('hiiiiiiiiiiii')
         const step = {
-            // recipe_id: recipeId,
+            recipe_id: recipeId,
             step_number: steps.length + 1,
             description: newStep,
         }
-        dispatch((step));
         console.log(step)
+        await dispatch(createStepThunk(step));
         history.push(`/recipes/${recipeId}`);
     }
 
@@ -60,7 +55,7 @@ const RecipeDetail = () => {
             </div>
             {/* Render ingredients if they exist */}
 
-            {ingredients.length > 0 &&
+            {(ingredients && ingredients.length > 0) &&
                 <div className='lower-left-quadrant'>
                     <h2>Ingredients</h2>
                     <ul className='ingredients-list'>
@@ -76,7 +71,7 @@ const RecipeDetail = () => {
                 <div className='lower-right-quadrant'>
                     <h2>Preparation</h2>
                     <ul className='steps-list'>
-                        {steps.map(step => (
+                        {steps && steps.map(step => (
                             <li className='step' key={step.id}>
                                 <h4>Step&nbsp;{step.step_number}</h4>
                                 <p>{step.description}</p>
