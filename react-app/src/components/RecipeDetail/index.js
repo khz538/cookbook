@@ -10,6 +10,7 @@ const RecipeDetail = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const recipe = useSelector(state => state.recipes)[recipeId];
+    const currentUser = useSelector(state => state.session.user);
     console.log(recipe)
 
     useEffect(() => {
@@ -67,7 +68,7 @@ const RecipeDetail = () => {
                     </ul>
                 </div>
             }
-            {(recipe.steps === 0 && current) &&
+            {(recipe.steps === 0 && currentUser.id === recipe.user.id) &&
                 <div className='add-step-form'>
 
                 </div>
