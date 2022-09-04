@@ -24,20 +24,35 @@ def all_recipes():
 @recipe_routes.route('/<int:recipe_id>/')
 def single_recipe(recipe_id):
     recipe = (db.session.query(Recipe).
-                options(joinedload(Recipe.ingredients)).
-                options(db.joinedload(Recipe.steps)).order_by(Step.step_number).get(recipe_id))
+                # options(joinedload(Recipe.ingredients)).
+                # options(db.joinedload(Recipe.steps)).
+                options(db.joinedload(Recipe.user)).
+                order_by(Step.step_number).get(recipe_id))
     if recipe:
         recipe_dict = recipe.to_dict()
-        steps = [s.to_dict() for s in recipe.steps]
-        ingredients = [i.to_dict() for i in recipe.ingredients]
-        print(steps)
-        recipe_dict['steps'] = steps
-        recipe_dict['ingredients'] = ingredients
+        # steps = [s.to_dict() for s in recipe.steps]
+        # ingredients = [i.to_dict() for i in recipe.ingredients]
+        # recipe_dict['steps'] = steps
+        # recipe_dict['ingredients'] = ingredients
+        recipe_dict['user'] = recipe.user.to_dict()
         return recipe_dict
 
     else:
         return {'errors': ['Recipe not found']}, 404
 
+# Get all steps for a recipe
+@recipe_routes.route('/<int:recipe_id>/steps')
+@recipe_routes.route('/<int:recipe_id>/steps/')
+def get_steps(recipe_id):
+    steps = (db.session.query(Step).filter(Step.recipe_id == recipe_id).order_by(Step.step_number).all())
+    return {"steps": [step.to_dict() for step in steps]}
+
+# Get all ingredients for a recipe
+@recipe_routes.route('/<int:recipe_id>/ingredients')
+@recipe_routes.route('/<int:recipe_id>/ingredients/')
+def get_ingredients(recipe_id):
+    ingredients = (db.session.query(Ingredient).filter(Ingredient.recipe_id == recipe_id).all())
+    return {"ingredients": [ingredient.to_dict() for ingredient in ingredients]}
 
 # Create a new recipe
 # Tested--working
@@ -84,8 +99,8 @@ def add_ingredients(recipe_id):
 
 
 # Add steps to a recipe
-@recipe_routes.route('/<int:recipe_id>/steps/new', methods=['POST'])
 @recipe_routes.route('/<int:recipe_id>/steps/new/', methods=['POST'])
+@recipe_routes.route('/<int:recipe_id>/steps/new', methods=['POST'])
 @login_required
 def add_steps(recipe_id):
     form=StepForm()

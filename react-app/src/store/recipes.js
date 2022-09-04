@@ -37,18 +37,18 @@ const createRecipeAction = recipe => {
     };
 ;}
 
-const createRecipeThunk = payload => async dispatch => {
-    const res = await fetch('/api/recipes/new', {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: { 'Content-Type': 'application/json' },
-    });
-    if (res.ok) {
-        const newRecipe = await res.json();
-        dispatch(createRecipeAction(newRecipe));
-        return newRecipe;
-    };
-};
+// const createRecipeThunk = payload => async dispatch => {
+//     const res = await fetch('/api/recipes/new', {
+//         method: 'POST',
+//         body: JSON.stringify(payload),
+//         headers: { 'Content-Type': 'application/json' },
+//     });
+//     if (res.ok) {
+//         const newRecipe = await res.json();
+//         dispatch(createRecipeAction(newRecipe));
+//         return newRecipe;
+//     };
+// };
 
 const editRecipeAction = recipe => {
     return {
@@ -91,7 +91,7 @@ export default function recipesReducer(state = {}, action) {
     switch (action.type) {
         case GET_ALL_RECIPES: {
             const newState = {};
-            action.recipes.forEach(recipe => {
+            action.recipes.recipes.forEach(recipe => {
                 newState[recipe.id] = recipe;
             });
             return newState;

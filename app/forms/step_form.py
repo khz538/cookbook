@@ -12,5 +12,5 @@ def validate_int(form, field):
         raise StopValidation('Please enter a valid integer.')
 
 class StepForm(FlaskForm):
-    step_number = IntegerField('step_number', validators=[DataRequired(), Length(min=1, max=255)])
+    step_number = IntegerField('step_number', validators=[DataRequired()])
     description = TextAreaField('description', validators=[DataRequired()])
