@@ -75,9 +75,9 @@ const RecipeDetail = () => {
             </div>
             {/* Render ingredients if they exist */}
 
-            {ingredients && ingredients.length > 0 &&
+            <h2>Ingredients</h2>
+            {/* {ingredients && ingredients.length > 0 && */}
                 <div className='lower-left-quadrant'>
-                    <h2>Ingredients</h2>
                     <ul className='ingredients-list'>
                     {ingredients.map(ingredient => (
                             <li key={ingredient.id} className='ingredient'>
@@ -140,7 +140,7 @@ const RecipeDetail = () => {
                         </form>
                     </div>}
                 </div>
-            }
+            {/* } */}
             {/* Render steps if they exist */}
                 <div className='lower-right-quadrant'>
                     <h2>Preparation</h2>
