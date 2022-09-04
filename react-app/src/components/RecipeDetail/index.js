@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOneRecipeThunk } from '../../store/recipes';
-import { createStepThunk } from '../../store/steps';
-// import { isValidUrl } from '../../util';
+import { getStepsThunk } from '../../store/steps';
+import { getIngredientsThunk } from '../../store/ingredients';
 
 
 const RecipeDetail = () => {
@@ -11,12 +11,16 @@ const RecipeDetail = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const recipe = useSelector(state => state.recipes)[recipeId];
+    const steps = useSelector(state => state.steps.steps);
+    const ingredients = useSelector(state => state.ingredients.ingredients);
     const currentUser = useSelector(state => state.session.user);
-    // console.log(recipe)
     const [newStep, setNewStep] = useState('');
+    console.log(newStep)
 
     useEffect(() => {
         dispatch(getOneRecipeThunk(recipeId));
+        dispatch(getStepsThunk(recipeId));
+        dispatch(getIngredientsThunk(recipeId));
     }, [dispatch, recipeId])
 
     if (!recipe) return null;
@@ -28,12 +32,15 @@ const RecipeDetail = () => {
     // }
     const addStep = async e => {
         e.preventDefault();
+        console.log('hiiiiiiiiiiii')
         const step = {
-            recipe_id: recipeId,
-            step_number: recipe.steps.length + 1,
+            // recipe_id: recipeId,
+            step_number: steps.length + 1,
             description: newStep,
         }
-        dispatch(createStepThunk(step));
+        dispatch((step));
+        console.log(step)
+        history.push(`/recipes/${recipeId}`);
     }
 
     return (
@@ -53,12 +60,12 @@ const RecipeDetail = () => {
             </div>
             {/* Render ingredients if they exist */}
 
-            {recipe.ingredients.length > 0 &&
+            {ingredients.length > 0 &&
                 <div className='lower-left-quadrant'>
                     <h2>Ingredients</h2>
                     <ul className='ingredients-list'>
-                    {recipe.ingredients.map(ingredient => (
-                            <li className='ingredient'>
+                    {ingredients.map(ingredient => (
+                            <li key={ingredient.id} className='ingredient'>
                                 <p>{ingredient.quantity} {ingredient.unit} of {ingredient.name}</p>
                             </li>
                     ))}
@@ -69,7 +76,7 @@ const RecipeDetail = () => {
                 <div className='lower-right-quadrant'>
                     <h2>Preparation</h2>
                     <ul className='steps-list'>
-                        {recipe.steps.map(step => (
+                        {steps.map(step => (
                             <li className='step' key={step.id}>
                                 <h4>Step&nbsp;{step.step_number}</h4>
                                 <p>{step.description}</p>
@@ -79,7 +86,7 @@ const RecipeDetail = () => {
 
                     {currentUser?.id === recipe.user.id &&
                     <form onSubmit={addStep}>
-                        <label for='add-step'>Add a step</label>
+                        <label htmlFor='add-step'>Add a step</label>
                         <textarea
                             placeholder='Add another step to this recipe'
                             name='add-step'
