@@ -24,6 +24,10 @@ const RecipeDetail = () => {
     //     await dispatch(deleteRecipeThunk(recipeId));
     //     history.push('/');
     // }
+    const addStep = e => {
+        e.preventDefault();
+        
+    }
 
     return (
         <div className='recipe-outer-wrapper'>
@@ -55,7 +59,6 @@ const RecipeDetail = () => {
                 </div>
             }
             {/* Render steps if they exist */}
-            {recipe.steps.length > 0 &&
                 <div className='lower-right-quadrant'>
                     <h2>Preparation</h2>
                     <ul className='steps-list'>
@@ -66,13 +69,18 @@ const RecipeDetail = () => {
                             </li>
                         ))}
                     </ul>
-                </div>
-            }
-            {(recipe.steps === 0 && currentUser.id === recipe.user.id) &&
-                <div className='add-step-form'>
 
+                    {currentUser.id === recipe.user.id &&
+                    <form onSubmit={addStep}>
+                        <label for='add-step'>Add a step</label>
+                        <textarea
+                            placeholder='Add another step to this recipe'
+                            name='add-step'
+                        />
+                        <button type='submit'>Add This Step</button>
+                    </form>
+                    }
                 </div>
-            }
         </div>
     );
 }
