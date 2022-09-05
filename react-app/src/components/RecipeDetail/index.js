@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getOneRecipeThunk } from '../../store/recipes';
 import { getStepsThunk, createStepThunk } from '../../store/steps';
 import { getIngredientsThunk, createIngredientThunk } from '../../store/ingredients';
-import { isValidImage } from '../../util';
+import { isWorkingImage } from '../../util';
 
 const RecipeDetail = () => {
     const { recipeId } = useParams();
@@ -25,8 +25,8 @@ const RecipeDetail = () => {
         dispatch(getOneRecipeThunk(recipeId));
         dispatch(getStepsThunk(recipeId));
         dispatch(getIngredientsThunk(recipeId));
-        console.log(isValidImage(recipe?.image));
-        console.log(isValidImage('https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg'))
+        // isWorkingImage(recipe?.image).then(res => console.log(res));
+        // isWorkingImage('https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg').then(res => console.log(res));
     }, [dispatch, recipeId])
 
     if (!recipe) return null;
@@ -39,7 +39,7 @@ const RecipeDetail = () => {
             step_number: steps.length + 1,
             description: newStep,
         }
-        console.log(step)
+        // console.log(step)
         await dispatch(createStepThunk(step));
         setNewStep('');
         history.push(`/recipes/${recipeId}`);
@@ -61,7 +61,9 @@ const RecipeDetail = () => {
         history.push(`/recipes/${recipeId}`);
     }
 
-    // const editIngredient = async e => {
+    const editIngredient = async e => {
+
+    }
 
     return (
         <div className='recipe-outer-wrapper'>
@@ -73,8 +75,7 @@ const RecipeDetail = () => {
                 <div className='top-right-quadrant'>
                     <div className='recipe-image-container'>
                         {/* Need to add an image URL checker */}
-                        {isValidImage(recipe.image) ? <img className='recipe-image' src={recipe.image} alt={recipe.title} /> : <img className='recipe-image' src={'https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg'} alt={recipe.title} />}
-                        {/* <img className='recipe-image' src={'https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg'} alt={recipe.title} /> */}
+                        {isWorkingImage(recipe.image).then(res => res) ? <img className='recipe-image' src={recipe?.image} alt={recipe.title} /> : <img className='recipe-image' src='https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg' alt={recipe.title} />}
                     </div>
                     <p className='recipe-description'>{recipe.description}</p>
                 </div>
