@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getOneRecipeThunk } from '../../store/recipes';
 import { getStepsThunk, createStepThunk } from '../../store/steps';
 import { getIngredientsThunk, createIngredientThunk } from '../../store/ingredients';
-
+import { isValidImage } from '../../util';
 
 const RecipeDetail = () => {
     const { recipeId } = useParams();
@@ -18,12 +18,15 @@ const RecipeDetail = () => {
     const [newIngredientQuantity, setNewIngredientQuantity] = useState('');
     const [newIngredientUnit, setNewIngredientUnit] = useState('');
     const [newIngredientName, setNewIngredientName] = useState('');
+    const [errors, setErrors] = useState([]);
 
 
     useEffect(() => {
         dispatch(getOneRecipeThunk(recipeId));
         dispatch(getStepsThunk(recipeId));
         dispatch(getIngredientsThunk(recipeId));
+        console.log(isValidImage(recipe?.image));
+        console.log(isValidImage('https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg'))
     }, [dispatch, recipeId])
 
     if (!recipe) return null;
@@ -58,6 +61,8 @@ const RecipeDetail = () => {
         history.push(`/recipes/${recipeId}`);
     }
 
+    // const editIngredient = async e => {
+
     return (
         <div className='recipe-outer-wrapper'>
             <div className='top-recipe-wrapper'>
@@ -68,7 +73,8 @@ const RecipeDetail = () => {
                 <div className='top-right-quadrant'>
                     <div className='recipe-image-container'>
                         {/* Need to add an image URL checker */}
-                        <img className='recipe-image' src={recipe.image} alt={recipe.title} />
+                        {isValidImage(recipe.image) ? <img className='recipe-image' src={recipe.image} alt={recipe.title} /> : <img className='recipe-image' src={'https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg'} alt={recipe.title} />}
+                        {/* <img className='recipe-image' src={'https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg'} alt={recipe.title} /> */}
                     </div>
                     <p className='recipe-description'>{recipe.description}</p>
                 </div>
@@ -79,9 +85,11 @@ const RecipeDetail = () => {
             {/* {ingredients && ingredients.length > 0 && */}
                 <div className='lower-left-quadrant'>
                     <ul className='ingredients-list'>
-                    {ingredients.map(ingredient => (
+                    {ingredients?.map(ingredient => (
                             <li key={ingredient.id} className='ingredient'>
                                 <p>{ingredient.name}, {ingredient.quantity} {ingredient.unit}</p>
+                                <button className='edit-ingredient-button'>Edit</button>
+                                <button className='delete-ingredient-button'>Delete</button>
                             </li>
                     ))}
                     </ul>
@@ -106,14 +114,14 @@ const RecipeDetail = () => {
                                 <option value='pound(s)'>pound(s)</option>
                                 <option value='ounce(s)'>ounce(s)</option>
                                 <option value='gram(s)'>gram(s)</option>
-                                <option value='milliliter(s)'>milliliter(s)</option>
+                                <option value='millilitre(s)'>millilitre(s)</option>
                                 <option value='pinche(s)'>pinche(s)</option>
                                 <option value='piece(s)'>piece(s)</option>
                                 <option value='slice(s)'>slice(s)</option>
                                 <option value='sprig(s)'>sprig(s)</option>
                                 <option value='can(s)'>can(s)</option>
                                 <option value='package(s)'>package(s)</option>
-                                <option value='bunche(s)'>bunche(s)</option>
+                                <option value='bunch(es)'>bunch(es)</option>
                                 <option value='head(s)'>head(s)</option>
                                 <option value='stalk(s)'>stalk(s)</option>
                                 <option value='clove(s)'>clove(s)</option>
