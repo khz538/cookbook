@@ -24,7 +24,7 @@ const deleteIngredient = ingredientId => ({
 })
 
 export const getIngredientsThunk = (recipeId) => async (dispatch) => {
-    const response = await fetch(`/api/recipes/${recipeId}/ingredients`);
+    const response = await fetch(`/api/recipes/${recipeId}/ingredients/`);
     const ingredients = await response.json();
     dispatch(getIngredients(ingredients));
 }
@@ -43,7 +43,7 @@ export const createIngredientThunk = (ingredient) => async (dispatch) => {
 }
 
 export const editIngredientThunk = (ingredient) => async (dispatch) => {
-    const response = await fetch(`/api/ingredients/${ingredient.id}`, {
+    const response = await fetch(`/api/ingredients/${ingredient.id}/`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(ingredient),

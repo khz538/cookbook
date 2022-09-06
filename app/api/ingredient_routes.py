@@ -7,8 +7,8 @@ from .auth_routes import validation_errors_to_error_messages
 ingredient_routes = Blueprint('ingredients', __name__)
 
 # Edit an ingredient
-@ingredient_routes.route('/<int:ingredient_id>', methods=['PUT'])
 @ingredient_routes.route('<int:ingredient_id>/', methods=['PUT'])
+# @ingredient_routes.route('/<int:ingredient_id>', methods=['PUT'])
 @login_required
 def edit_ingredient(ingredient_id):
     ingredient = db.session.query(Ingredient).get(ingredient_id)
@@ -30,8 +30,8 @@ def edit_ingredient(ingredient_id):
         return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
 # Delete an ingredient
-@ingredient_routes.route('/<int:ingredient_id>/delete', methods=['DELETE'])
 @ingredient_routes.route('/<int:ingredient_id>/delete/', methods=['DELETE'])
+# @ingredient_routes.route('/<int:ingredient_id>/delete', methods=['DELETE'])
 @login_required
 def delete_ingredient(ingredient_id):
     ingredient = db.session.query(Ingredient).get(ingredient_id)

@@ -7,8 +7,8 @@ from .auth_routes import validation_errors_to_error_messages
 step_routes = Blueprint('steps', __name__)
 
 # Edit a step
-@step_routes.route('/<int:step_id>', methods=['PUT'])
 @step_routes.route('<int:step_id>/', methods=['PUT'])
+# @step_routes.route('/<int:step_id>', methods=['PUT'])
 @login_required
 def edit_step(step_id):
     step = db.session.query(Step).get(step_id)
@@ -30,7 +30,7 @@ def edit_step(step_id):
 
 # Delete a step
 @step_routes.route('/<int:step_id>/delete/', methods=['DELETE'])
-@step_routes.route('/<int:step_id>/delete', methods=['DELETE'])
+# @step_routes.route('/<int:step_id>/delete', methods=['DELETE'])
 @login_required
 def delete_step(step_id):
     step = db.session.query(Step).get(step_id)

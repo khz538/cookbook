@@ -23,7 +23,7 @@ const getOneRecipeAction = recipe => ({
 });
 
 export const getOneRecipeThunk = (id) => async dispatch => {
-    const response = await fetch(`/api/recipes/${id}`);
+    const response = await fetch(`/api/recipes/${id}/`);
     if (response.ok) {
         const recipe = await response.json();
         dispatch(getOneRecipeAction(recipe));
@@ -58,7 +58,7 @@ const editRecipeAction = recipe => {
 };
 
 export const editRecipeThunk = recipe => async dispatch => {
-    const res = await fetch(`/api/recipes/${recipe.id}/edit`, {
+    const res = await fetch(`/api/recipes/${recipe.id}/edit/`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(recipe),
@@ -78,7 +78,7 @@ const deleteRecipeAction = recipeId => {
 };
 
 export const deleteRecipeThunk = recipeId => async dispatch => {
-    const res = await fetch(`/api/recipes/${recipeId}/delete`, {
+    const res = await fetch(`/api/recipes/${recipeId}/delete/`, {
         method: 'DELETE',
     });
     if (res.ok) {
