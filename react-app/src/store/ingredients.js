@@ -61,18 +61,18 @@ export const deleteIngredientThunk = ingredientId => async dispatch => {
     console.log(res);
     if (res.ok) {
         const deletedIngredient = await res.json();
-        console.log(deletedIngredient);
+        // console.log(deletedIngredient);
         dispatch(deleteIngredient(deletedIngredient.id));
     }
 }
 
 export default function reducer(state = {}, action) {
     switch (action.type) {
-        case GET_INGREDIENTS:
+        case GET_INGREDIENTS: {
             const newState = {};
-            action.ingredients.ingredients.forEach(ingredient =>
-                newState[ingredient.id] = ingredient);
+            action.ingredients.ingredients.forEach(ingredient => newState[ingredient.id] = ingredient);
             return newState;
+        }
         case CREATE_INGREDIENT: {
             const newState = { ...state };
             newState[action.ingredient.id] = action.ingredient;
@@ -92,10 +92,10 @@ export default function reducer(state = {}, action) {
         }
         case DELETE_INGREDIENT: {
             const newState = { ...state };
-            console.log(action.ingredientId)
-            console.log('before delete:', newState)
+            // console.log(action.ingredientId)
+            // console.log('before delete:', newState)
             delete newState[action.ingredientId];
-            console.log('after delete:', newState)
+            // console.log('after delete:', newState)
             return newState;
         }
         default:

@@ -42,4 +42,4 @@ def delete_step(step_id):
     else:
         db.session.delete(step)
         db.session.commit()
-        return {'message': 'Step deleted'}
+        return step.to_dict()
