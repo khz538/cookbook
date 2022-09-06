@@ -38,7 +38,6 @@ const RecipeDetail = () => {
         e.preventDefault();
         const step = {
             recipe_id: recipeId,
-            step_number: steps.length + 1,
             description: newStep,
         }
         // console.log(step)

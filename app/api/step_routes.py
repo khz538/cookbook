@@ -20,7 +20,6 @@ def edit_step(step_id):
         form = StepForm()
         form['csrf_token'].data = request.cookies['csrf_token']
         if form.validate_on_submit():
-            step.step_number = form.data['step_number']
             step.description = form.data['description']
             db.session.commit()
             return step.to_dict()

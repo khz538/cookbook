@@ -5,7 +5,6 @@ class Step(db.Model, UserMixin):
     __tablename__ = 'steps'
 
     id = db.Column(db.Integer, primary_key=True)
-    step_number = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(255), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'), nullable=False)
 
@@ -18,7 +17,6 @@ class Step(db.Model, UserMixin):
     def to_dict(self):
         return {
             "id": self.id,
-            "step_number": self.step_number,
             "description": self.description,
             "recipe_id": self.recipe_id
         }

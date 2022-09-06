@@ -35,7 +35,7 @@ const Step = ({ step, recipe, stepIndex }) => {
                             className="delete-button">Delete</button>
                         {showUpdateBool && (
                             <Modal onClose={() => setShowUpdateBool(false)}>
-                                <UpdateStep />
+                                <UpdateStep step={step} recipe={recipe} />
                             </Modal>
                         )}
                     </div>

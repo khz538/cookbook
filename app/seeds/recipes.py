@@ -13,7 +13,7 @@ def seed_recipes():
     )
     recipe2 = Recipe(
         title='Bell Pepper Salad With Capers and Olives',
-        description='At summer’s end, sweet peppers of every color are ripe and ready, far better than the bland supermarket hot-house varieties available year-round. Thinly sliced and dressed with an assertive vinaigrette, these peppers make an ideal first course or antipasto.',
+        description="At summer’s end, sweet peppers of every color are ripe and ready, far better than the bland supermarket hot-house varieties available year-round. Thinly sliced and dressed with an assertive vinaigrette, these peppers make an ideal first course or antipasto.",
         time='30 minutes',
         yield_servings = 1,
         image_url='https://static01.nyt.com/images/2022/09/07/dining/02tanisrex1-salad/02tanisrex1-salad-master768.jpg?w=1280&q=75',
