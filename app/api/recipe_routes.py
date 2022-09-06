@@ -41,15 +41,15 @@ def single_recipe(recipe_id):
         return {'errors': ['Recipe not found']}, 404
 
 # Get all steps for a recipe
-@recipe_routes.route('/<int:recipe_id>/steps')
 @recipe_routes.route('/<int:recipe_id>/steps/')
+@recipe_routes.route('/<int:recipe_id>/steps')
 def get_steps(recipe_id):
     steps = (db.session.query(Step).filter(Step.recipe_id == recipe_id).order_by(Step.step_number).all())
     return {"steps": [step.to_dict() for step in steps]}
 
 # Get all ingredients for a recipe
-@recipe_routes.route('/<int:recipe_id>/ingredients')
 @recipe_routes.route('/<int:recipe_id>/ingredients/')
+@recipe_routes.route('/<int:recipe_id>/ingredients')
 def get_ingredients(recipe_id):
     ingredients = (db.session.query(Ingredient).filter(Ingredient.recipe_id == recipe_id).all())
     return {"ingredients": [ingredient.to_dict() for ingredient in ingredients]}
