@@ -22,7 +22,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=50), nullable=False),
     sa.Column('description', sa.String(length=1000), nullable=False),
-    sa.Column('time', sa.Integer(), nullable=False),
+    sa.Column('time', sa.String(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('yield_servings', sa.Integer(), nullable=False),
     sa.Column('image_url', sa.String(length=255), nullable=True),
