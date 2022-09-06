@@ -30,11 +30,12 @@ def edit_ingredient(ingredient_id):
         return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
 # Delete an ingredient
-@ingredient_routes.route('/<int:ingredient_id>', methods=['DELETE'])
-@ingredient_routes.route('/<int:ingredient_id>/', methods=['DELETE'])
+@ingredient_routes.route('/<int:ingredient_id>/delete', methods=['DELETE'])
+@ingredient_routes.route('/<int:ingredient_id>/delete/', methods=['DELETE'])
 @login_required
 def delete_ingredient(ingredient_id):
     ingredient = db.session.query(Ingredient).get(ingredient_id)
+    print(ingredient)
     if ingredient is None:
         return {'errors': ['Ingredient not found']}, 404
     elif ingredient.recipe.user_id != current_user.id:
@@ -42,4 +43,4 @@ def delete_ingredient(ingredient_id):
     else:
         db.session.delete(ingredient)
         db.session.commit()
-        return {'message': 'Ingredient deleted'}
+        return ingredient.to_dict()

@@ -5,6 +5,7 @@ import { getOneRecipeThunk } from '../../store/recipes';
 import { getStepsThunk, createStepThunk } from '../../store/steps';
 import { getIngredientsThunk, createIngredientThunk } from '../../store/ingredients';
 import { isWorkingImage } from '../../util';
+import Ingredient from './Ingredient';
 
 const RecipeDetail = () => {
     const { recipeId } = useParams();
@@ -12,7 +13,7 @@ const RecipeDetail = () => {
     const history = useHistory();
     const recipe = useSelector(state => state.recipes)[recipeId];
     const steps = useSelector(state => state.steps.steps);
-    const ingredients = useSelector(state => state.ingredients.ingredients);
+    const ingredients = Object.values(useSelector(state => state.ingredients));
     const currentUser = useSelector(state => state.session.user);
     const [newStep, setNewStep] = useState('');
     const [newIngredientQuantity, setNewIngredientQuantity] = useState('');
@@ -53,10 +54,10 @@ const RecipeDetail = () => {
             unit: newIngredientUnit,
             name: newIngredientName,
         }
-        console.log(ingredient)
+        // console.log(ingredient)
         await dispatch(createIngredientThunk(ingredient));
         setNewIngredientQuantity('');
-        setNewIngredientUnit('');
+        // setNewIngredientUnit('');
         setNewIngredientName('');
         history.push(`/recipes/${recipeId}`);
     }
@@ -88,9 +89,7 @@ const RecipeDetail = () => {
                     <ul className='ingredients-list'>
                     {ingredients?.map(ingredient => (
                             <li key={ingredient.id} className='ingredient'>
-                                <p>{ingredient.name}, {ingredient.quantity} {ingredient.unit}</p>
-                                <button className='edit-ingredient-button'>Edit</button>
-                                <button className='delete-ingredient-button'>Delete</button>
+                                <Ingredient ingredient={ingredient} recipe={recipe} />
                             </li>
                     ))}
                     </ul>

@@ -94,6 +94,7 @@ def add_ingredients(recipe_id):
         )
         db.session.add(ingredient)
         db.session.commit()
+        print(ingredient)
         return ingredient.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}
 
