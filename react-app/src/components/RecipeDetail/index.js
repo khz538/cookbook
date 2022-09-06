@@ -54,7 +54,6 @@ const RecipeDetail = () => {
             unit: newIngredientUnit,
             name: newIngredientName,
         }
-        // console.log(ingredient)
         await dispatch(createIngredientThunk(ingredient));
         setNewIngredientQuantity('');
         // setNewIngredientUnit('');
