@@ -4,26 +4,31 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getOneRecipeThunk } from '../../store/recipes';
 import { getStepsThunk, createStepThunk } from '../../store/steps';
 import { getIngredientsThunk, createIngredientThunk } from '../../store/ingredients';
-
+import { isWorkingImage } from '../../util';
+import Ingredient from './Ingredient';
+import Step from './Step';
 
 const RecipeDetail = () => {
     const { recipeId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
     const recipe = useSelector(state => state.recipes)[recipeId];
-    const steps = useSelector(state => state.steps.steps);
-    const ingredients = useSelector(state => state.ingredients.ingredients);
+    const steps = Object.values(useSelector(state => state.steps));
+    const ingredients = Object.values(useSelector(state => state.ingredients));
     const currentUser = useSelector(state => state.session.user);
     const [newStep, setNewStep] = useState('');
     const [newIngredientQuantity, setNewIngredientQuantity] = useState('');
     const [newIngredientUnit, setNewIngredientUnit] = useState('');
     const [newIngredientName, setNewIngredientName] = useState('');
+    // const [errors, setErrors] = useState([]);
 
 
     useEffect(() => {
         dispatch(getOneRecipeThunk(recipeId));
         dispatch(getStepsThunk(recipeId));
         dispatch(getIngredientsThunk(recipeId));
+        // isWorkingImage(recipe?.image).then(res => console.log(res));
+        // isWorkingImage('https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg').then(res => console.log(res));
     }, [dispatch, recipeId])
 
     if (!recipe) return null;
@@ -36,7 +41,7 @@ const RecipeDetail = () => {
             step_number: steps.length + 1,
             description: newStep,
         }
-        console.log(step)
+        // console.log(step)
         await dispatch(createStepThunk(step));
         setNewStep('');
         history.push(`/recipes/${recipeId}`);
@@ -50,10 +55,9 @@ const RecipeDetail = () => {
             unit: newIngredientUnit,
             name: newIngredientName,
         }
-        console.log(ingredient)
         await dispatch(createIngredientThunk(ingredient));
         setNewIngredientQuantity('');
-        setNewIngredientUnit('');
+        // setNewIngredientUnit('');
         setNewIngredientName('');
         history.push(`/recipes/${recipeId}`);
     }
@@ -68,7 +72,7 @@ const RecipeDetail = () => {
                 <div className='top-right-quadrant'>
                     <div className='recipe-image-container'>
                         {/* Need to add an image URL checker */}
-                        <img className='recipe-image' src={recipe.image} alt={recipe.title} />
+                        {isWorkingImage(recipe.image).then(res => res) ? <img className='recipe-image' src={recipe?.image} alt={recipe.title} /> : <img className='recipe-image' src='https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg' alt={recipe.title} />}
                     </div>
                     <p className='recipe-description'>{recipe.description}</p>
                 </div>
@@ -79,9 +83,9 @@ const RecipeDetail = () => {
             {/* {ingredients && ingredients.length > 0 && */}
                 <div className='lower-left-quadrant'>
                     <ul className='ingredients-list'>
-                    {ingredients.map(ingredient => (
+                    {ingredients?.map(ingredient => (
                             <li key={ingredient.id} className='ingredient'>
-                                <p>{ingredient.name}, {ingredient.quantity} {ingredient.unit}</p>
+                                <Ingredient ingredient={ingredient} recipe={recipe} />
                             </li>
                     ))}
                     </ul>
@@ -97,8 +101,8 @@ const RecipeDetail = () => {
                                 placeholder='Quantity'
                                 required
                             />
-                            <select onChange={e => setNewIngredientUnit(e.target.value)}>
-                                <option value='' disabled selected>Unit</option>
+                            <select defaultValue={'DEFAULT'} onChange={e => setNewIngredientUnit(e.target.value)}>
+                                <option value='DEFAULT' disabled>Choose a Unit</option>
                                 <option value=''>No Unit</option>
                                 <option value='cup(s)'>cup(s)</option>
                                 <option value='tablespoon(s)'>tablespoon(s)</option>
@@ -106,14 +110,14 @@ const RecipeDetail = () => {
                                 <option value='pound(s)'>pound(s)</option>
                                 <option value='ounce(s)'>ounce(s)</option>
                                 <option value='gram(s)'>gram(s)</option>
-                                <option value='milliliter(s)'>milliliter(s)</option>
+                                <option value='millilitre(s)'>millilitre(s)</option>
                                 <option value='pinche(s)'>pinche(s)</option>
                                 <option value='piece(s)'>piece(s)</option>
                                 <option value='slice(s)'>slice(s)</option>
                                 <option value='sprig(s)'>sprig(s)</option>
                                 <option value='can(s)'>can(s)</option>
                                 <option value='package(s)'>package(s)</option>
-                                <option value='bunche(s)'>bunche(s)</option>
+                                <option value='bunch(es)'>bunch(es)</option>
                                 <option value='head(s)'>head(s)</option>
                                 <option value='stalk(s)'>stalk(s)</option>
                                 <option value='clove(s)'>clove(s)</option>
@@ -145,10 +149,11 @@ const RecipeDetail = () => {
                 <div className='lower-right-quadrant'>
                     <h2>Preparation</h2>
                     <ul className='steps-list'>
-                        {steps && steps.map(step => (
+                        {steps?.map(step => (
                             <li className='step' key={step.id}>
-                                <h4>Step&nbsp;{step.step_number}</h4>
-                                <p>{step.description}</p>
+                                {/* <h4>Step&nbsp;{step.step_number}</h4>
+                                <p>{step.description}</p> */}
+                                <Step step={step} recipe={recipe} stepIndex={steps.indexOf(step)} steps={steps} />
                             </li>
                         ))}
                     </ul>

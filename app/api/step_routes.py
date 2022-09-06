@@ -12,7 +12,6 @@ step_routes = Blueprint('steps', __name__)
 @login_required
 def edit_step(step_id):
     step = db.session.query(Step).get(step_id)
-    # print('step', step)
     if step is None:
         return {'errors': ['Step not found']}, 404
     elif step.recipe.user_id != current_user.id:
@@ -30,8 +29,8 @@ def edit_step(step_id):
 
 
 # Delete a step
-@step_routes.route('/<int:step_id>', methods=['DELETE'])
-@step_routes.route('/<int:step_id>/', methods=['DELETE'])
+@step_routes.route('/<int:step_id>/delete/', methods=['DELETE'])
+@step_routes.route('/<int:step_id>/delete', methods=['DELETE'])
 @login_required
 def delete_step(step_id):
     step = db.session.query(Step).get(step_id)
@@ -42,4 +41,4 @@ def delete_step(step_id):
     else:
         db.session.delete(step)
         db.session.commit()
-        return {'message': 'Step deleted'}
+        return step.to_dict()
