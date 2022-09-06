@@ -55,7 +55,7 @@ export const editStepThunk = step => async dispatch => {
 };
 
 export const deleteStepThunk = stepId => async dispatch => {
-    const res = await fetch(`/api/steps/${stepId}`, { method: "DELETE" });
+    const res = await fetch(`/api/steps/${stepId}/delete`, { method: "DELETE" });
     if (res.ok) {
         const deletedStep = await res.json();
         dispatch(deleteStep(deletedStep.id));

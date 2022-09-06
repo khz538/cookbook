@@ -6,13 +6,14 @@ import { getStepsThunk, createStepThunk } from '../../store/steps';
 import { getIngredientsThunk, createIngredientThunk } from '../../store/ingredients';
 import { isWorkingImage } from '../../util';
 import Ingredient from './Ingredient';
+import Step from './Step';
 
 const RecipeDetail = () => {
     const { recipeId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
     const recipe = useSelector(state => state.recipes)[recipeId];
-    const steps = useSelector(state => state.steps.steps);
+    const steps = Object.values(useSelector(state => state.steps));
     const ingredients = Object.values(useSelector(state => state.ingredients));
     const currentUser = useSelector(state => state.session.user);
     const [newStep, setNewStep] = useState('');
@@ -152,10 +153,11 @@ const RecipeDetail = () => {
                 <div className='lower-right-quadrant'>
                     <h2>Preparation</h2>
                     <ul className='steps-list'>
-                        {steps && steps.map(step => (
+                        {steps.map(step => (
                             <li className='step' key={step.id}>
-                                <h4>Step&nbsp;{step.step_number}</h4>
-                                <p>{step.description}</p>
+                                {/* <h4>Step&nbsp;{step.step_number}</h4>
+                                <p>{step.description}</p> */}
+                                <Step step={step} recipe={recipe} />
                             </li>
                         ))}
                     </ul>

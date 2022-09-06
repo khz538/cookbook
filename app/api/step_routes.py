@@ -30,8 +30,8 @@ def edit_step(step_id):
 
 
 # Delete a step
-@step_routes.route('/<int:step_id>', methods=['DELETE'])
-@step_routes.route('/<int:step_id>/', methods=['DELETE'])
+@step_routes.route('/<int:step_id>/delete/', methods=['DELETE'])
+@step_routes.route('/<int:step_id>/delete', methods=['DELETE'])
 @login_required
 def delete_step(step_id):
     step = db.session.query(Step).get(step_id)

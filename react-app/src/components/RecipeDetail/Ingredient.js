@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteIngredientThunk } from "../../store/ingredients";
-import { getOneRecipeThunk } from "../../store/recipes";
 
 const Ingredient = ({ ingredient, recipe }) => {
     // console.log(ingredient)
@@ -12,7 +11,6 @@ const Ingredient = ({ ingredient, recipe }) => {
     // console.log(recipeId)
     const sessionUser = useSelector(state => state.session.user);
     const [showUpdate, setShowUpdate] = useState(false);
-    const [showDelete, setShowDelete] = useState(false);
 
     useEffect(() => {
 
@@ -33,9 +31,9 @@ const Ingredient = ({ ingredient, recipe }) => {
             {sessionUser && sessionUser.id === recipe.user_id && (
                 <div>
                     <button onClick={() => setShowUpdate(true)}
-                        className="edit-ingredient-button">Edit</button>
+                        className="edit-button">Edit</button>
                     <button onClick={handleDelete}
-                        className="delete-ingredient-button">Delete</button>
+                        className="delete-button">Delete</button>
                 </div>)
             }
         </div>
