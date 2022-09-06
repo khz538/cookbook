@@ -24,7 +24,7 @@ const deleteStep = stepId => ({
 });
 
 export const getStepsThunk = (recipeId) => async (dispatch) => {
-    const response = await fetch(`/api/recipes/${recipeId}/steps`);
+    const response = await fetch(`/api/recipes/${recipeId}/steps/`);
     const steps = await response.json();
     dispatch(getSteps(steps));
 }
@@ -43,7 +43,7 @@ export const createStepThunk = (step) => async (dispatch) => {
 }
 
 export const editStepThunk = step => async dispatch => {
-    const res = await fetch(`/api/steps/${step.id}`, {
+    const res = await fetch(`/api/steps/${step.id}/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(step),
@@ -55,7 +55,7 @@ export const editStepThunk = step => async dispatch => {
 };
 
 export const deleteStepThunk = stepId => async dispatch => {
-    const res = await fetch(`/api/steps/${stepId}/delete`, { method: "DELETE" });
+    const res = await fetch(`/api/steps/${stepId}/delete/`, { method: "DELETE" });
     if (res.ok) {
         const deletedStep = await res.json();
         dispatch(deleteStep(deletedStep.id));

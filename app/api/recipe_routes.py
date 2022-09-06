@@ -11,8 +11,8 @@ recipe_routes = Blueprint('recipes', __name__)
 
 # Get all recipes
 # Tested--working
-@recipe_routes.route('')
 @recipe_routes.route('/')
+@recipe_routes.route('')
 def all_recipes():
     recipes = Recipe.query.all()
     return {"recipes": [recipe.to_dict() for recipe in recipes]}
@@ -20,8 +20,8 @@ def all_recipes():
 
 # Get a single recipe by the recipe's ID
 # Tested--working
-@recipe_routes.route('/<int:recipe_id>')
 @recipe_routes.route('/<int:recipe_id>/')
+# @recipe_routes.route('/<int:recipe_id>')
 def single_recipe(recipe_id):
     recipe = (db.session.query(Recipe).
                 # options(joinedload(Recipe.ingredients)).
@@ -42,22 +42,22 @@ def single_recipe(recipe_id):
 
 # Get all steps for a recipe
 @recipe_routes.route('/<int:recipe_id>/steps/')
-@recipe_routes.route('/<int:recipe_id>/steps')
+# @recipe_routes.route('/<int:recipe_id>/steps')
 def get_steps(recipe_id):
     steps = (db.session.query(Step).filter(Step.recipe_id == recipe_id).order_by(Step.step_number).all())
     return {"steps": [step.to_dict() for step in steps]}
 
 # Get all ingredients for a recipe
 @recipe_routes.route('/<int:recipe_id>/ingredients/')
-@recipe_routes.route('/<int:recipe_id>/ingredients')
+# @recipe_routes.route('/<int:recipe_id>/ingredients')
 def get_ingredients(recipe_id):
     ingredients = (db.session.query(Ingredient).filter(Ingredient.recipe_id == recipe_id).all())
     return {"ingredients": [ingredient.to_dict() for ingredient in ingredients]}
 
 # Create a new recipe
 # Tested--working
-@recipe_routes.route('/new', methods=['POST'])
 @recipe_routes.route('/new/', methods=['POST'])
+# @recipe_routes.route('/new', methods=['POST'])
 @login_required
 def create_recipe():
     form = RecipeForm()
@@ -79,8 +79,8 @@ def create_recipe():
 
 # Add ingredients to a recipe
 # Tested--working
-@recipe_routes.route('/<int:recipe_id>/ingredients/new', methods=['POST'])
 @recipe_routes.route('/<int:recipe_id>/ingredients/new/', methods=['POST'])
+# @recipe_routes.route('/<int:recipe_id>/ingredients/new', methods=['POST'])
 @login_required
 def add_ingredients(recipe_id):
     form=IngredientForm()
@@ -101,7 +101,7 @@ def add_ingredients(recipe_id):
 
 # Add steps to a recipe
 @recipe_routes.route('/<int:recipe_id>/steps/new/', methods=['POST'])
-@recipe_routes.route('/<int:recipe_id>/steps/new', methods=['POST'])
+# @recipe_routes.route('/<int:recipe_id>/steps/new', methods=['POST'])
 @login_required
 def add_steps(recipe_id):
     form=StepForm()
@@ -119,8 +119,8 @@ def add_steps(recipe_id):
 
 
 # Edit a recipe by its ID
-@recipe_routes.route('/<int:recipe_id>/edit', methods=['PUT'])
 @recipe_routes.route('/<int:recipe_id>/edit/', methods=['PUT'])
+# @recipe_routes.route('/<int:recipe_id>/edit', methods=['PUT'])
 @login_required
 def edit_recipe(recipe_id):
     # Need to return the recipe along with the ingredients and steps
@@ -147,8 +147,8 @@ def edit_recipe(recipe_id):
 
 
 # Delete a recipe by its ID
-@recipe_routes.route('/<int:recipe_id>/delete', methods=['DELETE'])
 @recipe_routes.route('/<int:recipe_id>/delete/', methods=['DELETE'])
+# @recipe_routes.route('/<int:recipe_id>/delete', methods=['DELETE'])
 @login_required
 def delete_recipe(recipe_id):
     recipe = db.session.query(Recipe).get(recipe_id)
