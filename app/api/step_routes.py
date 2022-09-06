@@ -12,7 +12,6 @@ step_routes = Blueprint('steps', __name__)
 @login_required
 def edit_step(step_id):
     step = db.session.query(Step).get(step_id)
-    # print('step', step)
     if step is None:
         return {'errors': ['Step not found']}, 404
     elif step.recipe.user_id != current_user.id:

@@ -20,7 +20,7 @@ const RecipeDetail = () => {
     const [newIngredientQuantity, setNewIngredientQuantity] = useState('');
     const [newIngredientUnit, setNewIngredientUnit] = useState('');
     const [newIngredientName, setNewIngredientName] = useState('');
-    const [errors, setErrors] = useState([]);
+    // const [errors, setErrors] = useState([]);
 
 
     useEffect(() => {
@@ -62,10 +62,6 @@ const RecipeDetail = () => {
         history.push(`/recipes/${recipeId}`);
     }
 
-    const editIngredient = async e => {
-
-    }
-
     return (
         <div className='recipe-outer-wrapper'>
             <div className='top-recipe-wrapper'>
@@ -105,8 +101,8 @@ const RecipeDetail = () => {
                                 placeholder='Quantity'
                                 required
                             />
-                            <select onChange={e => setNewIngredientUnit(e.target.value)}>
-                                <option value='' disabled selected>Unit</option>
+                            <select defaultValue={'DEFAULT'} onChange={e => setNewIngredientUnit(e.target.value)}>
+                                <option value='DEFAULT' disabled>Choose a Unit</option>
                                 <option value=''>No Unit</option>
                                 <option value='cup(s)'>cup(s)</option>
                                 <option value='tablespoon(s)'>tablespoon(s)</option>
@@ -153,11 +149,11 @@ const RecipeDetail = () => {
                 <div className='lower-right-quadrant'>
                     <h2>Preparation</h2>
                     <ul className='steps-list'>
-                        {steps.map(step => (
+                        {steps?.map(step => (
                             <li className='step' key={step.id}>
                                 {/* <h4>Step&nbsp;{step.step_number}</h4>
                                 <p>{step.description}</p> */}
-                                <Step step={step} recipe={recipe} />
+                                <Step step={step} recipe={recipe} stepIndex={steps.indexOf(step)} steps={steps} />
                             </li>
                         ))}
                     </ul>
