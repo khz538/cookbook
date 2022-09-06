@@ -20,8 +20,17 @@ const RecipeDetail = () => {
     const [newIngredientQuantity, setNewIngredientQuantity] = useState('');
     const [newIngredientUnit, setNewIngredientUnit] = useState('');
     const [newIngredientName, setNewIngredientName] = useState('');
-    // const [errors, setErrors] = useState([]);
+    const [stepErrors, setStepErrors] = useState([]);
+    const [ingredientErrors, setIngredientErrors] = useState([]);
+    const [isStepDisabled, setIsStepDisabled] = useState(true);
 
+    useEffect(() => {
+        const newStepErrors = [];
+        if (!newStep.length) newStepErrors.push('* Please write instructions');
+        if (newStep.length > 250) newStepErrors.push('* Please keep each step succinctly under 250 characters');
+        setStepErrors(newStepErrors);
+        stepErrors.length ? setIsStepDisabled(true) : setIsStepDisabled(false);
+    }, [newStep, stepErrors.length])
 
     useEffect(() => {
         dispatch(getOneRecipeThunk(recipeId));
@@ -110,7 +119,7 @@ const RecipeDetail = () => {
                                 <option value='ounce(s)'>ounce(s)</option>
                                 <option value='gram(s)'>gram(s)</option>
                                 <option value='millilitre(s)'>millilitre(s)</option>
-                                <option value='pinche(s)'>pinche(s)</option>
+                                <option value='pinch(es)'>pinch(es)</option>
                                 <option value='piece(s)'>piece(s)</option>
                                 <option value='slice(s)'>slice(s)</option>
                                 <option value='sprig(s)'>sprig(s)</option>
@@ -159,6 +168,9 @@ const RecipeDetail = () => {
 
                     {currentUser?.id === recipe.user.id &&
                     <div>
+                        <div className='step-errors'>
+                            {stepErrors.map(error => <p style={{color: 'red'}}>{error}</p>)}
+                        </div>
                         <form onSubmit={addStep}>
                             <label htmlFor='add-step'>Add a step</label>
                             <textarea
@@ -166,8 +178,11 @@ const RecipeDetail = () => {
                                 name='add-step'
                                 value={newStep}
                                 onChange={e => setNewStep(e.target.value)}
+                                maxLength={251}
+                                className='textarea-field'
+                                id='add-step-field'
                             />
-                            <button type='submit'>Add This Step</button>
+                            <button type='submit' disabled={isStepDisabled}>Add Step</button>
                         </form>
                     </div>
                     }

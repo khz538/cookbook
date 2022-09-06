@@ -44,12 +44,13 @@ export const createStepThunk = (step) => async (dispatch) => {
 
 export const editStepThunk = step => async dispatch => {
     const res = await fetch(`/api/steps/${step.id}/`, {
-        method: "POST",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(step),
     });
     if (res.ok) {
         const updatedStep = await res.json();
+        console.log(updatedStep)
         dispatch(editStep(updatedStep));
     };
 };
