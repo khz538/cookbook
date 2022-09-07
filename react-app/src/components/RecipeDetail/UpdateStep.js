@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { editStepThunk } from '../../store/steps';
 
 export default function UpdateStep({ step, recipe, setShowUpdateBool }) {
@@ -25,7 +25,7 @@ export default function UpdateStep({ step, recipe, setShowUpdateBool }) {
         const editedStep = {
             id: step.id,
             description,
-        }
+        };
         await dispatch(editStepThunk(editedStep));
         history.push(`/recipes/${recipe.id}`);
         setShowUpdateBool(false);
