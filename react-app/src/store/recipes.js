@@ -38,7 +38,7 @@ const createRecipeAction = recipe => {
 ;}
 
 export const createRecipeThunk = payload => async dispatch => {
-    const res = await fetch('/api/recipes/new', {
+    const res = await fetch('/api/recipes/new/', {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' },
@@ -65,7 +65,7 @@ export const editRecipeThunk = recipe => async dispatch => {
     });
     if (res.ok) {
         const recipe = await res.json();
-        dispatch(editRecipeAction(recipe.id));
+        dispatch(editRecipeAction(recipe));
         return recipe;
     };
 };
@@ -111,6 +111,10 @@ export default function recipesReducer(state = {}, action) {
                 ...state,
                 [action.recipe.id]: action.recipe
             }
+            // const newState = { ...state };
+            // // console.log(action.recipe)
+            // newState[action.recipe.id] = action.recipe;
+            // return newState;
         };
         case DELETE_RECIPE: {
             const newState = { ...state };

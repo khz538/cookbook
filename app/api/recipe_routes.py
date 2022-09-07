@@ -1,7 +1,7 @@
 from sqlalchemy.orm import joinedload
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
-from app.models import db, Recipe, Step, Ingredient
+from app.models import db, Recipe, Step, Ingredient, User
 from app.forms import RecipeForm, IngredientForm, StepForm
 from app.models.ingredient import Ingredient
 from .auth_routes import validation_errors_to_error_messages
@@ -26,15 +26,18 @@ def single_recipe(recipe_id):
     recipe = (db.session.query(Recipe).
                 # options(joinedload(Recipe.ingredients)).
                 # options(db.joinedload(Recipe.steps)).
-                options(db.joinedload(Recipe.user)).
+                # options(db.joinedload(Recipe.user)).
                 order_by(Step.id).get(recipe_id))
+    # print(recipe.to_dict())
     if recipe:
         recipe_dict = recipe.to_dict()
+        user = User.query.get(recipe_dict['user_id'])
+        user_dict = user.to_dict()
         # steps = [s.to_dict() for s in recipe.steps]
         # ingredients = [i.to_dict() for i in recipe.ingredients]
         # recipe_dict['steps'] = steps
         # recipe_dict['ingredients'] = ingredients
-        recipe_dict['user'] = recipe.user.to_dict()
+        recipe_dict['user'] = user_dict
         return recipe_dict
 
     else:
@@ -125,7 +128,10 @@ def edit_recipe(recipe_id):
     # Need to return the recipe along with the ingredients and steps
     recipe = db.session.query(Recipe).get(recipe_id)
     if recipe is not None:
+        # print('before:    ', recipe.to_dict())
         recipe_dict = recipe.to_dict()
+        user = User.query.get(recipe_dict['user_id'])
+        user_dict = user.to_dict()
         if recipe_dict['user_id'] != current_user.id:
             return {'errors': ['You are not authorized to edit this recipe']}, 401
         form = RecipeForm()
@@ -138,6 +144,8 @@ def edit_recipe(recipe_id):
                 if k !='csrf_token':
                     setattr(recipe, k, form.data[k])
             db.session.commit()
+            recipe_dict['user'] = user_dict
+            # print('after   ', recipe_dict)
             return recipe_dict
         else:
             return {'errors': validation_errors_to_error_messages(form.errors)}
