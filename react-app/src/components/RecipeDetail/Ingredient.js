@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteIngredientThunk } from "../../store/ingredients";
+import { Modal } from "../../context/Modal";
+import UpdateIngredient from "./UpdateIngredient";
 
 const Ingredient = ({ ingredient, recipe }) => {
     // console.log(ingredient)
@@ -34,6 +36,16 @@ const Ingredient = ({ ingredient, recipe }) => {
                         className="edit-button">Edit</button>
                     <button onClick={handleDelete}
                         className="delete-button">Delete</button>
+                    {showUpdate && (
+                        <Modal onClose={() => setShowUpdate(false)}>
+                            <UpdateIngredient
+                                ingredient={ingredient}
+                                recipe={recipe}
+                                setShowUpdate={setShowUpdate}
+                            />
+                        </Modal>
+
+                    )}
                 </div>)
             }
         </div>

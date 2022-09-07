@@ -27,7 +27,7 @@ def single_recipe(recipe_id):
                 # options(joinedload(Recipe.ingredients)).
                 # options(db.joinedload(Recipe.steps)).
                 options(db.joinedload(Recipe.user)).
-                order_by(Step.step_number).get(recipe_id))
+                order_by(Step.id).get(recipe_id))
     if recipe:
         recipe_dict = recipe.to_dict()
         # steps = [s.to_dict() for s in recipe.steps]
@@ -44,7 +44,7 @@ def single_recipe(recipe_id):
 @recipe_routes.route('/<int:recipe_id>/steps/')
 # @recipe_routes.route('/<int:recipe_id>/steps')
 def get_steps(recipe_id):
-    steps = (db.session.query(Step).filter(Step.recipe_id == recipe_id).order_by(Step.step_number).all())
+    steps = (db.session.query(Step).filter(Step.recipe_id == recipe_id).order_by(Step.id).all())
     return {"steps": [step.to_dict() for step in steps]}
 
 # Get all ingredients for a recipe
@@ -108,7 +108,6 @@ def add_steps(recipe_id):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         step = Step(
-            step_number=form.data['step_number'],
             description=form.data['description'],
             recipe_id=recipe_id
         )

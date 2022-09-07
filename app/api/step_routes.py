@@ -12,6 +12,7 @@ step_routes = Blueprint('steps', __name__)
 @login_required
 def edit_step(step_id):
     step = db.session.query(Step).get(step_id)
+    # print(step)
     if step is None:
         return {'errors': ['Step not found']}, 404
     elif step.recipe.user_id != current_user.id:
@@ -20,7 +21,6 @@ def edit_step(step_id):
         form = StepForm()
         form['csrf_token'].data = request.cookies['csrf_token']
         if form.validate_on_submit():
-            step.step_number = form.data['step_number']
             step.description = form.data['description']
             db.session.commit()
             return step.to_dict()

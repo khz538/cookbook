@@ -7,6 +7,8 @@ import { getIngredientsThunk, createIngredientThunk } from '../../store/ingredie
 import { isWorkingImage } from '../../util';
 import Ingredient from './Ingredient';
 import Step from './Step';
+import { Modal } from '../../context/Modal';
+import UpdateRecipe from './UpdateRecipe.js';
 
 const RecipeDetail = () => {
     const { recipeId } = useParams();
@@ -20,8 +22,20 @@ const RecipeDetail = () => {
     const [newIngredientQuantity, setNewIngredientQuantity] = useState('');
     const [newIngredientUnit, setNewIngredientUnit] = useState('');
     const [newIngredientName, setNewIngredientName] = useState('');
-    // const [errors, setErrors] = useState([]);
+    const [stepErrors, setStepErrors] = useState([]);
+    const [ingredientErrors, setIngredientErrors] = useState([]);
+    const [isStepDisabled, setIsStepDisabled] = useState(true);
+    const [isAddIngredientDisabled, setIsAddIngredientDisabled] = useState(true);
+    const [errors, setErrors] = useState([]);
+    const [showUpdate, setShowUpdate] = useState('false');
 
+    useEffect(() => {
+        const newStepErrors = [];
+        if (!newStep.length) newStepErrors.push('* Please write instructions');
+        if (newStep.length > 250) newStepErrors.push('* Please keep each step succinctly under 250 characters');
+        setStepErrors(newStepErrors);
+        stepErrors.length ? setIsStepDisabled(true) : setIsStepDisabled(false);
+    }, [newStep, stepErrors.length])
 
     useEffect(() => {
         dispatch(getOneRecipeThunk(recipeId));
@@ -31,6 +45,16 @@ const RecipeDetail = () => {
         // isWorkingImage('https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg').then(res => console.log(res));
     }, [dispatch, recipeId])
 
+    useEffect(() => {
+        const newIngredientErrors = [];
+        if (!newIngredientQuantity) newIngredientErrors.push('* Please quantify your ingredient');
+        if (newIngredientQuantity < 0.01) newIngredientErrors.push('* Ingredient must be more than 0.01 units');
+        if (newIngredientQuantity > 1000) newIngredientErrors.push('* Ingredient quantity limited to 1000 units');
+        if (!newIngredientName.length) newIngredientErrors.push('* Please define your ingredient');
+        if (newIngredientName.length > 50) newIngredientErrors.push('* Ingredient name is too long');
+        setIngredientErrors(newIngredientErrors);
+    }, [ingredientErrors.length, newIngredientName, newIngredientQuantity, newIngredientUnit])
+
     if (!recipe) return null;
 
 
@@ -38,7 +62,6 @@ const RecipeDetail = () => {
         e.preventDefault();
         const step = {
             recipe_id: recipeId,
-            step_number: steps.length + 1,
             description: newStep,
         }
         // console.log(step)
@@ -68,11 +91,12 @@ const RecipeDetail = () => {
                 <div className='top-left-quadrant'>
                     <h1 className='recipe-title'>{recipe.title}</h1>
                     <p className='recipe-author'>By: {recipe.user.first_name}&nbsp;{recipe.user.last_name}</p>
+                    {currentUser?.id === recipe.user_id && <button onClick={() => setShowUpdate(true)}>Edit</button>}
                 </div>
                 <div className='top-right-quadrant'>
                     <div className='recipe-image-container'>
                         {/* Need to add an image URL checker */}
-                        {isWorkingImage(recipe.image).then(res => res) ? <img className='recipe-image' src={recipe?.image} alt={recipe.title} /> : <img className='recipe-image' src='https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg' alt={recipe.title} />}
+                        {recipe.image ? <img className='recipe-image' src={recipe?.image} alt={recipe.title} /> : <img className='recipe-image' src='https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg' alt={recipe.title} />}
                     </div>
                     <p className='recipe-description'>{recipe.description}</p>
                 </div>
@@ -111,7 +135,7 @@ const RecipeDetail = () => {
                                 <option value='ounce(s)'>ounce(s)</option>
                                 <option value='gram(s)'>gram(s)</option>
                                 <option value='millilitre(s)'>millilitre(s)</option>
-                                <option value='pinche(s)'>pinche(s)</option>
+                                <option value='pinch(es)'>pinch(es)</option>
                                 <option value='piece(s)'>piece(s)</option>
                                 <option value='slice(s)'>slice(s)</option>
                                 <option value='sprig(s)'>sprig(s)</option>
@@ -140,7 +164,7 @@ const RecipeDetail = () => {
                                 onChange={e => setNewIngredientName(e.target.value)}
                                 placeholder='Ingredient Name'
                                 required />
-                            <button type='submit'>Add Ingredient</button>
+                            <button type='submit' disabled={false}>Add Ingredient</button>
                         </form>
                     </div>}
                 </div>
@@ -160,6 +184,9 @@ const RecipeDetail = () => {
 
                     {currentUser?.id === recipe.user.id &&
                     <div>
+                        <div className='step-errors'>
+                            {stepErrors.map(error => <p style={{color: 'red'}}>{error}</p>)}
+                        </div>
                         <form onSubmit={addStep}>
                             <label htmlFor='add-step'>Add a step</label>
                             <textarea
@@ -167,8 +194,11 @@ const RecipeDetail = () => {
                                 name='add-step'
                                 value={newStep}
                                 onChange={e => setNewStep(e.target.value)}
+                                maxLength={251}
+                                className='textarea-field'
+                                id='add-step-field'
                             />
-                            <button type='submit'>Add This Step</button>
+                            <button type='submit' disabled={isStepDisabled}>Add Step</button>
                         </form>
                     </div>
                     }
