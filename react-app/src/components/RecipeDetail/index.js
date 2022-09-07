@@ -7,6 +7,8 @@ import { getIngredientsThunk, createIngredientThunk } from '../../store/ingredie
 import { isWorkingImage } from '../../util';
 import Ingredient from './Ingredient';
 import Step from './Step';
+import { Modal } from '../../context/Modal';
+import UpdateRecipe from './UpdateRecipe';
 
 const RecipeDetail = () => {
     const { recipeId } = useParams();
@@ -23,6 +25,8 @@ const RecipeDetail = () => {
     const [stepErrors, setStepErrors] = useState([]);
     const [ingredientErrors, setIngredientErrors] = useState([]);
     const [isStepDisabled, setIsStepDisabled] = useState(true);
+    const [errors, setErrors] = useState([]);
+    const [showUpdate, setShowUpdate] = useState('false');
 
     useEffect(() => {
         const newStepErrors = [];
@@ -76,11 +80,12 @@ const RecipeDetail = () => {
                 <div className='top-left-quadrant'>
                     <h1 className='recipe-title'>{recipe.title}</h1>
                     <p className='recipe-author'>By: {recipe.user.first_name}&nbsp;{recipe.user.last_name}</p>
+                    {currentUser?.id === recipe.user_id && <button onClick={() => setShowUpdate(true)} />}
                 </div>
                 <div className='top-right-quadrant'>
                     <div className='recipe-image-container'>
                         {/* Need to add an image URL checker */}
-                        {isWorkingImage(recipe.image).then(res => res) ? <img className='recipe-image' src={recipe?.image} alt={recipe.title} /> : <img className='recipe-image' src='https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg' alt={recipe.title} />}
+                        {recipe.image ? <img className='recipe-image' src={recipe?.image} alt={recipe.title} /> : <img className='recipe-image' src='https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg' alt={recipe.title} />}
                     </div>
                     <p className='recipe-description'>{recipe.description}</p>
                 </div>
