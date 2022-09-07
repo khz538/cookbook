@@ -11,11 +11,11 @@ export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) 
     const [name, setName] = useState(ingredient.name);
     const [errors, setErrors] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
-    const [hasSubmitted, setHasSubmitted] = useState(false);
+    // const [hasSubmitted, setHasSubmitted] = useState(false);
 
     useEffect(() => {
         const newErrors = [];
-        if (!quantity.length) newErrors.push('* Please quantify your ingredient');
+        if (!quantity.length) newErrors.push('* Please change the quantity');
         if (quantity > 1000) newErrors.push('* Max quantity allowed is 1000 units');
         if (quantity < 0.01) newErrors.push('* Quantity cannot be less than 1/100th of a unit')
         if (!name.length) newErrors.push('* Please name your ingredient');
@@ -27,7 +27,6 @@ export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) 
     const handleEdit = async e => {
         e.preventDefault();
         // setHasSubmitted(true);
-        // console.log('handle edit triggered')
         const editedIngredient = {
             id: ingredient.id,
             quantity,
@@ -99,7 +98,7 @@ export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) 
                     value={name}
                     onChange={e => setName(e.target.value)}
                 />
-                <button type='submit' disabled={isDisabled}>Submit Edit</button>
+                <button type='submit' disabled={errors.length}>Submit Edit</button>
             </form>
         </div>
     );

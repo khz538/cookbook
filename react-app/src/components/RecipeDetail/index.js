@@ -7,6 +7,7 @@ import { getIngredientsThunk, createIngredientThunk } from '../../store/ingredie
 import { isWorkingImage } from '../../util';
 import Ingredient from './Ingredient';
 import Step from './Step';
+import Recipe from './Recipe';
 import { Modal } from '../../context/Modal';
 import UpdateRecipe from './UpdateRecipe.js';
 
@@ -26,17 +27,13 @@ const RecipeDetail = () => {
     const [ingredientErrors, setIngredientErrors] = useState([]);
     const [isStepDisabled, setIsStepDisabled] = useState(true);
     const [isAddIngredientDisabled, setIsAddIngredientDisabled] = useState(true);
+    const [hasSubmittedIngredient, setHasSubmittedIngredient] = useState(false);
+    const [hasSubmittedStep, setHasSubmittedStep] = useState(false);
     const [errors, setErrors] = useState([]);
     const [showUpdate, setShowUpdate] = useState('false');
 
-    useEffect(() => {
-        const newStepErrors = [];
-        if (!newStep.length) newStepErrors.push('* Please write instructions');
-        if (newStep.length > 250) newStepErrors.push('* Please keep each step succinctly under 250 characters');
-        setStepErrors(newStepErrors);
-        stepErrors.length ? setIsStepDisabled(true) : setIsStepDisabled(false);
-    }, [newStep, stepErrors.length])
 
+    // Get recipe information from the database
     useEffect(() => {
         dispatch(getOneRecipeThunk(recipeId));
         dispatch(getStepsThunk(recipeId));
@@ -45,6 +42,17 @@ const RecipeDetail = () => {
         // isWorkingImage('https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg').then(res => console.log(res));
     }, [dispatch, recipeId])
 
+
+    // Add a step errors useEffect
+    useEffect(() => {
+        const newStepErrors = [];
+        if (!newStep.length) newStepErrors.push('* Please write instructions');
+        if (newStep.length > 250) newStepErrors.push('* Please keep each step succinctly under 250 characters');
+        setStepErrors(newStepErrors);
+        stepErrors.length ? setIsStepDisabled(true) : setIsStepDisabled(false);
+    }, [newStep, stepErrors.length])
+
+    // Add an ingredient errors useEffect
     useEffect(() => {
         const newIngredientErrors = [];
         if (!newIngredientQuantity) newIngredientErrors.push('* Please quantify your ingredient');
@@ -53,11 +61,10 @@ const RecipeDetail = () => {
         if (!newIngredientName.length) newIngredientErrors.push('* Please define your ingredient');
         if (newIngredientName.length > 50) newIngredientErrors.push('* Ingredient name is too long');
         setIngredientErrors(newIngredientErrors);
+        ingredientErrors.length ? setIsAddIngredientDisabled(true) : setIsAddIngredientDisabled(false);
     }, [ingredientErrors.length, newIngredientName, newIngredientQuantity, newIngredientUnit])
 
-    if (!recipe) return null;
-
-
+    // Add step click handler
     const addStep = async e => {
         e.preventDefault();
         const step = {
@@ -70,6 +77,7 @@ const RecipeDetail = () => {
         history.push(`/recipes/${recipeId}`);
     }
 
+    // Add ingredient click handler
     const addIngredient = async e => {
         e.preventDefault();
         const ingredient = {
@@ -85,13 +93,17 @@ const RecipeDetail = () => {
         history.push(`/recipes/${recipeId}`);
     }
 
+
+    if (!recipe) history.push('/recipes');
     return (
         <div className='recipe-outer-wrapper'>
             <div className='top-recipe-wrapper'>
                 <div className='top-left-quadrant'>
                     <h1 className='recipe-title'>{recipe.title}</h1>
                     <p className='recipe-author'>By: {recipe.user.first_name}&nbsp;{recipe.user.last_name}</p>
-                    {currentUser?.id === recipe.user_id && <button onClick={() => setShowUpdate(true)}>Edit</button>}
+                    {currentUser?.id === recipe.user_id &&
+                        <button onClick={() => setShowUpdate(true)}>Edit</button>
+                    }
                 </div>
                 <div className='top-right-quadrant'>
                     <div className='recipe-image-container'>
@@ -116,6 +128,14 @@ const RecipeDetail = () => {
 
                     {currentUser?.id === recipe.user.id &&
                     <div>
+                        <div className='ingredient errors'>
+                            {ingredientErrors?.length > 0 && <h4>To add an ingredient,</h4>}
+                            <ul className='ingredient errors'>
+                                {ingredientErrors?.map(error => (
+                                    <li style={{color: "red"}}>{error}</li>
+                                ))}
+                            </ul>
+                        </div>
                         <form onSubmit={addIngredient}>
                             <input
                                 type='number'
@@ -164,7 +184,7 @@ const RecipeDetail = () => {
                                 onChange={e => setNewIngredientName(e.target.value)}
                                 placeholder='Ingredient Name'
                                 required />
-                            <button type='submit' disabled={false}>Add Ingredient</button>
+                            <button type='submit' disabled={isAddIngredientDisabled}>Add Ingredient</button>
                         </form>
                     </div>}
                 </div>
@@ -184,8 +204,11 @@ const RecipeDetail = () => {
 
                     {currentUser?.id === recipe.user.id &&
                     <div>
-                        <div className='step-errors'>
-                            {stepErrors.map(error => <p style={{color: 'red'}}>{error}</p>)}
+                        <div className='step errors'>
+                            {stepErrors?.length > 0 && <h4>To add a step,</h4>}
+                            <ul>
+                                {stepErrors.map(error => <li style={{color: 'red'}}>{error}</li>)}
+                            </ul>
                         </div>
                         <form onSubmit={addStep}>
                             <label htmlFor='add-step'>Add a step</label>
