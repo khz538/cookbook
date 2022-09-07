@@ -17,16 +17,19 @@ export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) 
         const newErrors = [];
         if (!quantity.length) newErrors.push('* Please quantify your ingredient');
         if (quantity > 1000) newErrors.push('* Max quantity allowed is 1000 units');
-        if (quantity < 0) newErrors.push('* Quantity cannot be negative')
+        if (quantity < 0.01) newErrors.push('* Quantity cannot be less than 1/100th of a unit')
         if (!name.length) newErrors.push('* Please name your ingredient');
+        if (name.length > 50) newErrors.push('* Ingredient name is too long');
         setErrors(newErrors);
         errors.length ? setIsDisabled(true) : setIsDisabled(false);
     }, [name, quantity, errors.length, unit])
 
     const handleEdit = async e => {
         e.preventDefault();
-        setHasSubmitted(true);
+        // setHasSubmitted(true);
+        // console.log('handle edit triggered')
         const editedIngredient = {
+            id: ingredient.id,
             quantity,
             unit,
             name,
@@ -96,8 +99,8 @@ export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) 
                     value={name}
                     onChange={e => setName(e.target.value)}
                 />
+                <button type='submit' disabled={isDisabled}>Submit Edit</button>
             </form>
-            <button type='submit' disabled={isDisabled}>Submit Edit</button>
         </div>
     );
 }

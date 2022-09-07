@@ -15,7 +15,7 @@ export default function UpdateStep({ step, recipe, setShowUpdateBool }) {
         if (!description.length) newErrors.push('* Please write instructions');
         if (description.length > 250) newErrors.push('* Please keep each step succinctly under 250 characters');
         setErrors(newErrors);
-        console.log(errors)
+        // console.log(errors)
         // if (!errors.length) setIsDisabled(false);
         errors.length ? setIsDisabled(true) : setIsDisabled(false);
     }, [description, errors.length])
@@ -40,6 +40,7 @@ export default function UpdateStep({ step, recipe, setShowUpdateBool }) {
                 )}
             </div>
             <form onSubmit={handleEdit}>
+                <label>Step</label>
                 <textarea
                     type='textarea'
                     placeholder='Write your instruction here!'

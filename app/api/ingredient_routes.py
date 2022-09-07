@@ -21,6 +21,7 @@ def edit_ingredient(ingredient_id):
         form = IngredientForm()
         form['csrf_token'].data = request.cookies['csrf_token']
         if form.validate_on_submit():
+            print(ingredient.to_dict())
             ingredient.name = form.data['name']
             ingredient.quantity = form.data['quantity']
             ingredient.unit = form.data['unit']
