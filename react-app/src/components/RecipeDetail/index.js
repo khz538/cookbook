@@ -8,7 +8,7 @@ import { isWorkingImage } from '../../util';
 import Ingredient from './Ingredient';
 import Step from './Step';
 import { Modal } from '../../context/Modal';
-import UpdateRecipe from './UpdateRecipe';
+import UpdateRecipe from './UpdateRecipe.js';
 
 const RecipeDetail = () => {
     const { recipeId } = useParams();
@@ -80,7 +80,7 @@ const RecipeDetail = () => {
                 <div className='top-left-quadrant'>
                     <h1 className='recipe-title'>{recipe.title}</h1>
                     <p className='recipe-author'>By: {recipe.user.first_name}&nbsp;{recipe.user.last_name}</p>
-                    {currentUser?.id === recipe.user_id && <button onClick={() => setShowUpdate(true)} />}
+                    {currentUser?.id === recipe.user_id && <button onClick={() => setShowUpdate(true)}>Edit</button>}
                 </div>
                 <div className='top-right-quadrant'>
                     <div className='recipe-image-container'>
