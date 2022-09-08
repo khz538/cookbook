@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createRecipeThunk, getOneRecipeThunk } from '../../store/recipes';
+import { createRecipeThunk, getAllRecipesThunk } from '../../store/recipes';
 import { imageRegex } from '../../util';
 
 export default function AddRecipe() {
     const history = useHistory();
     const dispatch = useDispatch();
+    const recipes = Object.values(useSelector(state => state.recipes));
     const sessionUser = useSelector(state => state.session.user);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -15,6 +16,10 @@ export default function AddRecipe() {
     const [servings, setServings] = useState('');
     const [errors, setErrors] = useState([]);
     const [hasSubmitted, setHasSubmitted] = useState(false);
+
+    // useEffect(() => {
+    //     dispatch(getAllRecipesThunk())
+    // }, [dispatch])
 
     useEffect(() => {
         const newErrors = [];
@@ -44,9 +49,15 @@ export default function AddRecipe() {
             yield_servings: servings,
             user_id: sessionUser.id,
         };
-        
         const newRecipe = await dispatch(createRecipeThunk(payload));
-        history.push(`/recipes/${newRecipe.id}`);
+        // if (recipes?.length > 0) {
+        //     const lastRecipe = recipes[recipes.length - 1];
+        //     history.push(`/recipes/${(parseInt(lastRecipe.id) + 1).toString()}`);
+        // } else {
+        //     history.push(`/recipes/1`);
+        // }
+        console.log(newRecipe)
+        history.push(`/recipes/${newRecipe.id}`)
     };
 
     if (!sessionUser) history.push('/');

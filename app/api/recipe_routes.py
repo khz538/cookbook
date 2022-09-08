@@ -90,7 +90,7 @@ def create_recipe():
         recipe_dict = recipe.to_dict()
         user = User.query.get(recipe.user_id)
         recipe_dict['user'] = user.to_dict()
-        return recipe_dict()
+        return recipe_dict
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
