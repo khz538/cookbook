@@ -1,21 +1,27 @@
+@font-face {
+    font-family: 'nyt-cheltenham';
+    src: url('../../fonts/nyt-cheltenham-200-normal.woff');
+}
+
 .container {
     display: flex;
-    width: 101vw;
+    /* width: 101vw; */
     flex-flow: column;
+    font-family: "nyt-cheltenham";
 }
 
 .featured-container {
-    width: 101vw;
+    width: 100vw;
     min-width: 100vw;
-    height: 90vh;
+    height: 80vh;
     margin: 0;
+    padding: 0
 }
 
 .recipeoftheday {
-    width: 101vw;
+    width: 100vw;
     min-width: 100vw;
-    height: 90vh;
-    margin: 0;
+    height: 80vh;
 }
 
 .featured-image {
@@ -29,14 +35,88 @@
 .recipeoftheday-card {
     display: flex;
     justify-content: space-evenly;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
     z-index: 1;
     position: absolute;
     background-color: white;
-    border: solid black 1px;
+    /* border: solid black 1px; */
     top: 60vh;
     left: 9vw;
-    height: 25vh;
-    width: 15vw;
+    height: 30vh;
+    width: 18vw;
+    text-decoration: none;
+    color: black;
+    font-weight: 100;
+    font-size: 22px;
+    text-align: center;
 }
+
+.recipeoftheday-card > h4 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 200;
+    font-size: 14px;
+}
+
+.cards-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cards {
+    /* display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20vw;
+    grid-auto-rows: minmax(100px, auto); */
+    display: flex;
+    flex-flow: row wrap;
+    /* margin: 0 20vw; */
+    justify-content: space-evenly;
+    /* align-items: center; */
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 25vw;
+    height: 40vh;
+    margin: 15px 15px;
+    border: 1px solid lightgrey;
+    text-decoration:none;
+}
+
+.image-container {
+    width: 25vw;
+    height: 29vh;
+}
+
+.card-image {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+#card-recipe-title,
+#card-recipe-author,
+#card-recipe-preptime,
+.card-bottom {
+    text-decoration: none;
+    color: black;
+}
+/* .card {
+    width: 25vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    margin: 10vw 1vw;
+} */
+/* .image-container {
+    width: 25vw;
+    height: 15vh;
+    border: 1px dotted blue;
+} */
+/* .image-container > img {
+    border: 1px solid black;
+    object-fit: cover;
+} */

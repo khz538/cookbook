@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllRecipesThunk } from '../../store/recipes';
 import './Recipes.css';
+import { defaultImage } from '../../util';
 
 
 const Recipes = () => {
@@ -25,8 +26,8 @@ const Recipes = () => {
             <div className='featured-container'>
                 <NavLink to={recipes.length > 0 && `/recipes/${recipes[randomIndex].id}`}>
                     <div className='recipeoftheday'>
-                        <div className='image-container'>
-                            <img className='featured-image' src={recipes.length > 0 ? recipes[randomIndex].image_url : 'https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg'} />
+                        <div className='featured-image-container'>
+                            <img className='featured-image' src={recipes.length > 0 ? recipes[randomIndex].image_url : defaultImage} />
                         </div>
                         <div className='recipeoftheday-card'>
                             {recipes.length > 0 && <h2>{recipes[randomIndex].title}</h2>}
@@ -35,23 +36,25 @@ const Recipes = () => {
                     </div>
                 </NavLink>
             </div>
-            <div className='cards'>
-                {recipes?.map(recipe => (
-                    <div key={recipe.id} className='card'>
-                        <NavLink to={`/recipes/${recipe.id}`}>
-                            <div className='image-container'>
-                                <img src={recipe.image_url} />
-                            </div>
-                            <div className='card-bottom'>
-                                <h3>{recipe.title}</h3>
-                                <p>{recipe.user.first_name}&nbsp;{recipe.user.last_name}</p>
-                                <div className='prep-time'>
-                                    <p>{recipe.time}</p>
+            <div className='cards-container'>
+                <div className='cards'>
+                    {recipes?.map(recipe => (
+                        <div key={recipe.id} className='card'>
+                            <NavLink to={`/recipes/${recipe.id}`}>
+                                <div className='image-container'>
+                                    <img className='card-image' src={recipe.image_url} onError={e => e.currentTarget.src={defaultImage}}/>
                                 </div>
-                            </div>
-                        </NavLink>
-                    </div>
-                ))}
+                                <div className='card-bottom'>
+                                    <h3 id='card-recipe-title'>{recipe.title}</h3>
+                                    <p id='card-recipe-author'>{recipe.user.first_name}&nbsp;{recipe.user.last_name}</p>
+                                    <div id='card-recipe-preptime' className='prep-time'>
+                                        <p>{recipe.time}</p>
+                                    </div>
+                                </div>
+                            </NavLink>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
