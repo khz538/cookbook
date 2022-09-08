@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { editRecipeThunk, getOneRecipeThunk } from '../../store/recipes';
+import { createRecipeThunk, getAllRecipesThunk } from '../../store/recipes';
 import { imageRegex } from '../../util';
 
-export default function UpdateRecipe({ recipe, setShowUpdate }) {
+export default function AddRecipe() {
     const history = useHistory();
     const dispatch = useDispatch();
-    const recipeId = recipe.id;
-    const [title, setTitle] = useState(recipe.title);
-    const [description, setDescription] = useState(recipe.description);
-    const [image, setImage] = useState(recipe.image_url);
-    const [time, setTime] = useState(recipe.time);
-    const [servings, setServings] = useState(recipe.yield_servings);
+    const recipes = Object.values(useSelector(state => state.recipes));
+    const sessionUser = useSelector(state => state.session.user);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [image, setImage] = useState('');
+    const [time, setTime] = useState('');
+    const [servings, setServings] = useState('');
     const [errors, setErrors] = useState([]);
-    // const [isUrlValid, setIsUrlValid] = useState([]);
+    const [hasSubmitted, setHasSubmitted] = useState(false);
 
-    // console.log(errors)
-    // form errors
+    // useEffect(() => {
+    //     dispatch(getAllRecipesThunk())
+    // }, [dispatch])
+
     useEffect(() => {
         const newErrors = [];
         if (!title.length) newErrors.push('* Please name your recipe!');
@@ -32,36 +35,46 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
         if (servings <= 0) newErrors.push("* Please enter number of servings");
 
         setErrors(newErrors);
-    }, [title, description, image, time, servings, errors.length])
+    }, [title, description, image, time, servings, errors.length]);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async e => {
         e.preventDefault();
-        // const isUrlValid = await isImgUrl(image)
-        // if (!isUrlValid) {await setIsUrlValid(['* Please enter a working URL']); return;};
-        const editedRecipe = {
-            id: recipe.id,
+        setHasSubmitted(true);
+        if (errors.length) return;
+        const payload = {
             title,
             description,
             image_url: image,
             time,
             yield_servings: servings,
-        }
-        await dispatch(editRecipeThunk(editedRecipe));
-        await dispatch(getOneRecipeThunk(recipeId));
-        setShowUpdate(false);
+            user_id: sessionUser.id,
+        };
+        const newRecipe = await dispatch(createRecipeThunk(payload));
+        // if (recipes?.length > 0) {
+        //     const lastRecipe = recipes[recipes.length - 1];
+        //     history.push(`/recipes/${(parseInt(lastRecipe.id) + 1).toString()}`);
+        // } else {
+        //     history.push(`/recipes/1`);
+        // }
+        console.log(newRecipe)
+        history.push(`/recipes/${newRecipe.id}`)
     };
 
+    if (!sessionUser) history.push('/');
+
     return (
-        <div className='update-recipe-container'>
-            <h1>Update Recipe</h1>
-            <div className='errors'>
-                <ul>
-                    {errors.length > 0 && errors.map((error, i) => (
-                        <li style={{color: 'red'}} key={i}>{error}</li>
-                    ))}
-                    {/* {isUrlValid.length > 0 && <li>{isUrlValid[0]}</li>} */}
-                </ul>
-            </div>
+        <div className='create-recipe-container'>
+            <h1>Create Recipe</h1>
+            {hasSubmitted &&
+                <div className='errors'>
+                    <ul>
+                        {errors.length > 0 && errors.map((error, i) => (
+                            <li style={{color: 'red'}} key={i}>{error}</li>
+                        ))}
+                        {/* {isUrlValid.length > 0 && <li>{isUrlValid[0]}</li>} */}
+                    </ul>
+                </div>
+            }
             <form onSubmit={handleSubmit}>
                 <label>Title</label>
                 <input type='text'
@@ -103,7 +116,7 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
                     placeholder='e.g. 15 minutes'
                     className='input'
                 />
-                <button type='submit' disabled={errors?.length}>Update Recipe</button>
+                <button type='submit' >Create Recipe</button>
             </form>
         </div>
     );

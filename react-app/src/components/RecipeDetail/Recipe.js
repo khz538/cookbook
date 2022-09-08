@@ -16,7 +16,7 @@ export default function Recipe({ recipe, currentUser }) {
         history.push(`/`);
     }
 
-    console.log(recipe)
+    // console.log(recipe)
 
     return (
         <div className='top-recipe-wrapper'>

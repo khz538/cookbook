@@ -8,6 +8,8 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import RecipeDetail from './components/RecipeDetail';
+import Recipes from './components/Recipes';
+import AddRecipe from './components/AddRecipe';
 import { authenticate } from './store/session';
 
 function App() {
@@ -42,8 +44,11 @@ function App() {
           <User />
         </ProtectedRoute>
         <ProtectedRoute path='/' exact={true} >
-          <h1>My Home Page</h1>
+          <Recipes />
         </ProtectedRoute>
+        <Route path='/recipes/new' exact={true}>
+          <AddRecipe />
+        </Route>
         <Route path='/recipes/:recipeId' exact={true}>
           <RecipeDetail />
         </Route>
