@@ -35,7 +35,7 @@ export const createStepThunk = (step) => async (dispatch) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(step),
     });
-    console.log(response)
+    // console.log(response)
     if (response.ok) {
         const newStep = await response.json();
         dispatch(createStep(newStep));
@@ -50,7 +50,7 @@ export const editStepThunk = step => async dispatch => {
     });
     if (res.ok) {
         const updatedStep = await res.json();
-        console.log(updatedStep)
+        // console.log(updatedStep)
         dispatch(editStep(updatedStep));
     };
 };

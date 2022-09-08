@@ -1,0 +1,42 @@
+.container {
+    display: flex;
+    width: 101vw;
+    flex-flow: column;
+}
+
+.featured-container {
+    width: 101vw;
+    min-width: 100vw;
+    height: 90vh;
+    margin: 0;
+}
+
+.recipeoftheday {
+    width: 101vw;
+    min-width: 100vw;
+    height: 90vh;
+    margin: 0;
+}
+
+.featured-image {
+    object-fit: cover;
+    width: 100%;
+    height: 80vh;
+    z-index: -1;
+    margin: 0;
+}
+
+.recipeoftheday-card {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex-direction: column;
+    z-index: 1;
+    position: absolute;
+    background-color: white;
+    border: solid black 1px;
+    top: 60vh;
+    left: 9vw;
+    height: 25vh;
+    width: 15vw;
+}

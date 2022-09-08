@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect, useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createRecipeThunk, getAllRecipesThunk } from '../../store/recipes';
+import { createRecipeThunk } from '../../store/recipes';
 import { imageRegex } from '../../util';
 
 export default function AddRecipe() {
     const history = useHistory();
     const dispatch = useDispatch();
-    const recipes = Object.values(useSelector(state => state.recipes));
     const sessionUser = useSelector(state => state.session.user);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
