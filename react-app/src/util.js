@@ -39,19 +39,37 @@
 //     return true;
 // };
 
-export const isWorkingImage = async url => {
-    const isItImage = /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
-    if (!isItImage) return false;
-    const checkImageRequest = new XMLHttpRequest();
-    try {
-        checkImageRequest.open('GET', url);
-        checkImageRequest.send();
-        checkImageRequest.onerror = () => false;
-        checkImageRequest.onload = () => {
-            if (checkImageRequest.status !== 200) return false;
-        }
-    } catch (e) {
-        return false;
+// export const isWorkingImage = async url => {
+//     const isItImage = /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+//     if (!isItImage) return false;
+    // const checkImageRequest = new XMLHttpRequest();
+    // try {
+    //     checkImageRequest.open('GET', url);
+    //     checkImageRequest.send();
+    //     checkImageRequest.onerror = () => false;
+    //     checkImageRequest.onload = () => {
+    //         if (checkImageRequest.status !== 200) return false;
+    //     }
+    // } catch (e) {
+    //     return false;
+    // }
+    // return true;
+
+// }
+
+export const isImgUrl = async (url) => {
+    const img = new Image();
+    img.src = url;
+    return new Promise((resolve) => {
+      img.onerror = () => resolve(false);
+      img.onload = () => resolve(true);
+    })
+}
+
+export const imageRegex = url => {
+    const regex = /^http[^ \!@\$\^&\(\)\+\=]+(\.png|\.jpeg|\.gif|\.jpg)$/;
+    if (!url.match(regex)) return false;
+    else {
+        return true;
     }
-    return true;
 }
