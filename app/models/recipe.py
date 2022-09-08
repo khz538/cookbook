@@ -11,7 +11,7 @@ class Recipe(db.Model, UserMixin):
     time = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     yield_servings = db.Column(db.Integer, nullable=False)
-    image_url = db.Column(db.String(255))
+    image_url = db.Column(db.String, nullable=False)
 
     user = db.relationship('User', back_populates='recipes', foreign_keys=[user_id])
     rating = db.relationship('Rating', back_populates='recipe', cascade='all, delete')
