@@ -15,7 +15,17 @@ recipe_routes = Blueprint('recipes', __name__)
 @recipe_routes.route('')
 def all_recipes():
     recipes = Recipe.query.all()
-    return {"recipes": [recipe.to_dict() for recipe in recipes]}
+    # recipes_dict = recipes.to_dict()
+    # print(recipes)
+    recipes_list = list()
+    for recipe in recipes:
+        recipe_dict = recipe.to_dict()
+        user = User.query.get(recipe_dict['user_id']);
+        recipe_dict['user'] = user.to_dict()
+        recipes_list.append(recipe_dict)
+        # print(recipe_dict)
+    # print(recipes_list)
+    return {"recipes": recipes_list}
 
 
 # Get a single recipe by the recipe's ID
@@ -27,7 +37,8 @@ def single_recipe(recipe_id):
                 # options(joinedload(Recipe.ingredients)).
                 # options(db.joinedload(Recipe.steps)).
                 # options(db.joinedload(Recipe.user)).
-                order_by(Step.id).get(recipe_id))
+                # order_by(Step.id)
+                get(recipe_id))
     # print(recipe.to_dict())
     if recipe:
         recipe_dict = recipe.to_dict()
