@@ -228,7 +228,7 @@ def get_rating(recipe_id):
 @recipe_routes.route('/<int:recipe_id>/ratings/average/', methods=['GET'])
 def get_average_rating(recipe_id):
     ratings = Rating.query.filter_by(recipe_id=recipe_id).all()
-    if ratings is not None:
+    if len(ratings) > 0:
         sum = 0
         for rating in ratings:
             sum += rating.rating
