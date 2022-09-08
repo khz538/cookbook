@@ -1,11 +1,11 @@
-from sqlalchemy.orm import joinedload
+# from sqlalchemy.orm import joinedload
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
-from app.models import db, Recipe, Step, Ingredient, User
-from app.forms import RecipeForm, IngredientForm, StepForm
+from app.models import db, Recipe, Step, Ingredient, User, Rating
+from app.forms import RecipeForm, IngredientForm, StepForm, RatingForm
 from app.models.ingredient import Ingredient
 from .auth_routes import validation_errors_to_error_messages
-import statistics
+# import statistics
 
 recipe_routes = Blueprint('recipes', __name__)
 
@@ -131,7 +131,7 @@ def add_steps(recipe_id):
         db.session.add(step)
         db.session.commit()
         return step.to_dict()
-    return {'errors': validation_errors_to_error_messages(form.errors)},
+    return {'errors': validation_errors_to_error_messages(form.errors)}
 
 
 # Edit a recipe by its ID
@@ -183,3 +183,35 @@ def delete_recipe(recipe_id):
             return {'message': 'Recipe deleted successfully'}
     else:
         return {'errors': ['Recipe not found']}, 404
+
+
+# Add a rating to a recipe
+@recipe_routes.route('/<int:recipe_id>/ratings/new/', methods=['POST'])
+@login_required
+def add_rating(recipe_id):
+    form = RatingForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    existing_rating = db.session.query(Rating).filter(Rating.user_id == current_user.id, Rating.recipe_id == recipe_id).first()
+    if existing_rating is not None:
+        return {'errors': ['You have already rated this recipe']}, 401
+    if form.validate_on_submit():
+        rating = Rating(
+            recipe_id=recipe_id,
+            user_id=current_user.id,
+            rating=form.data['rating']
+        )
+        db.session.add(rating)
+        db.session.commit()
+        return rating.to_dict()
+    return {'errors': validation_errors_to_error_messages(form.errors)}
+
+
+# Get a recipe's rating for the current user
+@recipe_routes.route('/<int:recipe_id>/ratings/', methods=['GET'])
+@login_required
+def get_rating(recipe_id):
+    rating = Rating.query.filter_by(recipe_id=recipe_id, user_id=current_user.id).first()
+    if rating is not None:
+        return rating.to_dict()
+    else:
+        return {'errors': ['Rating not found']}, 404

@@ -11,3 +11,15 @@ class Rating(db.Model, UserMixin):
 
     user = db.relationship('User', back_populates='ratings', foreign_keys=[user_id])
     recipe = db.relationship('Recipe', back_populates='rating', foreign_keys=[recipe_id])
+
+    @property
+    def rating_details(self):
+        return self.to_dict()
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "rating": self.rating,
+            "user_id": self.user_id,
+            "recipe_id": self.recipe_id
+        }

@@ -116,14 +116,14 @@ a {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
     color: grey;
-    margin: 0 .5vw;
+    margin: .5vw;
 }
 
 #card-recipe-author {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 12px;
-    margin: 0 .5vw;
+    font-size: 12.5px;
+    margin: .5vw;
 }
 #card-recipe-title {
-    margin: .5vw .5vw;
+    margin: .5vw;
 }
