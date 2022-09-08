@@ -35,7 +35,7 @@ export const createIngredientThunk = (ingredient) => async (dispatch) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(ingredient),
     });
-    console.log(response)
+    // console.log(response)
     if (response.ok) {
         const newIngredient = await response.json();
         dispatch(createIngredient(newIngredient));
@@ -58,7 +58,7 @@ export const deleteIngredientThunk = ingredientId => async dispatch => {
     const res = await fetch(`/api/ingredients/${ingredientId}/delete/`, {
         method: 'DELETE',
     });
-    console.log(res);
+    // console.log(res);
     if (res.ok) {
         const deletedIngredient = await res.json();
         // console.log(deletedIngredient);

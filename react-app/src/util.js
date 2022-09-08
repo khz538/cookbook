@@ -73,3 +73,5 @@ export const imageRegex = url => {
         return true;
     }
 }
+
+export const defaultImage = 'https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg'
