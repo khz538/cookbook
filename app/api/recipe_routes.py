@@ -44,6 +44,13 @@ def single_recipe(recipe_id):
         recipe_dict = recipe.to_dict()
         user = User.query.get(recipe_dict['user_id'])
         user_dict = user.to_dict()
+        ratings = Rating.query.filter(Rating.recipe_id == recipe_id).all()
+        if len(ratings) > 0:
+            sum = 0
+            for rating in ratings:
+                sum += rating.rating
+            avg_rating = sum / len(ratings)
+            recipe_dict['avg_rating'] = avg_rating
         # steps = [s.to_dict() for s in recipe.steps]
         # ingredients = [i.to_dict() for i in recipe.ingredients]
         # recipe_dict['steps'] = steps
@@ -215,3 +222,17 @@ def get_rating(recipe_id):
         return rating.to_dict()
     else:
         return {'errors': ['Rating not found']}, 404
+
+
+# Get a recipe's average rating
+@recipe_routes.route('/<int:recipe_id>/ratings/average/', methods=['GET'])
+def get_average_rating(recipe_id):
+    ratings = Rating.query.filter_by(recipe_id=recipe_id).all()
+    if ratings is not None:
+        sum = 0
+        for rating in ratings:
+            sum += rating.rating
+        average = sum / len(ratings)
+        return {'averageRating': average}
+    else:
+        return {'errors': ['This recipe has no ratings']}, 404
