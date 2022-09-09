@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Modal } from '../../context/Modal';
 import { deleteRecipeThunk, getOneRecipeThunk } from "../../store/recipes";
 import UpdateRecipe from "./UpdateRecipe";
+// import StarRating from "../Rating";
 
 export default function Recipe({ currentUser }) {
     const { recipeId } = useParams();

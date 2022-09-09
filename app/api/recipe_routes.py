@@ -217,7 +217,10 @@ def add_rating(recipe_id):
 @recipe_routes.route('/<int:recipe_id>/ratings/', methods=['GET'])
 @login_required
 def get_rating(recipe_id):
-    rating = Rating.query.filter_by(recipe_id=recipe_id, user_id=current_user.id).first()
+    rating = (db.session.query(Rating).
+                filter(Rating.user_id == current_user.id).
+                filter(Rating.recipe_id == recipe_id).
+                first())
     if rating is not None:
         return rating.to_dict()
     else:

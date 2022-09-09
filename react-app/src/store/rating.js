@@ -3,8 +3,8 @@ const CREATE_RATING = 'ratings/CREATE_RATING';
 const EDIT_RATING = 'ratings/EDIT_RATING';
 const DELETE_RATING = 'ratings/DELETE_RATING';
 
-const getUserRatings = (rating) => ({
-    type: GET_RATING,
+const getUserRating = (rating) => ({
+    type: GET_USER_RATING,
     rating,
 });
 
@@ -23,14 +23,12 @@ const deleteRating = ratingId => ({
     ratingId,
 });
 
-export const getUserRatingsThunk = (recipeId) => async (dispatch) => {
+export const getUserRatingThunk = (recipeId) => async (dispatch) => {
     const response = await fetch(`/api/recipes/${recipeId}/ratings/`, {method: 'GET'});
     if (response.ok) {
         const rating = await response.json();
         dispatch(getUserRating(rating));
         return rating;
-    } else {
-        return {errors: response.data.errors}
     }
 }
 
@@ -44,8 +42,6 @@ export const createRatingThunk = (rating) => async (dispatch) => {
         const newRating = await response.json();
         dispatch(createRating(newRating));
         return newRating;
-    } else {
-        return {errors: response.data.errors}
     }
 }
 
@@ -59,8 +55,6 @@ export const editRatingThunk = rating => async dispatch => {
         const updatedRating = await response.json();
         dispatch(editRating(updatedRating));
         return updatedRating;
-    } else {
-        return {errors: response.data.errors}
     }
 }
 
