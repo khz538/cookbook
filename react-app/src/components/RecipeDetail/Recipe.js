@@ -5,6 +5,7 @@ import { Modal } from '../../context/Modal';
 import { deleteRecipeThunk, getOneRecipeThunk } from "../../store/recipes";
 import UpdateRecipe from "./UpdateRecipe";
 // import StarRating from "../Rating";
+import { defaultImage } from "../../util";
 
 export default function Recipe({ currentUser }) {
     const { recipeId } = useParams();
@@ -36,7 +37,12 @@ export default function Recipe({ currentUser }) {
             <div className='top-right-quadrant'>
                 <div className='recipe-image-container'>
                     {/* Need to add an image URL checker */}
-                    {recipe.image_url ? <img className='recipe-image' src={recipe.image_url} alt={recipe.title} /> : <img className='recipe-image' src='https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg' alt={recipe.title} />}
+                    <img
+                        onError={e => e.currentTarget.src=defaultImage}
+                        className='recipe-image'
+                        src={recipe.image_url}
+                        alt={recipe.title}
+                    />
                 </div>
                 <p className='recipe-description'>{recipe.description}</p>
             </div>

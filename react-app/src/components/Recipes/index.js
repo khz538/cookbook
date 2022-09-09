@@ -27,7 +27,7 @@ const Recipes = () => {
                 <NavLink to={recipes.length > 0 && `/recipes/${recipes[randomIndex].id}`}>
                     <div className='recipeoftheday'>
                         <div className='featured-image-container'>
-                            <img className='featured-image' src={recipes.length > 0 ? recipes[randomIndex].image_url : defaultImage} />
+                            <img onError={e => e.currentTarget.src={defaultImage}} className='featured-image' src={recipes.length > 0 ? recipes[randomIndex].image_url : defaultImage} />
                         </div>
                         <div className='recipeoftheday-card'>
                             {recipes.length > 0 && <h2 id='1'>{recipes[randomIndex].title}</h2>}
