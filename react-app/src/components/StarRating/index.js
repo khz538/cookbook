@@ -11,15 +11,18 @@ const StarRating = ({recipe, currentUser}) => {
     const userRating = Object.values(useSelector(state => state.rating))[0];
     const [rating, setRating] = useState(userRating?.rating);
     const [hover, setHover] = useState(null);
-    console.log(userRating)
+    // console.log(userRating?.rating)
+    // console.log(recipe)
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (currentUser) {
-            dispatch(getUserRatingThunk(recipe.id));
+            dispatch(getUserRatingThunk(recipe.id)).then(rating => {setRating(rating?.rating); console.log(rating)});
+            // console.log(rating)
+            // setRating(Object.values(rating)[0]?.rating);
         }
-    }, [dispatch, recipe.id, currentUser]);
+    }, []);
 
     // useEffect(() => {
     //     dispatch(editRatingThunk(rating));

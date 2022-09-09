@@ -156,6 +156,8 @@ const RecipeDetail = () => {
                             <button type='submit' disabled={false}>Add Ingredient</button>
                         </form>
                     </div>}
+                    {/* Show your rating as logged in user */}
+                    {currentUser && <h2>Your Rating</h2>}
                     {currentUser && <StarRating recipe={recipe} currentUser={currentUser} />}
                 </div>
             {/* } */}

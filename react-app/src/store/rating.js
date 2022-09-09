@@ -27,6 +27,7 @@ export const getUserRatingThunk = (recipeId) => async (dispatch) => {
     const response = await fetch(`/api/recipes/${recipeId}/ratings/`, {method: 'GET'});
     if (response.ok) {
         const rating = await response.json();
+        console.log(rating)
         dispatch(getUserRating(rating));
         return rating;
     }
