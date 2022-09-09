@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Modal } from '../../context/Modal';
-import { deleteRecipeThunk } from "../../store/recipes";
+import { deleteRecipeThunk, getOneRecipeThunk } from "../../store/recipes";
 import UpdateRecipe from "./UpdateRecipe";
+// import StarRating from "../Rating";
 
-export default function Recipe({ recipe, currentUser }) {
+export default function Recipe({ currentUser }) {
+    const { recipeId } = useParams();
+    const recipe = useSelector(state => state.recipes)[recipeId];
     const history = useHistory();
     const dispatch = useDispatch();
     const [showUpdate, setShowUpdate] = useState(false);
+
+    useEffect(() => {
+        dispatch(getOneRecipeThunk(recipeId));
+    }, [dispatch, recipeId]);
 
     const handleDelete = async e => {
         e.preventDefault();

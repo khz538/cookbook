@@ -30,8 +30,8 @@ const Recipes = () => {
                             <img className='featured-image' src={recipes.length > 0 ? recipes[randomIndex].image_url : defaultImage} />
                         </div>
                         <div className='recipeoftheday-card'>
-                            {recipes.length > 0 && <h2>{recipes[randomIndex].title}</h2>}
-                            {recipes.length > 0 && <h4>{recipes[randomIndex].user.first_name}&nbsp;{recipes[randomIndex].user.last_name}</h4>}
+                            {recipes.length > 0 && <h2 id='1'>{recipes[randomIndex].title}</h2>}
+                            {recipes.length > 0 && <h4 id='2'>{recipes[randomIndex].user.first_name}&nbsp;{recipes[randomIndex].user.last_name}</h4>}
                         </div>
                     </div>
                 </NavLink>
@@ -45,10 +45,12 @@ const Recipes = () => {
                                     <img className='card-image' src={recipe.image_url} onError={e => e.currentTarget.src={defaultImage}}/>
                                 </div>
                                 <div className='card-bottom'>
-                                    <h3 id='card-recipe-title'>{recipe.title}</h3>
-                                    <p id='card-recipe-author'>{recipe.user.first_name}&nbsp;{recipe.user.last_name}</p>
+                                    <div id='title-author'>
+                                        <h3 id='card-recipe-title'>{recipe.title}</h3>
+                                        <p id='card-recipe-author'>{recipe.user.first_name}&nbsp;{recipe.user.last_name}</p>
+                                    </div>
                                     <div id='card-recipe-preptime' className='prep-time'>
-                                        <p>{recipe.time}</p>
+                                        <p id='5'>{recipe.time}</p>
                                     </div>
                                 </div>
                             </NavLink>

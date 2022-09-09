@@ -21,7 +21,7 @@ const editIngredient = (ingredient) => ({
 const deleteIngredient = ingredientId => ({
     type: DELETE_INGREDIENT,
     ingredientId,
-})
+});
 
 export const getIngredientsThunk = (recipeId) => async (dispatch) => {
     const response = await fetch(`/api/recipes/${recipeId}/ingredients/`);

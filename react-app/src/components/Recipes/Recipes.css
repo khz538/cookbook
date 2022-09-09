@@ -3,6 +3,11 @@
     src: url('../../fonts/nyt-cheltenham-200-normal.woff');
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
 .container {
     display: flex;
     /* width: 101vw; */
@@ -28,28 +33,28 @@
     object-fit: cover;
     width: 100%;
     height: 80vh;
+    max-height: 80vh;
     z-index: -1;
     margin: 0;
 }
 
 .recipeoftheday-card {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
     flex-direction: column;
     z-index: 1;
     position: absolute;
-    background-color: white;
-    /* border: solid black 1px; */
+    background-color: whitesmoke;
     top: 60vh;
     left: 9vw;
-    height: 30vh;
-    width: 18vw;
+    height: 300px;
+    width: 300px;
     text-decoration: none;
     color: black;
     font-weight: 100;
     font-size: 22px;
-    text-align: center;
+    vertical-align: middle;
+    padding: 30px;
+    display: table-cell;
+    word-break: break-word;
 }
 
 .recipeoftheday-card > h4 {
@@ -65,58 +70,60 @@
 }
 
 .cards {
-    /* display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20vw;
-    grid-auto-rows: minmax(100px, auto); */
     display: flex;
     flex-flow: row wrap;
-    /* margin: 0 20vw; */
     justify-content: space-evenly;
-    /* align-items: center; */
 }
 
 .card {
     display: flex;
     flex-direction: column;
     width: 25vw;
-    height: 40vh;
-    margin: 15px 15px;
-    border: 1px solid lightgrey;
-    text-decoration:none;
+    height: 41vh;
+    margin: 15px 0;
+    border: 1px solid #dddddd;
+    transition-property: all;
+    transition-duration: .2s;
+    overflow:hidden;
+}
+.card:hover {
+    box-shadow: 0 0 8px grey;
+    /* transform: scale(1.01) */
 }
 
 .image-container {
     width: 25vw;
     height: 29vh;
+    overflow: hidden;
 }
 
 .card-image {
     object-fit: cover;
     height: 100%;
     width: 100%;
+    transition-duration: .5s;
+}
+.card-image:hover {
+    transform: scale(1.01);
 }
 
-#card-recipe-title,
-#card-recipe-author,
-#card-recipe-preptime,
 .card-bottom {
-    text-decoration: none;
-    color: black;
+    word-wrap: break-word;
+    margin: 0 .5vw;
 }
-/* .card {
-    width: 25vw;
-    height: 30vh;
-    display: flex;
-    flex-direction: column;
-    margin: 10vw 1vw;
-} */
-/* .image-container {
-    width: 25vw;
-    height: 15vh;
-    border: 1px dotted blue;
-} */
-/* .image-container > img {
-    border: 1px solid black;
-    object-fit: cover;
-} */
+
+#card-recipe-preptime {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: grey;
+    margin: .5vw;
+}
+
+#card-recipe-author {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 12.5px;
+    margin: .5vw;
+}
+#card-recipe-title {
+    margin: .5vw;
+}

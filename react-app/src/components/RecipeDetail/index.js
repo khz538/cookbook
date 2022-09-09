@@ -10,6 +10,8 @@ import Recipe from './Recipe';
 import Step from './Step';
 import { Modal } from '../../context/Modal';
 import UpdateRecipe from './UpdateRecipe.js';
+import { getUserRatingThunk } from '../../store/rating';
+import StarRating from '../StarRating';
 
 const RecipeDetail = () => {
     const { recipeId } = useParams();
@@ -42,6 +44,7 @@ const RecipeDetail = () => {
         dispatch(getOneRecipeThunk(recipeId));
         dispatch(getStepsThunk(recipeId));
         dispatch(getIngredientsThunk(recipeId));
+        dispatch(getUserRatingThunk(recipeId));
         // isWorkingImage(recipe?.image).then(res => console.log(res));
         // isWorkingImage('https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg').then(res => console.log(res));
     }, [dispatch, recipeId])
@@ -88,22 +91,7 @@ const RecipeDetail = () => {
 
     return (
         <div className='recipe-outer-wrapper'>
-            {/* <div className='top-recipe-wrapper'>
-                <div className='top-left-quadrant'>
-                    <h1 className='recipe-title'>{recipe.title}</h1>
-                    <p className='recipe-author'>By: {recipe.user.first_name}&nbsp;{recipe.user.last_name}</p>
-                    {currentUser?.id === recipe.user_id && <button onClick={() => setShowUpdate(true)}>Edit</button>}
-                </div>
-                <div className='top-right-quadrant'>
-                    <div className='recipe-image-container'>
-                        {recipe.image ? <img className='recipe-image' src={recipe?.image} alt={recipe.title} /> : <img className='recipe-image' src='https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg' alt={recipe.title} />}
-                    </div>
-                    <p className='recipe-description'>{recipe.description}</p>
-                </div>
-            </div> */}
             <Recipe recipe={recipe} currentUser={currentUser} setShowUpdate={setShowUpdate} />
-            {/* Render ingredients if they exist */}
-
             <h2>Ingredients</h2>
             {/* {ingredients && ingredients.length > 0 && */}
                 <div className='lower-left-quadrant'>
@@ -168,6 +156,9 @@ const RecipeDetail = () => {
                             <button type='submit' disabled={false}>Add Ingredient</button>
                         </form>
                     </div>}
+                    {/* Show your rating as logged in user */}
+                    {currentUser && <h2>Your Rating</h2>}
+                    {currentUser && <StarRating recipe={recipe} currentUser={currentUser} />}
                 </div>
             {/* } */}
             {/* Render steps if they exist */}
