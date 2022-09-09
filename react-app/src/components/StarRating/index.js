@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { getUserRatingThunk, editRatingThunk, createRatingThunk, deleteRatingThunk } from '../../store/rating';
 // import FullStar from '../../images/full-star.png';
 // import EmptyStar from '../../images/empty-star.png';
@@ -8,6 +8,7 @@ import './StarRating.css';
 
 
 const StarRating = ({recipe, currentUser}) => {
+    const history = useHistory();
     const userRating = Object.values(useSelector(state => state.rating))[0];
     const [rating, setRating] = useState(userRating?.rating);
     const [hover, setHover] = useState(null);
@@ -66,8 +67,10 @@ const StarRating = ({recipe, currentUser}) => {
     const handleDelete = e => {
         e.preventDefault();
         setRating(null);
+        setHover(null);
         console.log(userRating.id)
         dispatch(deleteRatingThunk(userRating?.id));
+
     }
 
     return (
@@ -89,9 +92,9 @@ const StarRating = ({recipe, currentUser}) => {
             );
             })}
         </div>
-        <button
+        {userRating && <button
             className='clear-rating'
-            onClick={handleDelete}>Remove rating</button>
+            onClick={handleDelete}>Remove rating</button>}
     </div>
     );
 };

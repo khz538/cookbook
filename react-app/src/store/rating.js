@@ -62,7 +62,7 @@ export const editRatingThunk = rating => async dispatch => {
 }
 
 export const deleteRatingThunk = ratingId => async dispatch => {
-    const res = await fetch(`/api/ratings/${ratingId}/delete/`, {
+    const res = await fetch(`/api/ratings/${ratingId}/`, {
         method: 'DELETE',
     });
     if (res.ok) {
