@@ -217,14 +217,26 @@ def add_rating(recipe_id):
 @recipe_routes.route('/<int:recipe_id>/ratings/', methods=['GET'])
 @login_required
 def get_rating(recipe_id):
-    rating = (db.session.query(Rating).
+    ratings = (db.session.query(Rating).
                 filter(Rating.user_id == current_user.id).
                 filter(Rating.recipe_id == recipe_id).
-                first())
-    if rating is not None:
-        return rating.to_dict()
-    else:
-        return {'errors': ['Rating not found']}, 404
+                all())
+    print(ratings)
+    for rating in ratings:
+        rating_dict = rating.to_dict()
+        if rating_dict['user_id'] == current_user.id and rating_dict['recipe_id'] == recipe_id:
+            return rating_dict
+    return {'errors': ['You have not rated this recipe']}, 404
+    # rating_list = list()
+    # for rating in ratings:
+    #     rating_dict = rating.to_dict()
+    #     if rating_dict['user_id'] == current_user.id and rating_dict['recipe_id'] == recipe_id:
+    #         rating_list.append(rating.to_dict())
+    # if len(rating_list) > 0:
+    #     for rating in rating_list:
+    #         return rating.to_dict()
+    # else:
+    #     return {'errors': ['Rating not found']}, 404
 
 
 # Get a recipe's average rating

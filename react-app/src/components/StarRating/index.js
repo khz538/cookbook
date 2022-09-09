@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getUserRatingThunk, editRatingThunk, createRatingThunk } from '../../store/rating';
+import { getUserRatingThunk, editRatingThunk, createRatingThunk, deleteRatingThunk } from '../../store/rating';
 // import FullStar from '../../images/full-star.png';
 // import EmptyStar from '../../images/empty-star.png';
 import './StarRating.css';
@@ -11,6 +11,7 @@ const StarRating = ({recipe, currentUser}) => {
     const userRating = Object.values(useSelector(state => state.rating))[0];
     const [rating, setRating] = useState(userRating?.rating);
     const [hover, setHover] = useState(null);
+    // const [hasRated, setHasRated] = useState(userRating?.rating ? true : false);
     // console.log(userRating?.rating)
     // console.log(recipe)
 
@@ -62,23 +63,35 @@ const StarRating = ({recipe, currentUser}) => {
         }
     }
 
+    const handleDelete = e => {
+        e.preventDefault();
+        setRating(null);
+        console.log(userRating.id)
+        dispatch(deleteRatingThunk(userRating?.id));
+    }
+
     return (
     <div className="star-rating">
-        {[...Array(5)].map((star, index) => {
-        index += 1;
-        return (
-            <button
-                type="button"
-                key={index}
-                className={index <= (hover || rating) ? "on" : "off"}
-                onClick={(e) => {handleRating(e, index)}}
-                onMouseEnter={() => setHover(index)}
-                onMouseLeave={() => setHover(rating)}
-            >
-            <span className="star">&#9733;</span>
-            </button>
-        );
-        })}
+        <div className="star-rating__stars">
+            {[...Array(5)].map((star, index) => {
+            index += 1;
+            return (
+                <button
+                    type="button"
+                    key={index}
+                    className={index <= (hover || rating) ? "on" : "off"}
+                    onClick={(e) => {handleRating(e, index)}}
+                    onMouseEnter={() => setHover(index)}
+                    onMouseLeave={() => setHover(rating)}
+                >
+                <span className="star">&#9733;</span>
+                </button>
+            );
+            })}
+        </div>
+        <button
+            className='clear-rating'
+            onClick={handleDelete}>Remove rating</button>
     </div>
     );
 };

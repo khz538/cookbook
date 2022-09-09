@@ -30,6 +30,8 @@ export const getUserRatingThunk = (recipeId) => async (dispatch) => {
         console.log(rating)
         dispatch(getUserRating(rating));
         return rating;
+    } else {
+        dispatch(getUserRating(null));
     }
 }
 
@@ -74,8 +76,12 @@ export default function reducer(state = {}, action) {
     switch (action.type) {
         case GET_USER_RATING: {
             const newState = {};
-            newState[action.rating.id] = action.rating;
-            return newState;
+            if (action.rating) {
+                newState[action.rating.id] = action.rating;
+                return newState;
+            } else {
+                return newState;
+            }
         }
         case CREATE_RATING: {
             const newState = {...state};
