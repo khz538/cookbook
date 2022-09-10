@@ -26,16 +26,6 @@ const LoginForm = () => {
     setPassword(e.target.value);
   };
 
-  const demoLogin = async e => {
-    e.preventDefault();
-    const data = await dispatch(login('demo@aa.io', 'password'));
-    if (data) {
-      setErrors(data);
-    } else {
-      return <Redirect to='/' />
-    }
-  }
-
   if (user) {
     return <Redirect to='/' />;
   }
@@ -67,7 +57,6 @@ const LoginForm = () => {
           onChange={updatePassword}
         />
         <button type='submit'>Login</button>
-        <button onClick={demoLogin}>Demo</button>
       </div>
     </form>
   );

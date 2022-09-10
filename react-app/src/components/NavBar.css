@@ -1,0 +1,60 @@
+@font-face {
+    font-family: 'nyt-cheltenham';
+    src: url('../fonts/nyt-cheltenham-200-normal.woff');
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container > img {
+    width: 40px;
+    height: 40px;
+    margin-right: 1em;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: row;
+    font-family: nyt-cheltenham;
+    font-size:larger;
+    align-items: center;
+}
+
+.logout-button, .demo-button {
+    cursor: pointer;
+    background-color: rgb(38,143,156);
+    opacity: 0.8;
+    color: white;
+    border: none;
+    font-weight: bold;
+    /* padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    padding-right: 0.7rem;
+    padding-left: 0.7rem; */
+    border-radius: 5px;
+    /* margin-right: 1rem;
+    margin-top: 0.25rem; */
+    transition: opacity 0.3s;
+    font-size: 15px;
+    width: 4vw;
+    height: 3vh;
+    min-width: fit-content;
+    min-height: fit-content;
+    margin-left: .5em;
+}
+.logout-button:hover,
+.demo-button:hover {
+    opacity: 1;
+}
+
+.navlink {
+    cursor: pointer;
+    padding-inline: .5em;
+    font-weight: bold;
+}
+.navlink:hover {
+    color: rgb(38,143,156);
+}

@@ -38,7 +38,7 @@ const Recipes = () => {
             <div className='blurb'>
                 <h1>Welcome to CookBook</h1>
                 <p>To experience full site functionality, sign up or click Demo above.</p>
-                <p>To just peruse, click a recipe!</p>
+                <p>To peruse, simply click a recipe!</p>
             </div>
             <div className='cards-container'>
                 <div className='cards'>
