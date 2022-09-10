@@ -1,0 +1,14 @@
+.demo-btn {
+  background: none!important;
+  border:none;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.demo-btn:hover {
+  background: none!important;
+  border:none;
+  color: #008294;
+}

@@ -1,0 +1,25 @@
+.logo {
+    height: 34px;
+    margin-left: 40px;
+  }
+
+  .navbar {
+    position: fixed;
+    display: flex;
+    background-color: white;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    width: 100vw;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .nav-buttons {
+    display: flex;
+    align-items: center;
+    margin-right: 40px;
+  }

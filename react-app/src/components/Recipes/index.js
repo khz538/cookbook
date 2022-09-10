@@ -22,7 +22,6 @@ const Recipes = () => {
 
     return (
         <div className='container'>
-            {sessionUser && <NavLink to={`/recipes/new`}>Add a recipe</NavLink>}
             <div className='featured-container'>
                 <NavLink to={recipes.length > 0 && `/recipes/${recipes[randomIndex].id}`}>
                     <div className='recipeoftheday'>
@@ -35,6 +34,11 @@ const Recipes = () => {
                         </div>
                     </div>
                 </NavLink>
+            </div>
+            <div className='blurb'>
+                <h1>Welcome to CookBook</h1>
+                <p>To experience full site functionality, sign up or click Demo above.</p>
+                <p>To just peruse, click a recipe!</p>
             </div>
             <div className='cards-container'>
                 <div className='cards'>
