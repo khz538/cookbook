@@ -5,12 +5,13 @@ import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
 import NavBar from './components/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-import UsersList from './components/UsersList';
-import User from './components/User';
+// import UsersList from './components/UsersList';
+// import User from './components/User';
 import RecipeDetail from './components/RecipeDetail';
 import Recipes from './components/Recipes';
 import AddRecipe from './components/AddRecipe';
 import { authenticate } from './store/session';
+// import Navigation from './components/Navigation';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -30,6 +31,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
+      {/* <Navigation /> */}
       <Switch>
         <Route path='/login' exact={true}>
           <LoginForm />

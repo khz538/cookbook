@@ -22,12 +22,11 @@ const Recipes = () => {
 
     return (
         <div className='container'>
-            {sessionUser && <NavLink to={`/recipes/new`}>Add a recipe</NavLink>}
             <div className='featured-container'>
                 <NavLink to={recipes.length > 0 && `/recipes/${recipes[randomIndex].id}`}>
                     <div className='recipeoftheday'>
                         <div className='featured-image-container'>
-                            <img className='featured-image' src={recipes.length > 0 ? recipes[randomIndex].image_url : defaultImage} />
+                            <img onError={e => e.currentTarget.src=defaultImage} className='featured-image' src={recipes.length > 0 ? recipes[randomIndex].image_url : defaultImage} />
                         </div>
                         <div className='recipeoftheday-card'>
                             {recipes.length > 0 && <h2 id='1'>{recipes[randomIndex].title}</h2>}
@@ -36,13 +35,18 @@ const Recipes = () => {
                     </div>
                 </NavLink>
             </div>
+            <div className='blurb'>
+                <h1>Welcome to CookBook</h1>
+                <p>To experience full site functionality, sign up or click Demo above.</p>
+                <p>To peruse, simply click a recipe!</p>
+            </div>
             <div className='cards-container'>
                 <div className='cards'>
                     {recipes?.map(recipe => (
                         <div key={recipe.id} className='card'>
                             <NavLink to={`/recipes/${recipe.id}`}>
                                 <div className='image-container'>
-                                    <img className='card-image' src={recipe.image_url} onError={e => e.currentTarget.src={defaultImage}}/>
+                                    <img className='card-image' src={recipe.image_url} onError={e => e.currentTarget.src=defaultImage}/>
                                 </div>
                                 <div className='card-bottom'>
                                     <div id='title-author'>

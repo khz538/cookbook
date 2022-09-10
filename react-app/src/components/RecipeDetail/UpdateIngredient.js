@@ -11,15 +11,15 @@ export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) 
     const [name, setName] = useState(ingredient.name);
     const [errors, setErrors] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
-    const [hasSubmitted, setHasSubmitted] = useState(false);
-
+    // const [hasSubmitted, setHasSubmitted] = useState(false);
+    console.log(unit)
     useEffect(() => {
         const newErrors = [];
-        if (!quantity.length) newErrors.push('* Please quantify your ingredient');
-        if (quantity > 1000) newErrors.push('* Max quantity allowed is 1000 units');
-        if (quantity < 0.01) newErrors.push('* Quantity cannot be less than 1/100th of a unit')
-        if (!name.length) newErrors.push('* Please name your ingredient');
-        if (name.length > 50) newErrors.push('* Ingredient name is too long');
+        if (!quantity) newErrors.push('Please quantify your ingredient');
+        if (quantity > 1000) newErrors.push('Max quantity allowed is 1000 units');
+        if (quantity < 0.01) newErrors.push('Quantity cannot be less than 1/100th of a unit')
+        if (!name.length) newErrors.push('Please name your ingredient');
+        if (name.length > 50) newErrors.push('Ingredient name is too long');
         setErrors(newErrors);
         errors.length ? setIsDisabled(true) : setIsDisabled(false);
     }, [name, quantity, errors.length, unit])
@@ -59,7 +59,7 @@ export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) 
                     max={1000}
                 />
                 <label>Unit</label>
-                <select defaultValue={ingredient.unit} onChange={e => setUnit(e.target.value)}>
+                <select defaultValue={unit} onChange={e => setUnit(e.target.value)}>
                     <option value='DEFAULT' disabled>Choose a Unit</option>
                     <option value=''>No Unit</option>
                     <option value='cup(s)'>cup(s)</option>

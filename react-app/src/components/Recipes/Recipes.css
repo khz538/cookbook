@@ -18,7 +18,7 @@ a {
 .featured-container {
     width: 100vw;
     min-width: 100vw;
-    height: 80vh;
+    height: 70vh;
     margin: 0;
     padding: 0
 }
@@ -26,13 +26,13 @@ a {
 .recipeoftheday {
     width: 100vw;
     min-width: 100vw;
-    height: 80vh;
+    height: 70vh;
 }
 
 .featured-image {
     object-fit: cover;
     width: 100%;
-    height: 80vh;
+    height: 70vh;
     max-height: 80vh;
     z-index: -1;
     margin: 0;
@@ -43,10 +43,10 @@ a {
     z-index: 1;
     position: absolute;
     background-color: whitesmoke;
-    top: 60vh;
-    left: 9vw;
-    height: 300px;
-    width: 300px;
+    top: 45vh;
+    left: 7vw;
+    height: 270px;
+    width: 290px;
     text-decoration: none;
     color: black;
     font-weight: 100;
@@ -73,6 +73,8 @@ a {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
+    width: 85vw;
+    margin-top: 20px;
 }
 
 .card {
@@ -126,4 +128,14 @@ a {
 }
 #card-recipe-title {
     margin: .5vw;
+}
+
+.blurb {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 30vh;
+    background-color: #f5f5f5;
 }

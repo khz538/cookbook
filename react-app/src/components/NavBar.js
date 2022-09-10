@@ -1,38 +1,50 @@
 
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { NavLink, Redirect } from 'react-router-dom';
 import LogoutButton from './auth/LogoutButton';
+import logo from './logo.png'
+import './NavBar.css'
+import { Modal } from '../context/Modal';
+import * as sessionActions from '../store/session';
 
 const NavBar = () => {
-  return (
-    <nav>
-      <ul>
-        <li>
-          <NavLink to='/' exact={true} activeClassName='active'>
-            Home
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to='/login' exact={true} activeClassName='active'>
-            Login
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to='/sign-up' exact={true} activeClassName='active'>
-            Sign Up
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to='/users' exact={true} activeClassName='active'>
-            Users
-          </NavLink>
-        </li>
-        <li>
-          <LogoutButton />
-        </li>
-      </ul>
-    </nav>
-  );
+    const dispatch = useDispatch();
+    const sessionUser = useSelector(state => state.session.user);
+    const [showModal, setShowModal] = useState(false);
+
+    const demoLogin = async e => {
+        e.preventDefault();
+        await dispatch(sessionActions.login('demo@aa.io', 'password'));
+        return <Redirect to='/' />
+    }
+
+    return (
+        <nav className='navbar'>
+            <NavLink to='/' exact={true} activeClassName='active'>
+                <div className='logo-container'>
+                    {/* Render Image Here */}
+                    <img src={logo} alt='logo' />
+                    <h1>CookBook</h1>
+                </div>
+            </NavLink>
+            <div className='nav-links-right'>
+                {!sessionUser &&
+                // <Modal>
+                    <NavLink className='login navlink' to='/login' exact={true} activeClassName='active'>
+                        Login
+                    </NavLink>
+                // </Modal>
+                }
+                {!sessionUser && <NavLink className={'signup navlink'} to='/sign-up' exact={true} activeClassName='active'>
+                    Sign Up
+                </NavLink>}
+                {!sessionUser && <button className='demo-button' onClick={demoLogin}>Demo</button>}
+                {sessionUser && <NavLink className={'add-recipe navlink'} to={`/recipes/new`}>Add a recipe</NavLink>}
+                {sessionUser && <LogoutButton />}
+            </div>
+        </nav>
+    );
 }
 
 export default NavBar;
