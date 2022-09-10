@@ -21,6 +21,12 @@
     font-family: nyt-cheltenham;
     font-size:larger;
     align-items: center;
+    transition: opacity .2s;
+    opacity: .7;
+}
+.logo-container:hover {
+    /* color: rgb(38,143,156); */
+    opacity: 1;
 }
 
 .logout-button, .demo-button {
@@ -53,7 +59,12 @@
 .navlink {
     cursor: pointer;
     padding-inline: .5em;
-    font-weight: bold;
+    font-weight: 200;
+    min-width: 4vw;
+    min-height: 3vh;
+    font-family: Arial, Helvetica, sans-serif;
+    /* min-width: fit-content;
+    min-height: fit-content; */
 }
 .navlink:hover {
     color: rgb(38,143,156);
