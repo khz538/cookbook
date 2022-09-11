@@ -26,11 +26,18 @@ const RecipeDetail = () => {
     const [stepErrors, setStepErrors] = useState([]);
     const [ingredientErrors, setIngredientErrors] = useState([]);
     const [isStepDisabled, setIsStepDisabled] = useState(true);
+<<<<<<< Updated upstream
     const [isAddIngredientDisabled, setIsAddIngredientDisabled] = useState(true);
     const [hasSubmittedIngredient, setHasSubmittedIngredient] = useState(false);
     const [hasSubmittedStep, setHasSubmittedStep] = useState(false);
     const [errors, setErrors] = useState([]);
     const [showUpdate, setShowUpdate] = useState('false');
+=======
+    // const [isAddIngredientDisabled, setIsAddIngredientDisabled] = useState(true);
+    // const [errors, setErrors] = useState([]);
+    const [showUpdate, setShowUpdate] = useState(false);
+    const [newIngredientSubmitted, setNewIngredientSubmitted] = useState(false)
+>>>>>>> Stashed changes
 
 
     // Get recipe information from the database
@@ -59,9 +66,13 @@ const RecipeDetail = () => {
         if (newIngredientQuantity < 0.01) newIngredientErrors.push('* Ingredient must be more than 0.01 units');
         if (newIngredientQuantity > 1000) newIngredientErrors.push('* Ingredient quantity limited to 1000 units');
         if (!newIngredientName.length) newIngredientErrors.push('* Please define your ingredient');
-        if (newIngredientName.length > 50) newIngredientErrors.push('* Ingredient name is too long');
+        if (newIngredientName.length > 50) newIngredientErrors.push('* Ingredient name is over 50 characters');
         setIngredientErrors(newIngredientErrors);
+<<<<<<< Updated upstream
         ingredientErrors.length ? setIsAddIngredientDisabled(true) : setIsAddIngredientDisabled(false);
+=======
+        console.log(ingredientErrors);
+>>>>>>> Stashed changes
     }, [ingredientErrors.length, newIngredientName, newIngredientQuantity, newIngredientUnit])
 
     // Add step click handler
@@ -86,17 +97,29 @@ const RecipeDetail = () => {
             unit: newIngredientUnit,
             name: newIngredientName,
         }
-        await dispatch(createIngredientThunk(ingredient));
-        setNewIngredientQuantity('');
+        if (!ingredientErrors.length) {
+            await dispatch(createIngredientThunk(ingredient));
+            setNewIngredientSubmitted(false);
+            // setNewIngredientQuantity('');
+            // setNewIngredientUnit('');
+            // setNewIngredientName('');
+            // history.push(`/recipes/${recipeId}`);
+            window.location.reload()
+        } else {
+            setNewIngredientSubmitted(true);
+        }
+        // setNewIngredientSubmitted(true);
+        // setNewIngredientQuantity('');
         // setNewIngredientUnit('');
-        setNewIngredientName('');
-        history.push(`/recipes/${recipeId}`);
+        // setNewIngredientName('');
+        // history.push(`/recipes/${recipeId}`);
     }
 
 
     if (!recipe) history.push('/recipes');
     return (
         <div className='recipe-outer-wrapper'>
+<<<<<<< Updated upstream
             <div className='top-recipe-wrapper'>
                 <div className='top-left-quadrant'>
                     <h1 className='recipe-title'>{recipe.title}</h1>
@@ -135,6 +158,105 @@ const RecipeDetail = () => {
                                     <li style={{color: "red"}}>{error}</li>
                                 ))}
                             </ul>
+=======
+            <Recipe recipe={recipe} currentUser={currentUser} setShowUpdate={setShowUpdate} />
+            <div className='bottom-recipe-wrapper'>
+                <div className='bottom-recipe-left'>
+                    <h2>Ingredients</h2>
+                    {/* {ingredients && ingredients.length > 0 && */}
+                        <div className='lower-left-quadrant'>
+                            <ul className='ingredients-list'>
+                            {ingredients?.map(ingredient => (
+                                <li key={ingredient.id} className='ingredient'>
+                                    <Ingredient ingredient={ingredient} recipe={recipe} />
+                                </li>
+                            ))}
+                            </ul>
+
+                            {currentUser?.id === recipe.user.id &&
+                            <div className='add-ingredient-form'>
+                                <h3>Add an Ingredient</h3>
+                                {newIngredientSubmitted &&
+                                <ul className='new-ingredient-errors errors'>
+                                    {ingredientErrors.map((error, i) => (
+                                        <li key={i}>{error}</li>
+                                    ))}
+                                </ul>
+                                }
+                                <form onSubmit={addIngredient}>
+                                    <div className='ingredient-quantity'>
+                                        <label for='quantity'>Quantity (number)</label>
+                                        <small>&nbsp;(required)&nbsp;</small>
+                                        <input
+                                            type='number'
+                                            min={0.0}
+                                            step='0.001'
+                                            value={newIngredientQuantity}
+                                            onChange={e => setNewIngredientQuantity(e.target.value)}
+                                            placeholder='Quantity'
+                                            required
+                                            id='quantity'
+                                        />
+                                    </div>
+                                    <div className='ingredient-unit'>
+                                        <label for='unit'>Unit of Measure</label>
+                                        {/* <small>&nbsp;(required)&nbsp;</small> */}
+                                        <select id='unit' defaultValue={'DEFAULT'} onChange={e => setNewIngredientUnit(e.target.value)}>
+                                            <option value='DEFAULT' disabled>Choose a Unit</option>
+                                            <option value=''>No Unit</option>
+                                            <option value='cup(s)'>cup(s)</option>
+                                            <option value='tablespoon(s)'>tablespoon(s)</option>
+                                            <option value='teaspoon(s)'>teaspoon(s)</option>
+                                            <option value='pound(s)'>pound(s)</option>
+                                            <option value='ounce(s)'>ounce(s)</option>
+                                            <option value='gram(s)'>gram(s)</option>
+                                            <option value='millilitre(s)'>millilitre(s)</option>
+                                            <option value='pinch(es)'>pinch(es)</option>
+                                            <option value='piece(s)'>piece(s)</option>
+                                            <option value='slice(s)'>slice(s)</option>
+                                            <option value='sprig(s)'>sprig(s)</option>
+                                            <option value='can(s)'>can(s)</option>
+                                            <option value='package(s)'>package(s)</option>
+                                            <option value='bunch(es)'>bunch(es)</option>
+                                            <option value='head(s)'>head(s)</option>
+                                            <option value='stalk(s)'>stalk(s)</option>
+                                            <option value='clove(s)'>clove(s)</option>
+                                            <option value='bottle(s)'>bottle(s)</option>
+                                            <option value='bar(s)'>bar(s)</option>
+                                            <option value='sheet(s)'>sheet(s)</option>
+                                            <option value='kilo(s)'>kilo(s)</option>
+                                            <option value='liter(s)'>liter(s)</option>
+                                            <option value='gallon(s)'>gallon(s)</option>
+                                            <option value='quart(s)'>quart(s)</option>
+                                            <option value='pint(s)'>pint(s)</option>
+                                            <option value='fluid ounce(s)'>fluid ounce(s)</option>
+                                            <option value='drop(s)'>drop(s)</option>
+                                            <option value='handful(s)'>handful(s)</option>
+                                            <option value='milligram(s)'>milligram(s)</option>
+                                        </select>
+                                    </div>
+                                    <div className='ingredient-ingredient'>
+                                        <label for='ingredient'>Ingredient</label>
+                                        <small>&nbsp;(required)&nbsp;</small>
+                                        <input
+                                            id='ingredient'
+                                            type='text'
+                                            value={newIngredientName}
+                                            onChange={e => setNewIngredientName(e.target.value)}
+                                            placeholder='Ingredient Name'
+                                            maxLength={51}
+                                            required />
+                                    </div>
+                                    <button type='submit' disabled={false}>Add Ingredient</button>
+                                </form>
+                            </div>}
+                            {/* Show your rating as logged in user */}
+                            <div className='Rating'>
+                                {currentUser && <h2>Your Rating</h2>}
+                                {currentUser && <p>Rate or edit your existing rating</p>}
+                                {currentUser && <StarRating recipe={recipe} currentUser={currentUser} />}
+                            </div>
+>>>>>>> Stashed changes
                         </div>
                         <form onSubmit={addIngredient}>
                             <input
