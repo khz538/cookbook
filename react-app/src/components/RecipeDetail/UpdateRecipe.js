@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { editRecipeThunk, getOneRecipeThunk } from '../../store/recipes';
 import { imageRegex } from '../../util';
+import './UpdateRecipe.css';
 
 export default function UpdateRecipe({ recipe, setShowUpdate }) {
     const history = useHistory();
@@ -14,10 +15,9 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
     const [time, setTime] = useState(recipe.time);
     const [servings, setServings] = useState(recipe.yield_servings);
     const [errors, setErrors] = useState([]);
+    const [hasSubmitted, setHasSubmitted] = useState(false);
     // const [isUrlValid, setIsUrlValid] = useState([]);
 
-    // console.log(errors)
-    // form errors
     useEffect(() => {
         const newErrors = [];
         if (!title.length) newErrors.push('* Please name your recipe!');
@@ -46,8 +46,12 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
             time,
             yield_servings: servings,
         }
-        await dispatch(editRecipeThunk(editedRecipe));
-        await dispatch(getOneRecipeThunk(recipeId));
+        if (!errors.length) {
+            await dispatch(editRecipeThunk(editedRecipe));
+            await dispatch(getOneRecipeThunk(recipeId));
+        } else {
+            setHasSubmitted(true);
+        }
         setShowUpdate(false);
     };
 
@@ -64,6 +68,7 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
             </div>
             <form onSubmit={handleSubmit}>
                 <label>Title</label>
+                <small>&nbsp;(required)</small>
                 <input type='text'
                     value={title}
                     onChange={e => setTitle(e.target.value)}
@@ -71,14 +76,16 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
                     className='input'
                 />
                 <label>Description</label>
+                <small>&nbsp;(required)</small>
                 <textarea type='text'
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                     maxLength={1001}
                     placeholder='Describe your dish here.'
-                    className='input'
+                    className='textarea'
                 />
                 <label>Image URL</label>
+                <small>&nbsp;(required)</small>
                 <input type='text'
                     value={image}
                     onChange={e => {
@@ -89,6 +96,7 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
                     className='input'
                 />
                 <label>Servings</label>
+                <small>&nbsp;(required)</small>
                 <input type='number'
                     value={servings}
                     min={0}
@@ -97,6 +105,7 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
                     className='input'
                 />
                 <label>Prep Time</label>
+                <small>&nbsp;(required)</small>
                 <input type='text'
                     value={time}
                     onChange={e => setTime(e.target.value)}

@@ -1,0 +1,43 @@
+.update-recipe-container {
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
+    /* margin-bottom: 1em; */
+}
+
+.update-recipe-container > h1 {
+    padding-left: 1em;
+    padding-right: 1em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.update-recipe-container > form {
+    display: flex;
+    flex-direction: column;
+    margin: 0 2em 2em 2em;
+}
+.errors {
+    max-width: 12vw;
+}
+.errors > ul {
+    list-style: none;
+    padding-left: 2em;
+    word-break: break-word;
+    max-width: 13vw;
+}
+
+.input {
+    height: 2.5vh;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+}
+
+.textarea {
+    height: 12vh;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px
+}
