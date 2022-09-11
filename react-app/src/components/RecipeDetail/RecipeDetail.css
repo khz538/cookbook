@@ -1,0 +1,148 @@
+@font-face {
+    font-family: 'nyt-cheltenham';
+    src: url('../../fonts/nyt-cheltenham-200-normal.woff');
+}
+
+.recipe-outer-wrapper {
+    display: flex;
+    width: 58vw;
+    /* align-items: center; */
+    justify-content: center;
+    font-family: nyt-cheltenham;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 3vh;
+}
+
+.top-recipe-wrapper {
+    display: flex;
+    width: 58vw;
+    height: 60vh;
+    border-bottom: solid black 5px;
+    justify-content: space-between;
+}
+.top-left-quadrant {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    min-width: 20vw;
+    width: 20vw;
+    height: 60vh;
+    position: relative;
+    /* border-bottom: 2px solid #ccc; */
+    /* top: 15vh; */
+    /* margin-right: 1vw; */
+}
+.top-left-top {
+    border-bottom: 2px solid #ccc;
+    height: 40vh;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.top-left-bottom {
+    display: flex;
+
+}
+.top-right-quadrant {
+    min-width: 33vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* align-items: center; */
+}
+.recipe-image-container {
+    width: 33vw;
+    height: 40vh;
+}
+.recipe-image {
+    object-fit: cover;
+    width: 33vw;
+    height:40vh;
+}
+.description-container {
+    word-break: break-word;
+    max-height: 12vw;
+    max-width: 33vw;
+    overflow: scroll;
+    margin-bottom: 1vh;
+    overflow: -moz-scrollbars-none;
+}
+.description-container::-webkit-scrollbar { width: 0 !important }
+
+
+
+
+/* Lower half */
+.bottom-recipe-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 58vw;
+    /* height: 60vh; */
+}
+
+/* Ingredients */
+.bottom-recipe-left {
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    height: auto;
+    margin-right: 1em;
+}
+.ingredients-list {
+    list-style: none;
+    padding-left: 0;
+}
+.ingredient-quantity,
+.ingredient-unit,
+.ingredient-ingredient {
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin: 5px 0;
+}
+
+small {
+    margin-bottom: 5px;
+    /* margin-bottom: 10px; */
+}
+
+#quantity,
+#unit,
+#ingredient {
+    border-radius: 5px;
+    height: 2.5vh;
+    border: none;
+    background-color: whitesmoke;
+}
+
+form > .add-ingredient-button {
+    background-color: transparent;
+    /* border: 1px solid black; */
+    border: none;
+    border-radius: 5px;
+    height: 2.5vh;
+    cursor: pointer;
+    background-color: rgb(38, 143, 156);
+    opacity: .7;
+    transition: opacity .15s;
+    color: white;
+    font-weight: bold;
+}
+form > .add-ingredient-button:hover {
+    opacity: 1;
+}
+
+/* Rating */
+.Rating {
+    padding-top: 1em;
+}
+.errors {
+    color: red;
+    list-style: none;
+    padding-left:0;
+}

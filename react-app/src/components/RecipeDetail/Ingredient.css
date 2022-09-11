@@ -1,0 +1,25 @@
+.edit-button, .delete-button {
+    border: none;
+    border-radius: 5px;
+    width: fit-content;
+    height: 2.5vh;
+    transition: opacity .15s;
+    opacity: .7;
+    cursor:pointer;
+    /* color: white; */
+    font-weight: bold;
+}
+.edit-button:hover,
+.delete-button:hover {
+    opacity: 1
+}
+.edit-button {
+    background-color: rgb(38, 143, 156);
+    margin-right: 1em;
+    color: white;
+}
+
+.ingredient-p,
+.single-ingredient-container {
+    word-break: break-word;
+}
