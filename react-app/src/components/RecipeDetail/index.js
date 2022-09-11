@@ -139,7 +139,7 @@ const RecipeDetail = () => {
                                             step='0.001'
                                             value={newIngredientQuantity}
                                             onChange={e => setNewIngredientQuantity(e.target.value)}
-                                            placeholder='Quantity'
+                                            placeholder='Quantity (Input Number Here)'
                                             required
                                             id='quantity'
                                         />
@@ -193,7 +193,7 @@ const RecipeDetail = () => {
                                             maxLength={51}
                                             required />
                                     </div>
-                                    <button type='submit' disabled={false}>Add Ingredient</button>
+                                    <button className='add-ingredient-button' type='submit' disabled={false}>Add Ingredient</button>
                                 </form>
                             </div>}
                             {/* Show your rating as logged in user */}

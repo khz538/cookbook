@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteIngredientThunk } from "../../store/ingredients";
 import { Modal } from "../../context/Modal";
 import UpdateIngredient from "./UpdateIngredient";
-import './RecipeDetail.css'
+// import './RecipeDetail.css';
+import './Ingredient.css';
 
 const Ingredient = ({ ingredient, recipe }) => {
     // console.log(ingredient)
@@ -29,8 +30,8 @@ const Ingredient = ({ ingredient, recipe }) => {
     }
 
     return (
-        <div>
-            <p>{ingredient.name}, {ingredient.quantity} {ingredient.unit}</p>
+        <div className="single-ingredient-container">
+            <p className="ingredient-p">{ingredient.name}, {ingredient.quantity} {ingredient.unit}</p>
             {sessionUser && sessionUser.id === recipe.user_id && (
                 <div>
                     <button onClick={() => setShowUpdate(true)}

@@ -77,15 +77,18 @@
 /* Lower half */
 .bottom-recipe-wrapper {
     display: flex;
+    justify-content: space-between;
     width: 58vw;
+    /* height: 60vh; */
 }
 
 /* Ingredients */
 .bottom-recipe-left {
     display: flex;
     flex-direction: column;
-    width: 65vw;
+    width: 60vw;
     height: auto;
+    margin-right: 1em;
 }
 .ingredients-list {
     list-style: none;
@@ -99,7 +102,25 @@
     flex-direction: column;
 }
 
-form > button {
+label {
+    margin: 5px 0;
+}
+
+small {
+    margin-bottom: 5px;
+    /* margin-bottom: 10px; */
+}
+
+#quantity,
+#unit,
+#ingredient {
+    border-radius: 5px;
+    height: 2.5vh;
+    border: none;
+    background-color: whitesmoke;
+}
+
+form > .add-ingredient-button {
     background-color: transparent;
     /* border: 1px solid black; */
     border: none;
@@ -112,7 +133,7 @@ form > button {
     color: white;
     font-weight: bold;
 }
-form > button:hover {
+form > .add-ingredient-button:hover {
     opacity: 1;
 }
 
