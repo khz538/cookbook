@@ -39,7 +39,7 @@ const RecipeDetail = () => {
         const newStepErrors = [];
         if (!newStep.length) newStepErrors.push('* To add, please input at least one character');
         if (newStep.length > 250) newStepErrors.push('* Please keep each step succinctly under 250 characters');
-        if (newStep.trim() === '') newStepErrors.push('* Instructions containing only whitespace chars are not allowed')
+        if (newStep.trim() === '' && newStep.length) newStepErrors.push('* Instructions containing only whitespace chars are not allowed')
         setStepErrors(newStepErrors);
         stepErrors.length ? setIsStepDisabled(true) : setIsStepDisabled(false);
     }, [newStep, stepErrors.length])
@@ -60,7 +60,7 @@ const RecipeDetail = () => {
         if (newIngredientQuantity > 1000) newIngredientErrors.push('* Ingredient quantity limited to 1000 units');
         if (!newIngredientName.length) newIngredientErrors.push('* Please define your ingredient');
         if (newIngredientName.length > 50) newIngredientErrors.push('* Ingredient name is over 50 characters');
-        if (newIngredientName.trim() === '') newIngredientErrors.push('* Ingredient names containing only whitespace chars are not allowed');
+        if (newIngredientName.trim() === '' && newIngredientName.length) newIngredientErrors.push('* Ingredient names containing only whitespace chars are not allowed');
         setIngredientErrors(newIngredientErrors);
         // console.log(ingredientErrors);
     }, [ingredientErrors.length, newIngredientName, newIngredientQuantity, newIngredientUnit])

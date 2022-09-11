@@ -1,7 +1,7 @@
 .update-recipe-container {
     display: flex;
     flex-direction: column;
-    width: 20vw;
+    width: 25vw;
     /* margin-bottom: 1em; */
 }
 
@@ -17,13 +17,14 @@
     margin: 0 2em 2em 2em;
 }
 .errors {
-    max-width: 12vw;
+    max-width: 22vw;
+    font-size: 14px;
 }
 .errors > ul {
     list-style: none;
     padding-left: 2em;
     word-break: break-word;
-    max-width: 13vw;
+    max-width: 22vw;
 }
 
 .input {
@@ -40,4 +41,27 @@
     resize: none;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px
+}
+
+.update-recipe-container > form > label,
+.update-recipe-container > form > small {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.update-recipe-container > form > button {
+    margin-top: 1em;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(38, 143, 156);
+    opacity: .7;
+    transition: opacity .15s;
+    cursor: pointer;
+    color: white;
+    height: 2.5vh;
+    font-weight: bold;
+    width: fit-content;
+
+}
+.update-recipe-container > form > button:hover {
+    opacity: 1;
 }
