@@ -99,11 +99,29 @@
     flex-direction: column;
 }
 
+form > button {
+    background-color: transparent;
+    /* border: 1px solid black; */
+    border: none;
+    border-radius: 5px;
+    height: 2.5vh;
+    cursor: pointer;
+    background-color: rgb(38, 143, 156);
+    opacity: .7;
+    transition: opacity .15s;
+    color: white;
+    font-weight: bold;
+}
+form > button:hover {
+    opacity: 1;
+}
+
 /* Rating */
 .Rating {
     padding-top: 1em;
 }
 .errors {
     color: red;
+    list-style: none;
+    padding-left:0;
 }
-
