@@ -32,7 +32,7 @@ const StarRating = ({recipe, currentUser}) => {
 
     const handleRating = (e, index) => {
         e.preventDefault();
-        console.log(index)
+        // console.log(index)
         setRating(index);
         if (userRating) {
             if (Object.values(userRating).length === 0) {
@@ -41,7 +41,7 @@ const StarRating = ({recipe, currentUser}) => {
                     recipe_id: recipe.id,
                     user_id: currentUser.id
                 }
-                console.log(newRating)
+                // console.log(newRating)
                 dispatch(createRatingThunk(newRating));
             } else {
                 const editedRating = {
@@ -50,7 +50,7 @@ const StarRating = ({recipe, currentUser}) => {
                     user_id: currentUser.id,
                     rating: index,
                 };
-                console.log(editedRating)
+                // console.log(editedRating)
                 dispatch(editRatingThunk(editedRating));
             }
         } else {
@@ -59,7 +59,7 @@ const StarRating = ({recipe, currentUser}) => {
                 recipe_id: recipe.id,
                 user_id: currentUser.id
             }
-            console.log(newRating)
+            // console.log(newRating)
             dispatch(createRatingThunk(newRating));
         }
     }
@@ -68,7 +68,7 @@ const StarRating = ({recipe, currentUser}) => {
         e.preventDefault();
         setRating(null);
         setHover(null);
-        console.log(userRating.id)
+        // console.log(userRating.id)
         dispatch(deleteRatingThunk(userRating?.id));
 
     }

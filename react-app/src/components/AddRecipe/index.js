@@ -55,7 +55,7 @@ export default function AddRecipe() {
         // } else {
         //     history.push(`/recipes/1`);
         // }
-        console.log(newRecipe)
+        // console.log(newRecipe)
         history.push(`/recipes/${newRecipe.id}`)
     };
 
