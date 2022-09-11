@@ -79,7 +79,11 @@
     display: flex;
     justify-content: space-between;
     width: 58vw;
+    margin: auto;
     /* height: 60vh; */
+}
+.lower-right-quadrant {
+    width: 33vw;
 }
 
 /* Ingredients */

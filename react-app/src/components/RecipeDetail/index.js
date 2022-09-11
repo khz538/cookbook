@@ -59,7 +59,7 @@ const RecipeDetail = () => {
         if (!newIngredientName.length) newIngredientErrors.push('* Please define your ingredient');
         if (newIngredientName.length > 50) newIngredientErrors.push('* Ingredient name is over 50 characters');
         setIngredientErrors(newIngredientErrors);
-        console.log(ingredientErrors);
+        // console.log(ingredientErrors);
     }, [ingredientErrors.length, newIngredientName, newIngredientQuantity, newIngredientUnit])
 
     if (!recipe) return null;
