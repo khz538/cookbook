@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteIngredientThunk } from "../../store/ingredients";
 import { Modal } from "../../context/Modal";
 import UpdateIngredient from "./UpdateIngredient";
+import './RecipeDetail.css'
 
 const Ingredient = ({ ingredient, recipe }) => {
     // console.log(ingredient)
