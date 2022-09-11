@@ -80,6 +80,7 @@
     width: 58vw;
 }
 
+/* Ingredients */
 .bottom-recipe-left {
     display: flex;
     flex-direction: column;
@@ -88,4 +89,21 @@
 }
 .ingredients-list {
     list-style: none;
+    padding-left: 0;
 }
+.ingredient-quantity,
+.ingredient-unit,
+.ingredient-ingredient {
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Rating */
+.Rating {
+    padding-top: 1em;
+}
+.errors {
+    color: red;
+}
+
