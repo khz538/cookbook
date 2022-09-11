@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteStepThunk } from '../../store/steps';
 import { Modal } from '../../context/Modal';
 import UpdateStep from './UpdateStep';
+import './RecipeDetail.css'
 
 const Step = ({ step, recipe, stepIndex }) => {
     const history = useHistory();
@@ -24,8 +25,8 @@ const Step = ({ step, recipe, stepIndex }) => {
 
     return (
         <div>
-            <h4>Step&nbsp;{stepIndex + 1}</h4>
-            <p>{step.description}</p>
+            <h4 className="step-number">Step&nbsp;{stepIndex + 1}</h4>
+            <p className="instruction">{step.description}</p>
             {
                 sessionUser?.id === recipe?.user_id && (
                     <div>

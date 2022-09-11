@@ -12,7 +12,7 @@ export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) 
     const [errors, setErrors] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
     // const [hasSubmitted, setHasSubmitted] = useState(false);
-    console.log(unit)
+    // console.log(unit)
     useEffect(() => {
         const newErrors = [];
         if (!quantity) newErrors.push('Please quantify your ingredient');

@@ -32,12 +32,14 @@ const RecipeDetail = () => {
     // const [isAddIngredientDisabled, setIsAddIngredientDisabled] = useState(true);
     // const [errors, setErrors] = useState([]);
     const [showUpdate, setShowUpdate] = useState(false);
-    const [newIngredientSubmitted, setNewIngredientSubmitted] = useState(false)
+    const [newIngredientSubmitted, setNewIngredientSubmitted] = useState(false);
+    const [newStepSubmitted, setNewStepSubmitted] = useState(false);
 
     useEffect(() => {
         const newStepErrors = [];
-        if (!newStep.length) newStepErrors.push('* Please write instructions');
+        if (!newStep.length) newStepErrors.push('* To add, please input at least one character');
         if (newStep.length > 250) newStepErrors.push('* Please keep each step succinctly under 250 characters');
+        if (newStep.trim() === '') newStepErrors.push('* Instructions containing only whitespace chars are not allowed')
         setStepErrors(newStepErrors);
         stepErrors.length ? setIsStepDisabled(true) : setIsStepDisabled(false);
     }, [newStep, stepErrors.length])
@@ -58,6 +60,7 @@ const RecipeDetail = () => {
         if (newIngredientQuantity > 1000) newIngredientErrors.push('* Ingredient quantity limited to 1000 units');
         if (!newIngredientName.length) newIngredientErrors.push('* Please define your ingredient');
         if (newIngredientName.length > 50) newIngredientErrors.push('* Ingredient name is over 50 characters');
+        if (newIngredientName.trim() === '') newIngredientErrors.push('* Ingredient names containing only whitespace chars are not allowed');
         setIngredientErrors(newIngredientErrors);
         // console.log(ingredientErrors);
     }, [ingredientErrors.length, newIngredientName, newIngredientQuantity, newIngredientUnit])
@@ -71,10 +74,14 @@ const RecipeDetail = () => {
             recipe_id: recipeId,
             description: newStep,
         }
-        // console.log(step)
-        await dispatch(createStepThunk(step));
-        setNewStep('');
-        history.push(`/recipes/${recipeId}`);
+        if (!stepErrors.length) {
+            await dispatch(createStepThunk(step));
+            setNewStepSubmitted(false)
+            setNewStep('');
+        } else {
+            setNewStepSubmitted(true)
+        }
+        // history.push(`/recipes/${recipeId}`);
     }
 
     const addIngredient = async e => {
@@ -199,7 +206,7 @@ const RecipeDetail = () => {
                             {/* Show your rating as logged in user */}
                             <div className='Rating'>
                                 {currentUser && <h2>Your Rating</h2>}
-                                {currentUser && <p>Rate or edit your existing rating</p>}
+                                {currentUser && <p>Rate this recipe or edit your existing rating</p>}
                                 {currentUser && <StarRating recipe={recipe} currentUser={currentUser} />}
                             </div>
                         </div>
@@ -220,10 +227,12 @@ const RecipeDetail = () => {
                         {currentUser?.id === recipe.user.id &&
                         <div>
                             <div className='step-errors'>
-                                {stepErrors.map(error => <p style={{color: 'red'}}>{error}</p>)}
+                                {newStepSubmitted && <ul className='step-errors errors'>
+                                    {stepErrors.map((error, i) => <li key={i}>{error}</li>)}
+                                </ul>}
                             </div>
                             <form onSubmit={addStep}>
-                                <label htmlFor='add-step'>Add a step</label>
+                                <label id='add-step-label' htmlFor='add-step'>Add another step to this recipe!</label>
                                 <textarea
                                     placeholder='Add another step to this recipe'
                                     name='add-step'
@@ -233,7 +242,7 @@ const RecipeDetail = () => {
                                     className='textarea-field'
                                     id='add-step-field'
                                 />
-                                <button type='submit' disabled={isStepDisabled}>Add Step</button>
+                                <button className='add-step-button' type='submit' disabled={false}>Add Step</button>
                             </form>
                         </div>
                         }

@@ -94,7 +94,7 @@ const StarRating = ({recipe, currentUser}) => {
         </div>
         {userRating && <button
             className='clear-rating'
-            onClick={handleDelete}>Remove rating</button>}
+            onClick={handleDelete}>Remove Your Rating</button>}
     </div>
     );
 };

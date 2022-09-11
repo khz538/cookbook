@@ -3,13 +3,27 @@
     border: none;
     outline: none;
     cursor: pointer;
-    font-size: 24px;
+    font-size: 28px;
     margin: 0 0;
     padding: 0;
   }
-  .on {
+.on {
     color: #000;
-  }
-  .off {
+}
+.off {
     color: #ccc;
-  }
+}
+
+.clear-rating {
+    border: none;
+    border-radius: 5px;
+    height: 2.5vh;
+    cursor: pointer;
+    opacity: .7;
+    transition: opacity .15s;
+    font-weight: bold;
+    margin-top: 1em;
+}
+.clear-rating:hover {
+    opacity: 1;
+}
