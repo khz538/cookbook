@@ -95,11 +95,10 @@ const RecipeDetail = () => {
         if (!ingredientErrors.length) {
             await dispatch(createIngredientThunk(ingredient));
             setNewIngredientSubmitted(false);
-            // setNewIngredientQuantity('');
-            // setNewIngredientUnit('');
-            // setNewIngredientName('');
-            // history.push(`/recipes/${recipeId}`);
-            window.location.reload()
+            setNewIngredientQuantity('');
+            setNewIngredientUnit('');
+            setNewIngredientName('');
+            history.push(`/recipes/${recipeId}`);
         } else {
             setNewIngredientSubmitted(true);
         }
@@ -153,9 +152,9 @@ const RecipeDetail = () => {
                                     </div>
                                     <div className='ingredient-unit'>
                                         <label for='unit'>Unit of Measure</label>
-                                        {/* <small>&nbsp;(required)&nbsp;</small> */}
-                                        <select id='unit' defaultValue={'DEFAULT'} onChange={e => setNewIngredientUnit(e.target.value)}>
-                                            <option value='DEFAULT' disabled>Choose a Unit</option>
+                                        <small>&nbsp;(optional) </small>
+                                        <select value={newIngredientUnit} id='unit' onChange={e => setNewIngredientUnit(e.target.value)}>
+                                            <option value='' disabled>Choose a Unit</option>
                                             <option value=''>No Unit</option>
                                             <option value='cup(s)'>cup(s)</option>
                                             <option value='tablespoon(s)'>tablespoon(s)</option>

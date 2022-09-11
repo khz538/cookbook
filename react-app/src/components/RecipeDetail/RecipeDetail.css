@@ -89,6 +89,7 @@
 /* Ingredients */
 .bottom-recipe-left {
     display: flex;
+    
     flex-direction: column;
     width: 20vw;
     height: auto;
