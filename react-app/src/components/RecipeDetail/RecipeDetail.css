@@ -43,8 +43,9 @@
 }
 .top-left-bottom {
     display: flex;
-
+    margin-top: 1em;
 }
+
 .top-right-quadrant {
     min-width: 33vw;
     display: flex;
@@ -89,7 +90,7 @@
 /* Ingredients */
 .bottom-recipe-left {
     display: flex;
-    
+
     flex-direction: column;
     width: 20vw;
     height: auto;

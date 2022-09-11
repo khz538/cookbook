@@ -7,6 +7,7 @@ import UpdateRecipe from "./UpdateRecipe";
 // import StarRating from "../Rating";
 import { defaultImage } from "../../util";
 import './RecipeDetail.css'
+import './Ingredient.css'
 
 export default function Recipe({ currentUser }) {
     const { recipeId } = useParams();
@@ -35,8 +36,8 @@ export default function Recipe({ currentUser }) {
                     <p className='recipe-author'>By: {recipe.user.first_name}&nbsp;{recipe.user.last_name}</p>
                 </div>
                 <div className='top-left-bottom'>
-                    {currentUser?.id === recipe.user_id && <button onClick={() => setShowUpdate(true)}>Edit</button>}
-                    {currentUser?.id === recipe.user_id && <button onClick={handleDelete}>Delete</button>}
+                    {currentUser?.id === recipe.user_id && <button className="edit-button" onClick={() => setShowUpdate(true)}>Edit Title, Image, and Description</button>}
+                    {currentUser?.id === recipe.user_id && <button className="delete-button" onClick={handleDelete}>Delete Recipe</button>}
                 </div>
             </div>
 
