@@ -57,8 +57,8 @@ const RecipeDetail = () => {
         const newIngredientErrors = [];
         if (!newIngredientQuantity) newIngredientErrors.push('* Please quantify your ingredient');
         if (newIngredientQuantity < 0.01) newIngredientErrors.push('* Ingredient must be more than 0.01 units');
-        if (newIngredientQuantity > 1000) newIngredientErrors.push('* Ingredient quantity limited to 1000 units');
-        if (!newIngredientName.length) newIngredientErrors.push('* Please define your ingredient');
+        if (newIngredientQuantity > 1000) newIngredientErrors.push('* Max quantity allowed is 1000 units');
+        if (!newIngredientName.length) newIngredientErrors.push('* Please name your ingredient');
         if (newIngredientName.length > 50) newIngredientErrors.push('* Ingredient name is over 50 characters');
         if (newIngredientName.trim() === '' && newIngredientName.length) newIngredientErrors.push('* Ingredient names containing only whitespace chars are not allowed');
         setIngredientErrors(newIngredientErrors);
