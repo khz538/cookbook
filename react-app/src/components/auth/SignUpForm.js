@@ -18,10 +18,11 @@ const SignUpForm = () => {
 
   const onSignUp = async (e) => {
     e.preventDefault();
-    if (password === repeatPassword) {
+    setHasSubmitted(true);
+    if (password === repeatPassword && !frontendErrors.length) {
       const data = await dispatch(signUp(username, email, password, first_name, last_name));
       if (data) {
-        setErrors(data)
+        setErrors(data);
       }
     }
   };
@@ -29,32 +30,42 @@ const SignUpForm = () => {
   useEffect(() => {
     const newErrors = [];
     if (username.trim() === '' && username.length) {
-      newErrors.push('Username: Whitespace only inputs are not allowed');
+      newErrors.push('* Whitespace-only inputs for username are not allowed');
     }
     if (username.length > 30) {
-      newErrors.push('User Name must be under 31 characters');
+      newErrors.push('* Username must be under 31 characters');
     }
     if (first_name.trim() === '' && first_name.length) {
-      newErrors.push('First Name: Whitespace only inputs are not allowed');
+      newErrors.push('* Whitespace-only inputs for first name are not allowed');
     }
     if (first_name.length > 20) {
-      newErrors.push('First Name must be under 21 characters');
+      newErrors.push('* First Name must be under 21 characters');
     }
     if (last_name.length && last_name.trim() === '') {
-      newErrors.push('Last Name: Whitespace only inputs are not allowed');
+      newErrors.push('* Whitespace-only inputs for last name are not allowed');
     }
     if (last_name.length > 20) {
-      newErrors.push('Last Name must be under 21 characters');
+      newErrors.push('* Last Name must be under 21 characters');
     }
     if (email.includes(' ')) {
-      newErrors.push('Email: Whitespace is not allowed');
+      newErrors.push('* Whitespace-only inputs for email are not allowed');
+    }
+    if (email.length > 50) {
+      newErrors.push('* Email must be under 51 characters');
+    }
+    if (password.trim() === '' && password.length) {
+      newErrors.push('* Whitespace-only inputs for password are not allowed');
     }
     if (password !== repeatPassword) {
-      newErrors.push('Password: Password and Repeat Password must match');
+      newErrors.push('* Password and Repeat Password fields must match');
     }
-    if (!password.length) newErrors.push('Password: This field is required');
-    if (!repeatPassword.length) newErrors.push('Repeat Password: This field is required')
-  }, [])
+    if (password.length < 6 || password.length > 32) {
+      newErrors.push('* Password must be at least 6 characters or less than 32 characters');
+    }
+    setFrontendErrors(newErrors);
+    // if (!password.length) newErrors.push('Password: This field is required');
+    // if (!repeatPassword.length) newErrors.push('Repeat Password: This field is required')
+  }, [username, first_name, last_name, email, password, repeatPassword, frontendErrors.length]);
 
   const updateUsername = (e) => {
     setUsername(e.target.value);
@@ -87,8 +98,11 @@ const SignUpForm = () => {
   return (
     <form onSubmit={onSignUp}>
       <div>
+        {hasSubmitted && frontendErrors.map((error, ind) => (
+          <div className='errors' key={ind}>{error}</div>
+        ))}
         {errors.map((error, ind) => (
-          <div key={ind}>{error}</div>
+          <div className='errors' key={ind}>{error}</div>
         ))}
       </div>
       <div>
