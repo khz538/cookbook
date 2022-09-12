@@ -43,6 +43,7 @@
 .edit-ingredient-wrapper > form > button:disabled {
     background-color: #ccc;
     opacity: .7;
+    cursor: default;
 }
 .edit-ingredient-wrapper > form > label,
 .edit-ingredient-wrapper > form > small {
