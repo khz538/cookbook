@@ -49,8 +49,6 @@ const RecipeDetail = () => {
         dispatch(getStepsThunk(recipeId));
         dispatch(getIngredientsThunk(recipeId));
         dispatch(getUserRatingThunk(recipeId));
-        // isWorkingImage(recipe?.image).then(res => console.log(res));
-        // isWorkingImage('https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg').then(res => console.log(res));
     }, [dispatch, recipeId])
 
     useEffect(() => {
@@ -66,7 +64,6 @@ const RecipeDetail = () => {
     }, [ingredientErrors.length, newIngredientName, newIngredientQuantity, newIngredientUnit])
 
     if (!recipe) return null;
-
 
     const addStep = async e => {
         e.preventDefault();

@@ -36,6 +36,7 @@ export default function Recipe({ currentUser }) {
                     <p className='recipe-author'>By: {recipe.user.first_name} {recipe.user.last_name}</p>
                 </div>
                 <div className='top-left-bottom'>
+                    <h3 className="prep-time">Time:&nbsp;{recipe?.time}</h3>
                     {recipe?.avg_rating && <h3 className="avg-rating">Mean Rating:&nbsp;{Math.round(recipe?.avg_rating * 10)/10}&nbsp;&#9733;</h3>}
                     <div>
                         {currentUser?.id === recipe.user_id && <button className="edit-button" onClick={() => setShowUpdate(true)}>Edit Title, Image, and Description</button>}
