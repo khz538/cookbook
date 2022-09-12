@@ -10,6 +10,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import RecipeDetail from './components/RecipeDetail';
 import Recipes from './components/Recipes';
 import AddRecipe from './components/AddRecipe';
+import PageNotFound from './components/PageNotFound';
 import { authenticate } from './store/session';
 // import Navigation from './components/Navigation';
 
@@ -53,6 +54,9 @@ function App() {
         </Route>
         <Route path='/recipes/:recipeId' exact={true}>
           <RecipeDetail />
+        </Route>
+        <Route path='*'>
+          <PageNotFound />
         </Route>
       </Switch>
     </BrowserRouter>

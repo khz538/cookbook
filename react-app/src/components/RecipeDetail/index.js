@@ -8,6 +8,7 @@ import { getIngredientsThunk, createIngredientThunk } from '../../store/ingredie
 import Ingredient from './Ingredient';
 import Recipe from './Recipe';
 import Step from './Step';
+import PageNotFound from '../PageNotFound';
 // import { Modal } from '../../context/Modal';
 // import UpdateRecipe from './UpdateRecipe.js';
 import { getUserRatingThunk } from '../../store/rating';
@@ -63,7 +64,7 @@ const RecipeDetail = () => {
         // console.log(ingredientErrors);
     }, [ingredientErrors.length, newIngredientName, newIngredientQuantity, newIngredientUnit])
 
-    if (!recipe) return null;
+    if (!recipe) return <PageNotFound />;
 
     const addStep = async e => {
         e.preventDefault();
