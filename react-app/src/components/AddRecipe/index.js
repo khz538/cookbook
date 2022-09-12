@@ -25,7 +25,7 @@ export default function AddRecipe() {
     useEffect(() => {
         const newErrors = [];
         if (!title.length) newErrors.push('* Please name your recipe!');
-        if (title.length > 50) newErrors.push('* Please keep your recipe\'s name under 50 chars');
+        if (title.length > 50) newErrors.push('* Please keep your recipe\'s name under 50 characters');
         if (title.trim() === '' && title.length) newErrors.push('* Whitespace-only inputs for title field are prohibited')
         if (!description.length) newErrors.push('* Please describe your recipe');
         if (description.length > 1000) newErrors.push('* Please keep your description under 1001 characters')
