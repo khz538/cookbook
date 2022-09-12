@@ -231,9 +231,9 @@ const RecipeDetail = () => {
                                 </ul>}
                             </div>
                             <form onSubmit={addStep}>
-                                <label id='add-step-label' htmlFor='add-step'>Add another step to this recipe!</label>
+                                <label id='add-step-label' htmlFor='add-step'>Add a step to this recipe!</label>
                                 <textarea
-                                    placeholder='Add another step to this recipe'
+                                    placeholder='Add a step to this recipe'
                                     name='add-step'
                                     value={newStep}
                                     onChange={e => setNewStep(e.target.value)}

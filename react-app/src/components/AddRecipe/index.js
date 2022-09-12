@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createRecipeThunk } from '../../store/recipes';
 import { imageRegex } from '../../util';
+import './AddRecipe.css';
+
 
 export default function AddRecipe() {
     const history = useHistory();
@@ -24,14 +26,22 @@ export default function AddRecipe() {
         const newErrors = [];
         if (!title.length) newErrors.push('* Please name your recipe!');
         if (title.length > 50) newErrors.push('* Please keep your recipe\'s name under 50 chars');
+        if (title.trim() === '' && title.length) newErrors.push('* Whitespace-only inputs for title field are prohibited')
         if (!description.length) newErrors.push('* Please describe your recipe');
         if (description.length > 1000) newErrors.push('* Please keep your description under 1001 characters')
-        if (!image.length) newErrors.push('Please enter an image URL');
-        if (!imageRegex(image)) newErrors.push("* Image URL format invalid");
-        if (!time) newErrors.push("* Please enter the prep time");
-        if (time.length > 20) newErrors.push("* Please only enter up to 20 characters")
+        if (description.trim() === '' && description.length) newErrors.push('* Whitespace-only inputs for description field are prohibited')
+        if (!image.length) newErrors.push('* Please enter an image URL');
+        if (!imageRegex(image)) {
+            newErrors.push('* Please enter a valid image URL')
+            newErrors.push('e.g. https://www.example.com/image.jpg');
+        };
+        if (image.length && image.trim() === '') newErrors.push('*Image URL must not have whitespace characters')
         if (!servings) newErrors.push("* Please enter the yield of this recipe");
-        if (servings <= 0) newErrors.push("* Please enter number of servings");
+        if (servings > 100) newErrors.push('* Please shrink your serving size to below 100')
+        if (servings <= 0) newErrors.push("* Please enter a positive number of servings");
+        if (!time) newErrors.push("* Please enter the prep time");
+        if (time.length > 20) newErrors.push("* Please limit prep time to 20 characters")
+        if (time.trim() === '' && time.length) newErrors.push('* Whitespace-only inputs for prep time field are prohibited')
 
         setErrors(newErrors);
     }, [title, description, image, time, servings, errors.length]);
@@ -63,7 +73,7 @@ export default function AddRecipe() {
 
     return (
         <div className='create-recipe-container'>
-            <h1>Create Recipe</h1>
+            <h1>Post a Recipe</h1>
             {hasSubmitted &&
                 <div className='errors'>
                     <ul>
@@ -76,6 +86,7 @@ export default function AddRecipe() {
             }
             <form onSubmit={handleSubmit}>
                 <label>Title</label>
+                <small>&nbsp;(required)</small>
                 <input type='text'
                     value={title}
                     onChange={e => setTitle(e.target.value)}
@@ -83,6 +94,7 @@ export default function AddRecipe() {
                     className='input'
                 />
                 <label>Description</label>
+                <small>&nbsp;(required)</small>
                 <textarea type='text'
                     value={description}
                     onChange={e => setDescription(e.target.value)}
@@ -91,6 +103,7 @@ export default function AddRecipe() {
                     className='input'
                 />
                 <label>Image URL</label>
+                <small>&nbsp;(required)</small>
                 <input type='text'
                     value={image}
                     onChange={e => {
@@ -101,6 +114,7 @@ export default function AddRecipe() {
                     className='input'
                 />
                 <label>Servings</label>
+                <small>&nbsp;(required)</small>
                 <input type='number'
                     value={servings}
                     min={0}
@@ -109,13 +123,15 @@ export default function AddRecipe() {
                     className='input'
                 />
                 <label>Prep Time</label>
+                <small>&nbsp;(required)</small>
                 <input type='text'
                     value={time}
                     onChange={e => setTime(e.target.value)}
                     placeholder='e.g. 15 minutes'
                     className='input'
+                    maxLength={21}
                 />
-                <button type='submit' >Create Recipe</button>
+                <button className='add-recipe-button' type='submit'>Post Recipe</button>
             </form>
         </div>
     );
