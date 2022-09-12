@@ -59,13 +59,6 @@ export default function AddRecipe() {
             user_id: sessionUser.id,
         };
         const newRecipe = await dispatch(createRecipeThunk(payload));
-        // if (recipes?.length > 0) {
-        //     const lastRecipe = recipes[recipes.length - 1];
-        //     history.push(`/recipes/${(parseInt(lastRecipe.id) + 1).toString()}`);
-        // } else {
-        //     history.push(`/recipes/1`);
-        // }
-        // console.log(newRecipe)
         history.push(`/recipes/${newRecipe.id}`)
     };
 

@@ -45,6 +45,11 @@
 .top-left-bottom {
     display: flex;
     margin-top: 1em;
+    flex-direction: column;
+}
+.top-left-bottom > div {
+    display: flex;
+    flex-direction: row;
 }
 
 .top-right-quadrant {

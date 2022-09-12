@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { getUserRatingThunk, editRatingThunk, createRatingThunk, deleteRatingThunk } from '../../store/rating';
+import { getOneRecipeThunk } from '../../store/recipes';
 // import FullStar from '../../images/full-star.png';
 // import EmptyStar from '../../images/empty-star.png';
 import './StarRating.css';
@@ -43,6 +44,7 @@ const StarRating = ({recipe, currentUser}) => {
                 }
                 // console.log(newRating)
                 dispatch(createRatingThunk(newRating));
+                dispatch(getOneRecipeThunk(recipe.id))
             } else {
                 const editedRating = {
                     id: userRating.id,
@@ -52,6 +54,7 @@ const StarRating = ({recipe, currentUser}) => {
                 };
                 // console.log(editedRating)
                 dispatch(editRatingThunk(editedRating));
+                dispatch(getOneRecipeThunk(recipe.id))
             }
         } else {
             const newRating = {
@@ -61,6 +64,7 @@ const StarRating = ({recipe, currentUser}) => {
             }
             // console.log(newRating)
             dispatch(createRatingThunk(newRating));
+            dispatch(getOneRecipeThunk(recipe.id))
         }
     }
 
@@ -70,7 +74,7 @@ const StarRating = ({recipe, currentUser}) => {
         setHover(null);
         // console.log(userRating.id)
         dispatch(deleteRatingThunk(userRating?.id));
-
+        dispatch(getOneRecipeThunk(recipe.id))
     }
 
     return (

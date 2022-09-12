@@ -202,11 +202,11 @@ const RecipeDetail = () => {
                                     <button className='add-ingredient-button' type='submit' disabled={false}>Add Ingredient</button>
                                 </form>
                             </div>}
-                            {/* Show your rating as logged in user */}
+                            {/* Show your rating as logged in user and if recipe is not yours */}
                             <div className='Rating'>
-                                {currentUser && <h2>Your Rating</h2>}
-                                {currentUser && <p>Rate this recipe or edit your existing rating</p>}
-                                {currentUser && <StarRating recipe={recipe} currentUser={currentUser} />}
+                                {currentUser && currentUser.id !== recipe?.user_id &&<h2>Your Rating</h2>}
+                                {currentUser && currentUser.id !== recipe?.user_id &&<p>Rate this recipe or edit your existing rating</p>}
+                                {currentUser && currentUser.id !== recipe?.user_id &&<StarRating recipe={recipe} currentUser={currentUser} />}
                             </div>
                         </div>
                 </div>
