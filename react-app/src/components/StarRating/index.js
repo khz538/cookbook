@@ -21,7 +21,7 @@ const StarRating = ({recipe, currentUser}) => {
 
     useEffect(() => {
         if (currentUser) {
-            dispatch(getUserRatingThunk(recipe.id)).then(rating => {setRating(rating?.rating); console.log(rating)});
+            dispatch(getUserRatingThunk(recipe.id)).then(rating => {setRating(rating?.rating)});
             // console.log(rating)
             // setRating(Object.values(rating)[0]?.rating);
         }
@@ -30,6 +30,10 @@ const StarRating = ({recipe, currentUser}) => {
     // useEffect(() => {
     //     dispatch(editRatingThunk(rating));
     // }, [rating]);
+    useEffect(() => {
+        dispatch(getOneRecipeThunk(recipe.id));
+        console.log('useEffect')
+    }, [rating]);
 
     const handleRating = async (e, index) => {
         e.preventDefault();
