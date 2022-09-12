@@ -32,7 +32,6 @@ const StarRating = ({recipe, currentUser}) => {
     // }, [rating]);
     useEffect(() => {
         dispatch(getOneRecipeThunk(recipe.id));
-        console.log('useEffect')
     }, [rating]);
 
     const handleRating = async (e, index) => {
