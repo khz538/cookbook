@@ -44,3 +44,28 @@ select {
     max-width: 70vw;
     width: 70vw;
 }
+
+.form-side > form > ul {
+    list-style: none;
+    padding-left: 0;
+    color: red;
+}
+
+.login-button {
+    background-color: rgb(38, 143, 156);
+    opacity: .7;
+    transition: opacity 150ms;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    height: 3vh;
+    width: 5vw;
+    min-height: fit-content;
+    min-width: fit-content;
+    margin-top: 1em;
+    cursor: pointer;
+}
+.login-button:hover {
+    opacity: 1;
+}

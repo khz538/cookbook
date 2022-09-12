@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../../store/session';
@@ -63,7 +63,7 @@ const LoginForm = () => {
               value={password}
               onChange={updatePassword}
             />
-            <button type='submit'>Login</button>
+            <button className='login-button' type='submit'>Login</button>
           </div>
         </form>
       </div>
