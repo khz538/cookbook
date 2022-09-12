@@ -31,7 +31,7 @@ const StarRating = ({recipe, currentUser}) => {
     //     dispatch(editRatingThunk(rating));
     // }, [rating]);
 
-    const handleRating = (e, index) => {
+    const handleRating = async (e, index) => {
         e.preventDefault();
         // console.log(index)
         setRating(index);
@@ -62,10 +62,10 @@ const StarRating = ({recipe, currentUser}) => {
                 recipe_id: recipe.id,
                 user_id: currentUser.id
             }
-            // console.log(newRating)
             dispatch(createRatingThunk(newRating));
             dispatch(getOneRecipeThunk(recipe.id))
         }
+        dispatch(getOneRecipeThunk(recipe.id));
     }
 
     const handleDelete = e => {
