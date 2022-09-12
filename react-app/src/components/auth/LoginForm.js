@@ -43,8 +43,8 @@ const LoginForm = () => {
             ))}
           </ul>
           <div>
-            <label htmlFor='email'>Email</label>
-            <small>&nbsp;(required)</small>
+            <label className='label' htmlFor='email'>Email</label>
+            <small className='small'>&nbsp;(required)</small>
             <input
               name='email'
               type='text'
@@ -54,8 +54,8 @@ const LoginForm = () => {
             />
           </div>
           <div>
-            <label htmlFor='password'>Password</label>
-            <small>&nbsp;(required)</small>
+            <label className='label' htmlFor='password'>Password</label>
+            <small className='small'>&nbsp;(required)</small>
             <input
               name='password'
               type='password'

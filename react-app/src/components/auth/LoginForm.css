@@ -1,8 +1,8 @@
 .login-page-wrapper {
     display: flex;
     width: 100vw;
-    height: 90vh;
-    position: fixed;
+    height: 80vh;
+    position: relative;
 }
 
 .form-side {
@@ -40,8 +40,14 @@ input[type=email] {
 .image-side {
     max-width: 70vw;
     width: 70vw;
+    max-height: 80vh;
+    height: 80vh;
 }
-
+.image-side > img {
+    object-fit: cover;
+    height: 80vh;
+    width: auto;
+}
 .form-side > form > ul {
     list-style: none;
     padding-left: 0;
