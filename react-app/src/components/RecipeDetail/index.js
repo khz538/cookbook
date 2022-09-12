@@ -152,7 +152,6 @@ const RecipeDetail = () => {
                                         <label for='unit'>Unit of Measure</label>
                                         <small>&nbsp;(optional) </small>
                                         <select value={newIngredientUnit} id='unit' onChange={e => setNewIngredientUnit(e.target.value)}>
-                                            <option value='' disabled>Choose a Unit</option>
                                             <option value=''>No Unit</option>
                                             <option value='cup(s)'>cup(s)</option>
                                             <option value='tablespoon(s)'>tablespoon(s)</option>
