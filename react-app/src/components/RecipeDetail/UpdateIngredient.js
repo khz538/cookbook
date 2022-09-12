@@ -65,8 +65,8 @@ export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) 
                 />
                 <label>Unit</label>
                 <small>&nbsp;(optional)</small>
-                <select defaultValue={unit} onChange={e => setUnit(e.target.value)}>
-                    <option value='DEFAULT' disabled>Choose a Unit</option>
+                <select value={unit} onChange={e => setUnit(e.target.value)}>
+                    {/* <option value='DEFAULT' disabled>Choose a Unit</option> */}
                     <option value=''>No Unit</option>
                     <option value='cup(s)'>cup(s)</option>
                     <option value='tablespoon(s)'>tablespoon(s)</option>
