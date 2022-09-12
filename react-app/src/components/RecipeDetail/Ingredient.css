@@ -2,7 +2,7 @@
     border: none;
     border-radius: 5px;
     width: fit-content;
-    height: 2.5vh;
+    min-height: 2.5vh;
     transition: opacity .15s;
     opacity: .7;
     cursor:pointer;
