@@ -145,7 +145,7 @@ const RecipeDetail = () => {
                                             value={newIngredientQuantity}
                                             onChange={e => setNewIngredientQuantity(e.target.value)}
                                             placeholder='Quantity (Input Number Here)'
-                                            required
+                                            // required
                                             id='quantity'
                                         />
                                     </div>
@@ -195,7 +195,8 @@ const RecipeDetail = () => {
                                             onChange={e => setNewIngredientName(e.target.value)}
                                             placeholder='Ingredient Name'
                                             maxLength={51}
-                                            required />
+                                            // required
+                                            />
                                     </div>
                                     <button className='add-ingredient-button' type='submit' disabled={false}>Add Ingredient</button>
                                 </form>
