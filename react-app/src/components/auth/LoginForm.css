@@ -28,8 +28,7 @@ input[type=text],
 input[type=password],
 input[type=number],
 input[type=email],
-input[type=file],
-input[type=datetime-local] {
+input[type=file] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
