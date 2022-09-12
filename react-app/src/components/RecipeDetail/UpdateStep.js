@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { editStepThunk } from '../../store/steps';
+import './UpdateStep.css';
+
 
 export default function UpdateStep({ step, recipe, setShowUpdateBool }) {
     const history = useHistory();
@@ -12,8 +14,9 @@ export default function UpdateStep({ step, recipe, setShowUpdateBool }) {
 
     useEffect(() => {
         const newErrors = [];
-        if (!description.length) newErrors.push('* Please write instructions');
+        if (!description.length) newErrors.push('* To add, please input at least one character');
         if (description.length > 250) newErrors.push('* Please keep each step succinctly under 250 characters');
+        if (description.trim() === '' && description.length) newErrors.push('* Instructions containing only whitespace chars are not allowed');
         setErrors(newErrors);
         // console.log(errors)
         // if (!errors.length) setIsDisabled(false);
@@ -32,15 +35,17 @@ export default function UpdateStep({ step, recipe, setShowUpdateBool }) {
     }
 
     return (
-        <div>
-            <div className='errors'>
-                {errors.map(error => (
-                    <p style={{color: "red"}}>{error}</p>
+        <div className='edit-step-wrapper'>
+            <h1>Edit Step</h1>
+            <ul className='errors'>
+                {errors.map((error, i) => (
+                    <li key={i} style={{color: "red"}}>{error}</li>
                 )
                 )}
-            </div>
+            </ul>
             <form onSubmit={handleEdit}>
-                <label>Step</label>
+                <label>Step Instruction</label>
+                <small>&nbsp;(required)</small>
                 <textarea
                     type='textarea'
                     placeholder='Write your instruction here!'

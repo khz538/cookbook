@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { editIngredientThunk } from '../../store/ingredients';
+import './UpdateIngredient.css';
 
 export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) {
     const history = useHistory();
@@ -15,11 +16,12 @@ export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) 
     // console.log(unit)
     useEffect(() => {
         const newErrors = [];
-        if (!quantity) newErrors.push('Please quantify your ingredient');
-        if (quantity > 1000) newErrors.push('Max quantity allowed is 1000 units');
-        if (quantity < 0.01) newErrors.push('Quantity cannot be less than 1/100th of a unit')
-        if (!name.length) newErrors.push('Please name your ingredient');
-        if (name.length > 50) newErrors.push('Ingredient name is too long');
+        if (!quantity) newErrors.push('* Please quantify your ingredient');
+        if (quantity > 1000) newErrors.push('* Max quantity allowed is 1000 units');
+        if (quantity < 0.01) newErrors.push('* Quantity cannot be less than 1/100th of a unit')
+        if (!name.length) newErrors.push('* Please name your ingredient');
+        if (name.length > 50) newErrors.push('* Ingredient name is over 50 characters');
+        if (name.trim() === '' && name.length) newErrors.push('* Ingredient names containing only whitespace chars are not allowed');
         setErrors(newErrors);
         errors.length ? setIsDisabled(true) : setIsDisabled(false);
     }, [name, quantity, errors.length, unit])
@@ -40,14 +42,16 @@ export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) 
     };
 
     return (
-        <div>
-            <div className='errors'>
-                {errors.map(error => (
-                    <p style={{color: "red"}}>{error}</p>
+        <div className='edit-ingredient-wrapper'>
+            <h1>Edit Ingredient</h1>
+            <ul className='errors'>
+                {errors.map((error, i) => (
+                    <li key={i} style={{color: "red"}}>{error}</li>
                 ))}
-            </div>
+            </ul>
             <form onSubmit={handleEdit}>
                 <label>Quantity</label>
+                <small>&nbsp;(required)</small>
                 <input
                     className='input'
                     id='edit-quantity-field'
@@ -57,8 +61,10 @@ export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) 
                     value={quantity}
                     min={0}
                     max={1000}
+                    step={.001}
                 />
                 <label>Unit</label>
+                <small>&nbsp;(optional)</small>
                 <select defaultValue={unit} onChange={e => setUnit(e.target.value)}>
                     <option value='DEFAULT' disabled>Choose a Unit</option>
                     <option value=''>No Unit</option>
@@ -93,6 +99,7 @@ export default function UpdateIngredient({ ingredient, recipe, setShowUpdate }) 
                     <option value='milligram(s)'>milligram(s)</option>
                 </select>
                 <label>Ingredient</label>
+                <small>&nbsp;(required)</small>
                 <input
                     type='text'
                     placeholder='Ingredient'
