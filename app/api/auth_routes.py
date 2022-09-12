@@ -17,7 +17,7 @@ def validation_errors_to_error_messages(validation_errors):
             field_list = field.split("_")
             field_capital = [field.capitalize() for field in field_list]
             field_string = " ".join(field_capital)
-            errorMessages.append(f'{field_string}: {error}')
+            errorMessages.append(f'{error}')
     return errorMessages
 
 
