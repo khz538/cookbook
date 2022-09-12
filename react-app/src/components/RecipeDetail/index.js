@@ -113,6 +113,7 @@ const RecipeDetail = () => {
             <div className='bottom-recipe-wrapper'>
                 <div className='bottom-recipe-left'>
                     <h2>Ingredients</h2>
+                    <h4>Yield: {recipe?.yield_servings} servings</h4>
                     {/* {ingredients && ingredients.length > 0 && */}
                         <div className='lower-left-quadrant'>
                             <ul className='ingredients-list'>
