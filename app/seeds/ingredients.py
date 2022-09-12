@@ -2,28 +2,28 @@ from app.models import db, Ingredient
 
 # Adds ingredients
 def seed_ingredients():
-    seed1 = Ingredient(
-        quantity=4,
-        unit='cups',
+    a = Ingredient(
+        quantity=.75,
+        unit='cup(s)',
         name='milk',
         recipe_id=2,
     )
-    seed2 = Ingredient(
+    b = Ingredient(
         quantity=4,
-        unit='quarts',
+        unit='quart(s)',
         name='vinegar',
         recipe_id=2,
     )
-    seed3 = Ingredient(
+    c = Ingredient(
         quantity=2,
-        unit='grams',
+        unit='gram(s)',
         name='salt',
         recipe_id=2,
     )
 
-    db.session.add(seed1)
-    db.session.add(seed2)
-    db.session.add(seed3)
+    # db.session.add(seed1)
+    # db.session.add(seed2)
+    # db.session.add(seed3)
 
     db.session.commit()
 
