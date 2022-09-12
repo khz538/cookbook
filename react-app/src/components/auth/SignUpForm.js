@@ -43,7 +43,7 @@ const SignUpForm = () => {
       newErrors.push('* Last Name must be under 21 characters');
     }
     if (email.includes(' ')) {
-      newErrors.push('* Whitespace-only inputs for email are not allowed');
+      newErrors.push('* Whitespace inputs for email are not allowed');
     }
     // if (!email.length) newErrors.push('* Please enter your email.');
     if (email.length > 50) {
