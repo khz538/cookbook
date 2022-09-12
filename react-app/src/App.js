@@ -12,6 +12,7 @@ import Recipes from './components/Recipes';
 import AddRecipe from './components/AddRecipe';
 import PageNotFound from './components/PageNotFound';
 import { authenticate } from './store/session';
+import BottomBar from './components/BottomBar';
 // import Navigation from './components/Navigation';
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
           <PageNotFound />
         </Route>
       </Switch>
+      <BottomBar />
     </BrowserRouter>
   );
 }
