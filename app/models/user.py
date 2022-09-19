@@ -15,6 +15,8 @@ class User(db.Model, UserMixin):
 
     recipes = db.relationship('Recipe', back_populates='user')
     ratings = db.relationship('Rating', back_populates='user', cascade='all, delete')
+    shopping_lists = db.relationship('ShoppingList', back_populates='user', cascade='all, delete')
+
 
     @property
     def password(self):
