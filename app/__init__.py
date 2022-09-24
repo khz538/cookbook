@@ -12,6 +12,7 @@ from .api.recipe_routes import recipe_routes
 from .api.ingredient_routes import ingredient_routes
 from .api.step_routes import step_routes
 from .api.rating_routes import rating_routes
+from .api.shopping_list_routes import shopping_list_routes
 
 from .seeds import seed_commands
 
@@ -39,6 +40,7 @@ app.register_blueprint(recipe_routes, url_prefix='/api/recipes')
 app.register_blueprint(ingredient_routes, url_prefix='/api/ingredients')
 app.register_blueprint(step_routes, url_prefix='/api/steps')
 app.register_blueprint(rating_routes, url_prefix='/api/ratings')
+app.register_blueprint(shopping_list_routes, url_prefix='/api/shopping-list')
 db.init_app(app)
 Migrate(app, db)
 
