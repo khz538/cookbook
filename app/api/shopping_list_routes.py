@@ -18,7 +18,11 @@ def add_to_shopping_list():
     else:
         if len(shopping_list) > 0:
             res1 = []
-            
+            new_shopping_list = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
+            new_shopping_list_dict = [i.to_dict() for i in new_shopping_list]
+            for ingredient in ingredients:
+                if ingredient not in new_shopping_list:
+                    res1.append(ingredient)
             print('res1:', res1)
             return jsonify(res1)
         if len(shopping_list) == 0:
