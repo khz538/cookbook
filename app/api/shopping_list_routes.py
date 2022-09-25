@@ -19,10 +19,16 @@ def add_to_shopping_list():
         if len(shopping_list) > 0:
             res1 = []
             new_shopping_list = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
-            # new_shopping_list_list = [i.to_dict() for i in new_shopping_list]
+            new_shopping_list_list = [i.to_dict() for i in new_shopping_list]
             for ingredient in ingredients:
-                if ingredient not in new_shopping_list:
-                    res1.append(ingredient)
+                if ingredient.to_dict() not in new_shopping_list_list:
+                    shopping_list_item = ShoppingList(
+                        user_id=current_user.id,
+                        ingredient_id=ingredient.id,
+                    )
+                    db.session.add(shopping_list_item)
+                    db.session.commit()
+                    res1.append(shopping_list_item.to_dict())
             print('res1:', res1)
             return jsonify(res1)
         if len(shopping_list) == 0:
