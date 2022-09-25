@@ -19,7 +19,7 @@ def add_to_shopping_list():
         if len(shopping_list) > 0:
             res1 = []
             new_shopping_list = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
-            new_shopping_list_dict = [i.to_dict() for i in new_shopping_list]
+            # new_shopping_list_list = [i.to_dict() for i in new_shopping_list]
             for ingredient in ingredients:
                 if ingredient not in new_shopping_list:
                     res1.append(ingredient)
@@ -37,3 +37,56 @@ def add_to_shopping_list():
                 res2.append(shopping_list_item.to_dict())
             print('res2:', res2)
             return jsonify(res2)
+
+
+
+# Get all shopping list items
+@shopping_list_routes.route('/')
+@login_required
+def get_shopping_list():
+    shopping_list = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
+    shopping_list_list = [i.to_dict() for i in shopping_list]
+    return jsonify(shopping_list_list)
+
+
+
+# Delete all shopping list items
+@shopping_list_routes.route('/delete/', methods=['DELETE'])
+@login_required
+def delete_shopping_list():
+    shopping_list = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
+    if shopping_list is None:
+        return {'errors': ['Shopping list not found']}, 404
+    else:
+        for item in shopping_list:
+            db.session.delete(item)
+            db.session.commit()
+        return {'message': 'Shopping list deleted'}
+
+
+
+# Delete shopping list item
+@shopping_list_routes.route('/delete/<int:id>/', methods=['DELETE'])
+@login_required
+def delete_shopping_list_item(id):
+    shopping_list_item = db.session.query(ShoppingList).filter(ShoppingList.id == id).first()
+    if shopping_list_item is None:
+        return {'errors': ['Shopping list item not found']}, 404
+    else:
+        db.session.delete(shopping_list_item)
+        db.session.commit()
+        return {'message': 'Shopping list item deleted'}
+
+
+
+# Update shopping list item
+@shopping_list_routes.route('/update/<int:id>/', methods=['PUT'])
+@login_required
+def update_shopping_list_item(id):
+    shopping_list_item = db.session.query(ShoppingList).filter(ShoppingList.id == id).first()
+    if shopping_list_item is None:
+        return {'errors': ['Shopping list item not found']}, 404
+    else:
+        shopping_list_item.quantity = request.json['quantity']
+        db.session.commit()
+        return {'message': 'Shopping list item updated'}
