@@ -11,38 +11,54 @@ shopping_list_routes = Blueprint('shopping_list', __name__)
 def add_to_shopping_list():
     recipe_id = request.json['recipe_id']
     ingredients = db.session.query(Ingredient).filter(Ingredient.recipe_id == recipe_id).all()
-    shopping_list = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
-    print('shopping_list:', shopping_list)
+    ingredient_ids = []
+    for ingredient in ingredients:
+        ingredient_ids.append(ingredient.id)
     if ingredients is None:
         return {'errors': ['Ingredients not found']}, 404
     else:
-        if len(shopping_list) > 0:
-            res1 = []
-            new_shopping_list = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
-            new_shopping_list_list = [i.to_dict() for i in new_shopping_list]
-            for ingredient in ingredients:
-                if ingredient.to_dict() not in new_shopping_list_list:
-                    shopping_list_item = ShoppingList(
-                        user_id=current_user.id,
-                        ingredient_id=ingredient.id,
-                    )
-                    db.session.add(shopping_list_item)
-                    db.session.commit()
-                    res1.append(shopping_list_item.to_dict())
-            print('res1:', res1)
-            return jsonify(res1)
+        res = {}
+        shopping_list = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
+        print('shopping_list:', shopping_list)
         if len(shopping_list) == 0:
-            res2 = []
             for ingredient in ingredients:
                 shopping_list_item = ShoppingList(
-                    user_id=current_user.id,
-                    ingredient_id=ingredient.id
+                    user_id = current_user.id,
+                    ingredient_id = ingredient.id
                 )
                 db.session.add(shopping_list_item)
                 db.session.commit()
-                res2.append(shopping_list_item.to_dict())
-            print('res2:', res2)
-            return jsonify(res2)
+                res[ingredient.id] = shopping_list_item.to_dict()
+            return res
+        elif len(shopping_list) > 0:
+            for ingredient in ingredients:
+                shopping_list_query = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
+                shopping_list_dict = {}
+                for item in shopping_list_query:
+                    shopping_list_dict[item.id] = item
+
+
+        # if len(shopping_list) > 0:
+        #     res1 = []
+        #     shopping_list_items = []
+        #     new_shopping_list_query = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
+        #     for item in new_shopping_list_query:
+        #         shopping_list_items.append(item.ingredient_id)
+
+        #     print(shopping_list_items)
+        # if len(shopping_list) == 0:
+        #     res2 = {}
+        #     for ingredient in ingredients:
+        #         shopping_list_item = ShoppingList(
+        #             user_id=current_user.id,
+        #             ingredient_id=ingredient.id
+        #         )
+        #         db.session.add(shopping_list_item)
+        #         db.session.commit()
+        #         # res2.append(shopping_list_item.to_dict())
+        #         res2[ingredient.id] = shopping_list_item.to_dict()
+        #     print('res2:', res2)
+        #     return res2
 
 
 
