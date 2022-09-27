@@ -19,7 +19,7 @@ def add_to_shopping_list():
     else:
         res = {}
         shopping_list = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
-        print('shopping_list:', shopping_list)
+        # print('shopping_list:', shopping_list)
         if len(shopping_list) == 0:
             for ingredient in ingredients:
                 shopping_list_item = ShoppingList(
@@ -28,15 +28,37 @@ def add_to_shopping_list():
                 )
                 db.session.add(shopping_list_item)
                 db.session.commit()
-                res[ingredient.id] = shopping_list_item.to_dict()
-            return res
+                # res[ingredient.id] = shopping_list_item.to_dict()
+            shopping_list_query = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
         elif len(shopping_list) > 0:
             for ingredient in ingredients:
                 shopping_list_query = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
                 shopping_list_dict = {}
-                for item in shopping_list_query:
-                    shopping_list_dict[item.id] = item
-
+                shopping_list_set = set()
+                for i,item in enumerate(shopping_list_query):
+                    shopping_list_dict[item.id] = item.to_dict()
+                    # print(shopping_list_dict)
+                    # print(list(shopping_list_dict.values())[i]['ingredient_id'])
+                    shopping_list_set.add(list(shopping_list_dict.values())[i]['ingredient_id'])
+                if ingredient.id not in shopping_list_set:
+                    shopping_list_item = ShoppingList(
+                        user_id = current_user.id,
+                        ingredient_id = ingredient.id
+                    )
+                    db.session.add(shopping_list_item)
+                    db.session.commit()
+                    # res[ingredient.id] = shopping_list_item.to_dict()
+        return {res.to_dict()['id']: res.to_dict() for res in shopping_list_query}
+                    # if ingredient.id not in item.to_dict().values():
+                    #     shopping_list_item = ShoppingList(
+                    #         user_id = current_user.id,
+                    #         ingredient_id = ingredient.id
+                    #     )
+                    #     db.session.add(shopping_list_item)
+                    #     db.session.commit()
+                    #     res[ingredient.id] = shopping_list_item.to_dict()
+                    # else:
+                    #     res[ingredient.id] = 'Ingredient already in shopping list'
 
         # if len(shopping_list) > 0:
         #     res1 = []
