@@ -5,6 +5,7 @@ import recipes from './recipes';
 import ingredients from './ingredients';
 import steps from './steps';
 import rating from './rating'
+import shopping_list from './shopping_list';
 
 const rootReducer = combineReducers({
   session,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   ingredients,
   steps,
   rating,
+  shopping_list,
 });
 
 
