@@ -1,17 +1,16 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, Redirect } from 'react-router-dom';
 import LogoutButton from './auth/LogoutButton';
 import logo from './logo.png'
 import './NavBar.css'
-import { Modal } from '../context/Modal';
 import * as sessionActions from '../store/session';
 
 const NavBar = () => {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
-    const [showModal, setShowModal] = useState(false);
+    // const [showModal, setShowModal] = useState(false);
 
     const demoLogin = async e => {
         e.preventDefault();

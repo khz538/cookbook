@@ -18,25 +18,27 @@ const deleteShoppingListItem = (shoppingListItemId) => ({
 });
 
 export const getShoppingListItemsThunk = () => async (dispatch) => {
-    const response = await fetch(`/api/shopping_list/`);
-    const shoppingListItems = await response.json();
-    dispatch(getShoppingListItems(shoppingListItems));
+    const response = await fetch(`/api/shopping-list/`);
+    if (response.ok) {
+        const shoppingListItems = await response.json();
+        dispatch(getShoppingListItems(shoppingListItems));
+    }
 }
 
 export const addShoppingListItemsThunk = (recipe_id) => async (dispatch) => {
-    const response = await fetch(`/api/shopping_list/add/`, {
+    const response = await fetch(`/api/shopping-list/add/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ recipe_id }),
     });
     if (response.ok) {
-        dispatch(addShoppingListItems(response.tojson()));
+        dispatch(addShoppingListItems(response));
         return response;
     }
 }
 
 export const deleteShoppingListItemThunk = (shoppingListItemId) => async (dispatch) => {
-    const response = await fetch(`/api/shopping_list/${shoppingListItemId}/delete/`, {
+    const response = await fetch(`/api/shopping-list/delete/${shoppingListItemId}/`, {
         method: 'DELETE',
     });
     if (response.ok) {
@@ -49,12 +51,13 @@ export default function reducer(state = {}, action) {
     switch (action.type) {
         case GET_SHOPPING_LIST_ITEMS: {
             const newState = {};
-            action.shoppingListItems.forEach(shoppingListItem => newState[shoppingListItem.id] = shoppingListItem);
+            // console.log(Object.values(action.shoppingListItems))
+            Object.values(action.shoppingListItems).forEach(shoppingListItem => newState[shoppingListItem.id] = shoppingListItem);
             return newState;
         }
         case ADD_SHOPPING_LIST_ITEMS: {
             const newState = { ...state };
-            action.shoppingListItems.forEach(shoppingListItem => newState[shoppingListItem.id] = shoppingListItem);
+            Object.values(action.shoppingListItems).forEach(shoppingListItem => newState[shoppingListItem.id] = shoppingListItem);
             return newState;
         }
         case DELETE_SHOPPING_LIST_ITEM: {

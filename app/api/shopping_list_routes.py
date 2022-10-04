@@ -53,8 +53,14 @@ def add_to_shopping_list():
 @login_required
 def get_shopping_list():
     shopping_list = db.session.query(ShoppingList).filter(ShoppingList.user_id == current_user.id).all()
-    shopping_list_list = [i.to_dict() for i in shopping_list]
-    return jsonify(shopping_list_list)
+    res = {}
+    for item in shopping_list:
+        ingredient = db.session.query(Ingredient).filter(Ingredient.id == item.ingredient_id).first()
+        item_dict = item.to_dict()
+        item_dict['ingredient'] = ingredient.to_dict()
+        res[item.id] = item_dict
+    return res
+
 
 
 

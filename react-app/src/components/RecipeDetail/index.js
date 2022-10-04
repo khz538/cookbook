@@ -12,6 +12,7 @@ import PageNotFound from '../PageNotFound';
 // import { Modal } from '../../context/Modal';
 // import UpdateRecipe from './UpdateRecipe.js';
 import { getUserRatingThunk } from '../../store/rating';
+import { addShoppingListItemsThunk } from '../../store/shopping_list';
 import StarRating from '../StarRating';
 import './RecipeDetail.css';
 
@@ -64,6 +65,13 @@ const RecipeDetail = () => {
         // console.log(ingredientErrors);
     }, [ingredientErrors.length, newIngredientName, newIngredientQuantity, newIngredientUnit])
 
+    const addToShoppingList = async e => {
+        e.preventDefault();
+        await dispatch(addShoppingListItemsThunk(recipeId));
+        history.push('/shopping-list')
+    }
+
+
     if (!recipe) return <PageNotFound />;
 
     const addStep = async e => {
@@ -113,6 +121,7 @@ const RecipeDetail = () => {
             <div className='bottom-recipe-wrapper'>
                 <div className='bottom-recipe-left'>
                     <h2>Ingredients</h2>
+                    <button onClick={addToShoppingList} className='button' id='add-ingredient-button'>Add Ingredients to Shopping List</button>
                     <h4>Yield: {recipe?.yield_servings} servings</h4>
                     {/* {ingredients && ingredients.length > 0 && */}
                         <div className='lower-left-quadrant'>
