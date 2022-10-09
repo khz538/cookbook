@@ -39,7 +39,7 @@ export default function AddRecipe() {
         if (!servings) newErrors.push("* Please enter the yield of this recipe");
         if (servings > 100) newErrors.push('* Please shrink your serving size to below 100')
         if (servings <= 0) newErrors.push("* Please enter a positive number of servings");
-        if (Math.floor(servings) != servings) newErrors.push('* Please enter a whole number of servings');
+        if (Math.floor(servings) !== servings) newErrors.push('* Please enter a whole number of servings');
         if (!time) newErrors.push("* Prep time is required");
         if (time.length > 20) newErrors.push("* Please limit prep time to 20 characters")
         if (time.trim() === '' && time.length) newErrors.push('* Whitespace-only inputs for prep time field are prohibited')

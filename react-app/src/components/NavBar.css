@@ -7,6 +7,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0 1rem !important;
 }
 
 .logo-container > img {
@@ -29,7 +30,8 @@
     opacity: 1;
 }
 
-.logout-button, .demo-button {
+.logout-button,
+.demo-button {
     cursor: pointer;
     background-color: rgb(38,143,156);
     opacity: 0.8;
@@ -43,9 +45,9 @@
     border-radius: 5px;
     /* margin-right: 1rem;
     margin-top: 0.25rem; */
-    transition: opacity 0.3s;
+    transition: opacity 0.2s;
     font-size: 15px;
-    width: 4vw;
+    width: 5vw;
     height: 3vh;
     min-width: fit-content;
     min-height: fit-content;
@@ -65,7 +67,12 @@
     font-family: Arial, Helvetica, sans-serif;
     /* min-width: fit-content;
     min-height: fit-content; */
+    transition: color .2s;
 }
 .navlink:hover {
     color: rgb(38,143,156);
+}
+
+.nav-links-right {
+    min-width: 200px;
 }

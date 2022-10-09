@@ -1,13 +1,13 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
-from app.models import db, Ingredient
+from app.models import db, Ingredient, ShoppingList
 from app.forms import IngredientForm
 from .auth_routes import validation_errors_to_error_messages
 
 ingredient_routes = Blueprint('ingredients', __name__)
 
 # Edit an ingredient
-@ingredient_routes.route('<int:ingredient_id>/', methods=['PUT'])
+@ingredient_routes.route('/<int:ingredient_id>/', methods=['PUT'])
 # @ingredient_routes.route('/<int:ingredient_id>', methods=['PUT'])
 @login_required
 def edit_ingredient(ingredient_id):
@@ -21,7 +21,7 @@ def edit_ingredient(ingredient_id):
         form = IngredientForm()
         form['csrf_token'].data = request.cookies['csrf_token']
         if form.validate_on_submit():
-            print(ingredient.to_dict())
+            # print(ingredient.to_dict())
             ingredient.name = form.data['name']
             ingredient.quantity = form.data['quantity']
             ingredient.unit = form.data['unit']

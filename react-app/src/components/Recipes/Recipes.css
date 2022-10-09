@@ -20,7 +20,8 @@ a {
     min-width: 100vw;
     height: 70vh;
     margin: 0;
-    padding: 0
+    padding: 0;
+    overflow: hidden;
 }
 
 .recipeoftheday {
@@ -36,6 +37,13 @@ a {
     max-height: 80vh;
     z-index: -1;
     margin: 0;
+    transition-property: all;
+    transition-duration: 1.5s;
+    overflow:hidden;
+}
+
+.featured-image:hover {
+    transform: scale(1.01);
 }
 
 .recipeoftheday-card {

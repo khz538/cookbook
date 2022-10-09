@@ -1,17 +1,16 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, Redirect } from 'react-router-dom';
 import LogoutButton from './auth/LogoutButton';
 import logo from './logo.png'
 import './NavBar.css'
-import { Modal } from '../context/Modal';
 import * as sessionActions from '../store/session';
 
 const NavBar = () => {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
-    const [showModal, setShowModal] = useState(false);
+    // const [showModal, setShowModal] = useState(false);
 
     const demoLogin = async e => {
         e.preventDefault();
@@ -30,11 +29,9 @@ const NavBar = () => {
             </NavLink>
             <div className='nav-links-right'>
                 {!sessionUser &&
-                // <Modal>
                     <NavLink className='login navlink' to='/login' exact={true} activeClassName='active'>
                         Login
                     </NavLink>
-                // </Modal>
                 }
                 {!sessionUser && <NavLink className={'signup navlink'} to='/sign-up' exact={true} activeClassName='active'>
                     Sign Up

@@ -13,7 +13,9 @@ import AddRecipe from './components/AddRecipe';
 import PageNotFound from './components/PageNotFound';
 import { authenticate } from './store/session';
 import BottomBar from './components/BottomBar';
+import ShoppingList from './components/ShoppingList';
 // import Navigation from './components/Navigation';
+
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -55,6 +57,9 @@ function App() {
         </Route>
         <Route path='/recipes/:recipeId' exact={true}>
           <RecipeDetail />
+        </Route>
+        <Route path='/shopping-list' exact={true}>
+          <ShoppingList />
         </Route>
         <Route path='*'>
           <PageNotFound />

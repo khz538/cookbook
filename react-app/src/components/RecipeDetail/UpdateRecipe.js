@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { editRecipeThunk, getOneRecipeThunk } from '../../store/recipes';
 import { imageRegex } from '../../util';
 import './UpdateRecipe.css';
 
 export default function UpdateRecipe({ recipe, setShowUpdate }) {
-    const history = useHistory();
+    // const history = useHistory();
     const dispatch = useDispatch();
     const recipeId = recipe.id;
     const [title, setTitle] = useState(recipe.title);
@@ -35,7 +35,7 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
         if (!servings) newErrors.push("* Please enter the yield of this recipe");
         if (servings > 100) newErrors.push('* Please shrink your serving size to below 100')
         if (servings <= 0) newErrors.push("* Please enter a positive number of servings");
-        if (Math.floor(servings) != servings) newErrors.push('* Please enter a whole number of servings');
+        if (Math.floor(servings) !== servings) newErrors.push('* Please enter a whole number of servings');
         if (!time) newErrors.push("* Prep time is required");
         if (time.length > 20) newErrors.push("* Please limit prep time to 20 characters")
         if (time.trim() === '' && time.length) newErrors.push('* Whitespace-only inputs for prep time field are prohibited')
