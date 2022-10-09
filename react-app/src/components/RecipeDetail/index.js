@@ -122,7 +122,7 @@ const RecipeDetail = () => {
                 <div className='bottom-recipe-left'>
                     <h2>Ingredients</h2>
                     {ingredients?.length > 0 &&
-                    <button onClick={addToShoppingList} className='button' id='add-ingredient-button'>Add Ingredients to Shopping List</button>
+                    <button onClick={addToShoppingList} id='add-ingredient-button'>Add Ingredients to Shopping List</button>
                     }
                     <h4>Yield: {recipe?.yield_servings} servings</h4>
                     {/* {ingredients && ingredients.length > 0 && */}
