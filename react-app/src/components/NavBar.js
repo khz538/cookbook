@@ -38,6 +38,7 @@ const NavBar = () => {
                 </NavLink>}
                 {!sessionUser && <button className='demo-button' onClick={demoLogin}>Demo</button>}
                 {sessionUser && <NavLink className={'add-recipe navlink'} to={`/recipes/new`}>Add a recipe</NavLink>}
+                {/* {sessionUser && <NavLink className={'shopping-list navlink'} to={`/shopping-list`}>Shopping List</NavLink>} */}
                 {sessionUser && <LogoutButton />}
             </div>
         </nav>
