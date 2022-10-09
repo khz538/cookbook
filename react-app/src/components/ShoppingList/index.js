@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import {
     getShoppingListItemsThunk,
     deleteShoppingListItemThunk,
@@ -43,6 +43,11 @@ const ShoppingList = () => {
                     </div>
                 ))}
             </div>
+            <button className='button' id='print-button' onClick={e => {
+                e.preventDefault();
+                window.print();
+            }}>Print
+            </button>
         </div>
     )
 }
