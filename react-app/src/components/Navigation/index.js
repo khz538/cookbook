@@ -33,6 +33,10 @@ export default function Navigation() {
                     <img className='logo' src={logo} alt='meetup logo'></img>
                 </NavLink>
             </div>
+            <div className='search-container'>
+                <input className='search-bar' type='text' placeholder='Search for events'></input>
+                <button className='search-button'>Search</button>
+            </div>
             <div className='nav-buttons'>
                 {sessionLinks}
             </div>
