@@ -5,7 +5,7 @@ import {
     getShoppingListItemsThunk,
     deleteShoppingListItemThunk,
     } from '../../store/shopping_list';
-
+import './ShoppingList.css';
 
 const ShoppingList = () => {
     const history = useHistory();

@@ -1,0 +1,10 @@
+button {
+    background-color: rgb(38,143,156);
+    border: none;
+    border-radius: 5px;
+    height:fit-content;
+    color: white;
+    opacity: 0.8;
+    font-weight: bold;
+    cursor: pointer;
+}
