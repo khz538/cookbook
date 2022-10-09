@@ -29,17 +29,17 @@ const ShoppingList = () => {
 
 
     return (
-        <div>
-            <h1>Shopping List</h1>
+        <div id='shopping-list-container'>
+            <h1 className='title'>Shopping List</h1>
             <div>
                 {shoppingList.length === 0 ? <h3>You have no items in your shopping list</h3> : shoppingList.map(item => (
                     <div key={item.id}>
-                        <h3>{item.ingredient.name},&nbsp;{item.ingredient.quantity}&nbsp;{item.ingredient.unit}</h3>
-                        <button onClick={async e => {
+                        <h3 className='ingredient' id='list-item'>{item.ingredient.name.charAt(0).toUpperCase() + item.ingredient.name.slice(1)},&nbsp;{item.ingredient.quantity} {item.ingredient.unit}</h3>
+                        <button className='button' onClick={async e => {
                             e.preventDefault();
                             await dispatch(deleteShoppingListItemThunk(item.id));
                             history.push('/shopping-list')
-                        }}>Remove from Shopping List</button>
+                        }}>Remove</button>
                     </div>
                 ))}
             </div>

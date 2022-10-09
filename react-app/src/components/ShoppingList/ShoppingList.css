@@ -1,10 +1,44 @@
-button {
-    background-color: rgb(38,143,156);
-    border: none;
+@font-face {
+    font-family: 'nyt-cheltenham';
+    src: url('../../fonts/nyt-cheltenham-200-normal.woff');
+}
+
+#shopping-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    margin: 0 0 1.5em 5em;
+    padding: 0;
+    overflow: hidden;
+}
+
+.button {
+    border: .5px solid lightgrey;
     border-radius: 5px;
-    height:fit-content;
-    color: white;
-    opacity: 0.8;
-    font-weight: bold;
+    height: 2.5vh;
     cursor: pointer;
+    /* background-color: rgb(38, 143, 156); */
+    background-color: white;
+    opacity: .7;
+    transition: opacity .15s;
+    color: black;
+    /* font-weight: bold; */
+    padding: 0.3rem;
+}
+.button:hover {
+    opacity: 1;
+}
+
+.title {
+    font-family: 'nyt-cheltenham';
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+#list-item {
+    font-family: 'nyt-cheltenham';
+    font-size: 1.25em;
 }
