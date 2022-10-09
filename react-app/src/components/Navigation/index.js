@@ -6,6 +6,7 @@ import ProfileButton from './ProfileButton';
 import DemoUser from '../DemoUser'
 import SignUpFormModal from '../SignupFormModal'
 import LoginFormModal from '../LoginFormModal'
+import './Navigation.css';
 
 
 export default function Navigation() {

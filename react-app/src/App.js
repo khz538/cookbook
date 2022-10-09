@@ -16,6 +16,7 @@ import BottomBar from './components/BottomBar';
 import ShoppingList from './components/ShoppingList';
 // import Navigation from './components/Navigation';
 
+
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();

@@ -7,6 +7,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0 1rem !important;
 }
 
 .logo-container > img {
@@ -68,4 +69,8 @@
 }
 .navlink:hover {
     color: rgb(38,143,156);
+}
+
+.nav-links-right {
+    min-width: 200px;
 }
