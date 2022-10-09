@@ -35,6 +35,7 @@ export default function BottomBar() {
                 <a target="_blank" rel="noopener noreferrer" href='https://www.linkedin.com/in/kevin-zhang-25831954/'>
                     LinkedIn
                 </a>
+                <a target="_blank" rel="noopener noreferrer" href="mailto:zhang.kevin.hua+cookbookprojectlink@gmail.com">Email</a>
             </div>
         </div>
     );
