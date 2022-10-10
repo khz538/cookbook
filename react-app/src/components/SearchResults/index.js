@@ -13,7 +13,7 @@ const SearchResults = () => {
 
     useEffect(() => {
         dispatch(searchThunk(query)); // get search results from db and store in redux state
-        console.log(query)
+        // console.log(query)
     }, [dispatch, query]);
 
     return (
