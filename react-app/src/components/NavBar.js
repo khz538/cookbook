@@ -6,6 +6,7 @@ import LogoutButton from './auth/LogoutButton';
 import logo from './logo.png'
 import './NavBar.css'
 import * as sessionActions from '../store/session';
+import { searchThunk } from '../store/search';
 
 const NavBar = () => {
     const dispatch = useDispatch();
@@ -18,6 +19,13 @@ const NavBar = () => {
         return <Redirect to='/' />
     }
 
+    const search = async e => {
+        e.preventDefault();
+        const query = e.target.value;
+        await dispatch(searchThunk(query));
+        return <Redirect to='/search' />
+    }
+
     return (
         <nav className='navbar'>
             <NavLink to='/' exact={true} activeClassName='active'>
@@ -27,6 +35,13 @@ const NavBar = () => {
                     <h1>CookBook</h1>
                 </div>
             </NavLink>
+
+            {/* Search bar */}
+            <div className='search-bar'>
+                <input type='text' placeholder='Search' />
+                <button type='submit'>Search</button>
+            </div>
+
             <div className='nav-links-right'>
                 {!sessionUser &&
                     <NavLink className='login navlink' to='/login' exact={true} activeClassName='active'>
