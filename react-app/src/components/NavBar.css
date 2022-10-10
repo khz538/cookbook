@@ -116,7 +116,7 @@
 }
 .search-button-disabled {
     opacity: .3;
-    /* cursor: not-allowed; */
+    cursor: not-allowed;
     border: none;
     background-color: white;
     font-size: 20px;
