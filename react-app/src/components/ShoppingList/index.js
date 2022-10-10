@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import {
     getShoppingListItemsThunk,
     deleteShoppingListItemThunk,
     } from '../../store/shopping_list';
-
+import './ShoppingList.css';
 
 const ShoppingList = () => {
     const history = useHistory();
@@ -29,20 +29,27 @@ const ShoppingList = () => {
 
 
     return (
-        <div>
-            <h1>Shopping List</h1>
+        <div id='shopping-list-container'>
             <div>
-                {shoppingList.length === 0 ? <h3>You have no items in your shopping list</h3> : shoppingList.map(item => (
-                    <div key={item.id}>
-                        <h3>{item.ingredient.name},&nbsp;{item.ingredient.quantity}&nbsp;{item.ingredient.unit}</h3>
-                        <button onClick={async e => {
-                            e.preventDefault();
-                            await dispatch(deleteShoppingListItemThunk(item.id));
-                            history.push('/shopping-list')
-                        }}>Remove from Shopping List</button>
-                    </div>
-                ))}
+                <h1 className='title'>Shopping List</h1>
+                <div>
+                    {shoppingList.length === 0 ? <h3>You have no items in your shopping list</h3> : shoppingList.map(item => (
+                        <div key={item.id}>
+                            <h3 className='ingredient' id='list-item'>{item.ingredient.name.charAt(0).toUpperCase() + item.ingredient.name.slice(1)},&nbsp;{item.ingredient.quantity} {item.ingredient.unit}</h3>
+                            <button className='button' onClick={async e => {
+                                e.preventDefault();
+                                await dispatch(deleteShoppingListItemThunk(item.id));
+                                history.push('/shopping-list')
+                            }}>Remove</button>
+                        </div>
+                    ))}
+                </div>
             </div>
+            {shoppingList?.length > 0 && <button className='button' id='print-button' onClick={e => {
+                e.preventDefault();
+                window.print();
+            }}>Print
+            </button>}
         </div>
     )
 }
