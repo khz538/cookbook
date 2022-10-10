@@ -1,5 +1,5 @@
 from flask import Blueprint
-from app.models import db, Ingredient, Recipe
+from app.models import db, Ingredient, Recipe, User
 
 search_routes = Blueprint('search', __name__)
 
@@ -16,4 +16,11 @@ def search(search_term):
         ingredient_ids.append(ingredient.recipe_id)
     recipe_ids = list(set(recipe_ids + ingredient_ids))
     recipes = db.session.query(Recipe).filter(Recipe.id.in_(recipe_ids)).all()
-    return {'recipes': [recipe.to_dict() for recipe in recipes]}
+    recipes_list = list()
+    for recipe in recipes:
+        recipe_dict = recipe.to_dict()
+        user = User.query.get(recipe_dict['user_id'])
+        recipe_dict['user'] = user.to_dict()
+        recipes_list.append(recipe_dict)
+    # return {'recipes': [recipe.to_dict() for recipe in recipes]}
+    return {'recipes': recipes_list}

@@ -21,7 +21,7 @@ export const searchThunk = query => async dispatch => {
 export default function searchReducer(state = {}, action) {
     switch (action.type) {
         case SEARCH: {
-            const newState = {...state};
+            const newState = {};
             console.log("action", action.query.recipes)
             action.query.recipes.forEach(result => {
                 newState[result.id] = result;

@@ -25,7 +25,7 @@ const NavBar = () => {
     const handleSearchButton = async e => {
         e.preventDefault();
         setQuery(e.target.value);
-        // const result = await dispatch(searchThunk(query));
+        e.target.value = '';
         history.push(`/search/${query}`);
     }
 
@@ -42,7 +42,7 @@ const NavBar = () => {
             {/* Search bar */}
             <div className='search-bar'>
                 <form onSubmit={handleSearchButton}>
-                    <input type='text' placeholder='Search' onChange={e => setQuery(e.target.value)}/>
+                    <input type='text' placeholder='Search' value={query} onChange={e => setQuery(e.target.value)}/>
                     <button type='submit' disabled={false}>Search</button>
                 </form>
             </div>
