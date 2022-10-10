@@ -1,16 +1,19 @@
 
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink, Redirect, useHistory } from 'react-router-dom';
 import LogoutButton from './auth/LogoutButton';
 import logo from './logo.png'
 import './NavBar.css'
 import * as sessionActions from '../store/session';
-import { searchThunk } from '../store/search';
+// import { searchThunk } from '../store/search';
+
 
 const NavBar = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
+    const [query, setQuery] = React.useState('');
     // const [showModal, setShowModal] = useState(false);
 
     const demoLogin = async e => {
@@ -19,11 +22,11 @@ const NavBar = () => {
         return <Redirect to='/' />
     }
 
-    const search = async e => {
+    const handleSearchButton = async e => {
         e.preventDefault();
-        const query = e.target.value;
-        await dispatch(searchThunk(query));
-        return <Redirect to='/search' />
+        setQuery(e.target.value);
+        // const result = await dispatch(searchThunk(query));
+        history.push(`/search/${query}`);
     }
 
     return (
@@ -38,8 +41,10 @@ const NavBar = () => {
 
             {/* Search bar */}
             <div className='search-bar'>
-                <input type='text' placeholder='Search' />
-                <button type='submit'>Search</button>
+                <form onSubmit={handleSearchButton}>
+                    <input type='text' placeholder='Search' onChange={e => setQuery(e.target.value)}/>
+                    <button type='submit' disabled={false}>Search</button>
+                </form>
             </div>
 
             <div className='nav-links-right'>
