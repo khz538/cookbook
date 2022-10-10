@@ -1,8 +1,14 @@
+@font-face {
+    font-family: 'nyt-cheltenham';
+    src: url('../../fonts/nyt-cheltenham-200-normal.woff');
+}
+
 .search-page-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    font-family: 'nyt-cheltenham';
     /* min-height: 80vh; */
     /* padding-bottom: 8rem; */
     /* width: 100%; */
