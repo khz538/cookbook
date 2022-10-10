@@ -115,16 +115,16 @@
     opacity: 1;
 }
 .search-button-disabled {
-    opacity: .5;
+    opacity: .3;
     cursor: not-allowed;
     border: none;
     background-color: white;
     font-size: 20px;
     padding: 0 1em;
-    transition-duration: .3s;
-    transition-property: all;
+    /* transition-duration: .3s;
+    transition-property: all; */
 }
 .search-button-disabled:hover {
     color: rgb(174, 0, 0);
-    opacity: 80%;
+    opacity: 70%;
 }
