@@ -1,7 +1,6 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import db, Ingredient, ShoppingList, ingredient
-from .auth_routes import validation_errors_to_error_messages
+from app.models import db, Ingredient, ShoppingList
 
 shopping_list_routes = Blueprint('shopping_list', __name__)
 
