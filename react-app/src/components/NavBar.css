@@ -118,7 +118,7 @@
     opacity: .5;
     cursor: not-allowed;
     border: none;
-    background-color: transparent;
+    background-color: white;
     font-size: 20px;
     padding: 0 1em;
     transition-duration: .3s;
