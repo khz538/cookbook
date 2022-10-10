@@ -42,8 +42,11 @@ const NavBar = () => {
             {/* Search bar */}
             <div className='search-bar'>
                 <form onSubmit={handleSearchButton}>
-                    <input type='text' placeholder='Search' value={query} onChange={e => setQuery(e.target.value)}/>
-                    <button type='submit' disabled={false}>Search</button>
+                    <input className='search-input' type='text' placeholder='Search' value={query} onChange={e => setQuery(e.target.value)}/>
+                    <button
+                        className={query.length > 0 ? 'search-button' : 'search-button-disabled'}
+                        type='submit'
+                        disabled={query.length === 0}><i class="fa-sharp fa-solid fa-magnifying-glass"></i></button>
                 </form>
             </div>
 
