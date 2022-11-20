@@ -220,3 +220,18 @@ form > .add-ingredient-button:hover {
 .Rating {
     padding: 1em 0;
 }
+
+#add-ingredient-button {
+    border: none;
+    border-radius: 5px;
+    height: 2.5vh;
+    cursor: pointer;
+    background-color: rgb(38, 143, 156);
+    opacity: .7;
+    transition: opacity .15s;
+    color: white;
+    font-weight: bold;
+}
+#add-ingredient-button:hover {
+    opacity: 1;
+}
