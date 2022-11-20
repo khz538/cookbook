@@ -44,11 +44,20 @@ def seed_recipes():
         image_url='https://res.cloudinary.com/khz538/image/upload/v1662977636/CookBook/8_napifv.jpg',
         user_id=1
     )
+    recipe6 = Recipe(
+        title='Tomato & Egg',
+        description="In Chinese, there's this collection of dishes called jiā cháng cài (家常菜), meaning common home-cooked dishes. These are dishes like this tomato egg stir fry, a dish every Chinese family makes differently. Tomato and egg stir fried is a classic dish that anyone can make for a reminder of home.",
+        time='20 minutes',
+        yield_servings = 2,
+        image_url = "https://twoplaidaprons.com/wp-content/uploads/2022/06/tomato-egg-sitr-fry.jpg",
+        user_id=1
+    )
     db.session.add(recipe1)
     db.session.add(recipe2)
     db.session.add(recipe3)
     db.session.add(recipe4)
     db.session.add(recipe5)
+    db.session.add(recipe6)
     db.session.commit()
 
 
