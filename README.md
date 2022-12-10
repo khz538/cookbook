@@ -1,5 +1,5 @@
 # ![Logo](react-app/src/components/logo.png)&nbsp;&nbsp;&nbsp;**CookBook**
-## Bienvenue et Bon Appetit!
+## Welcome!
 
 [CookBook](https://cookbook-khz.herokuapp.com/) takes heavy inspiration from The New York Times' [NYT Cooking](https://cooking.nytimes.com/). With a similar goal of providing a platform to share good food from anywhere the internet can reach, users can upload their own recipes for others to try, or try recipes others have uploaded.
 
