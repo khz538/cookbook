@@ -75,9 +75,10 @@
     word-break: break-word;
     max-height: 12vw;
     max-width: 33vw;
-    overflow: scroll;
+    overflow-y: scroll;
     margin-bottom: 1vh;
     overflow: -moz-scrollbars-none;
+    scrollbar-width: none;
 }
 .description-container::-webkit-scrollbar { width: 0 !important }
 
