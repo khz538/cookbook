@@ -11,6 +11,7 @@ class Ingredient(db.Model, UserMixin):
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'), nullable=False)
 
     recipe = db.relationship('Recipe', back_populates='ingredients', foreign_keys=[recipe_id])
+    shopping_lists = db.relationship('ShoppingList', back_populates='ingredient', cascade='all, delete')
 
     @property
     def ingredient_details(self):

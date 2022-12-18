@@ -79,12 +79,6 @@ export default function reducer(state = {}, action) {
             return newState;
         }
         case EDIT_INGREDIENT: {
-            // const newState = { ...state };
-            // const ingredient = newState.ingredients.find(ingredient => ingredient.id === action.ingredient.id);
-            // ingredient.quantity = action.ingredient.quantity;
-            // ingredient.unit = action.ingredient.unit;
-            // ingredient.name = action.ingredient.name;
-            // return newState;
             return {
                 ...state,
                 [action.ingredient.id]: action.ingredient

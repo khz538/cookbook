@@ -6,6 +6,7 @@ import ProfileButton from './ProfileButton';
 import DemoUser from '../DemoUser'
 import SignUpFormModal from '../SignupFormModal'
 import LoginFormModal from '../LoginFormModal'
+import './Navigation.css';
 
 
 export default function Navigation() {
@@ -19,8 +20,8 @@ export default function Navigation() {
         sessionLinks = (
             <>
                 <DemoUser />
-                <LoginFormModal />
-                <SignUpFormModal />
+                {/* <LoginFormModal /> */}
+                {/* <SignUpFormModal /> */}
             </>
         );
     }
@@ -31,6 +32,10 @@ export default function Navigation() {
                 <NavLink exact to="/">
                     <img className='logo' src={logo} alt='meetup logo'></img>
                 </NavLink>
+            </div>
+            <div className='search-container'>
+                <input className='search-bar' type='text' placeholder='Search for events'></input>
+                <button className='search-button'>Search</button>
             </div>
             <div className='nav-buttons'>
                 {sessionLinks}

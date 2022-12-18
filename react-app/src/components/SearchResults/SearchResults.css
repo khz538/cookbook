@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'nyt-cheltenham';
+    src: url('../../fonts/nyt-cheltenham-200-normal.woff');
+}
+
+.search-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-family: 'nyt-cheltenham';
+    /* min-height: 80vh; */
+    /* padding-bottom: 8rem; */
+    /* width: 100%; */
+    /* height: 80vh; */
+    /* height: 800px; */
+    /* background-color: #f5f5f5; */
+}
+
+.search-page-container > .title {
+    margin-top: 3rem;
+    /* margin-bottom: 2rem; */
+}
+
+.no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
