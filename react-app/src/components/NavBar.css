@@ -8,6 +8,7 @@
     justify-content: space-between;
     align-items: center;
     margin: 0 1rem !important;
+    background-color: transparent;
 }
 
 .logo-container > img {
@@ -78,7 +79,8 @@
 }
 
 .search-bar {
-    border: 1px solid lightgrey;
+    /* border: 1px solid lightgrey; */
+    border: 1px solid #f5f5f5;
     border-radius: .5em;
     display: flex;
     align-items: center;
@@ -86,9 +88,11 @@
     flex-flow: row nowrap;
     white-space: nowrap;
     transition: .3s ease-in-out;
+    background-color: white;
 }
 .search-bar:hover {
     border: 1px solid rgb(146, 146, 146);
+    /* border: 1px solid #F5F5F5; */
 }
 .search-input {
     border: none;
@@ -118,7 +122,7 @@
     opacity: .3;
     cursor: not-allowed;
     border: none;
-    background-color: white;
+    background-color: transparent;
     font-size: 20px;
     padding: 0 1em;
     /* transition-duration: .3s;
