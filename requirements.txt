@@ -7,7 +7,10 @@
 
 -i https://pypi.org/simple
 alembic==1.6.5
+boto3==1.26.32
+botocore==1.29.31; python_version >= '3.9'
 click==7.1.2
+email-validator==1.2.1
 flask-cors==3.0.8
 flask-login==0.5.0
 flask-migrate==3.0.1
@@ -27,4 +30,3 @@ six==1.15.0
 sqlalchemy==1.4.19
 werkzeug==2.0.1
 wtforms==2.3.3
-email-validator==1.2.1
