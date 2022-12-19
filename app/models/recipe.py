@@ -17,6 +17,7 @@ class Recipe(db.Model, UserMixin):
     rating = db.relationship('Rating', back_populates='recipe', cascade='all, delete')
     ingredients = db.relationship('Ingredient', back_populates='recipe', cascade='all, delete')
     steps = db.relationship('Step', back_populates='recipe', cascade='all, delete')
+    images = db.relationship('Image', back_populates='recipe', cascade='all, delete')
 
     @property
     def recipe_details(self):
