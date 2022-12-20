@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createRecipeThunk } from '../../store/recipes';
 import { uploadImageThunk } from '../../store/images';
-import { imageRegex } from '../../util';
 import './AddRecipe.css';
 
 
@@ -51,14 +50,10 @@ export default function AddRecipe() {
             user_id: sessionUser.id,
         };
         const newRecipe = await dispatch(createRecipeThunk(payload));
-        await dispatch(uploadImageThunk({ image, recipe_id: newRecipe.id }));
-        // const test = await fetch('/api/images/upload/', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data',
-        //     },
-        //     body: formData,
-        // });
+        let formData = new FormData();
+        formData.append('image', image);
+        formData.append('recipe_id', newRecipe.id);
+        await dispatch(uploadImageThunk(formData));
         history.push(`/recipes/${newRecipe.id}`)
     };
 

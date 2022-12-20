@@ -12,16 +12,9 @@ const changeImage = (image) => ({
     image,
 });
 
-export const uploadImageThunk = ({image, recipe_id}) => async (dispatch) => {
-    let formData = new FormData();
-    formData.append('image', image);
-    formData.append('recipe_id', recipe_id);
-    console.log(formData)
+export const uploadImageThunk = formData => async (dispatch) => {
     const response = await fetch('/api/images/upload/', {
         method: "POST",
-        headers: {
-            "Content-Type": "multipart/form-data",
-            },
         body: formData,
     });
     if (response.ok) {
@@ -33,9 +26,6 @@ export const uploadImageThunk = ({image, recipe_id}) => async (dispatch) => {
 export const changeImageThunk = (formData) => async (dispatch) => {
     const response = await fetch('/api/images/upload/', {
         method: "POST",
-        headers: {
-        "Content-Type": "multipart/form-data",
-        },
         body: formData,
     });
     if (response.ok) {
