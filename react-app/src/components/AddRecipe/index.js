@@ -29,16 +29,9 @@ export default function AddRecipe() {
         if (!description.length) newErrors.push('* Please describe your recipe');
         if (description.length > 1000) newErrors.push('* Please keep your description under 1001 characters')
         if (description.trim() === '' && description.length) newErrors.push('* Whitespace-only inputs for description field are prohibited')
-        // if (!image.length) newErrors.push('* Please enter an image URL');
-        // if (!imageRegex(image)) {
-        //     newErrors.push('* Please enter a valid image URL')
-        //     newErrors.push('e.g. https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg');
-        // };
-        // if (image.length && image.trim() === '') newErrors.push('*Image URL must not have whitespace characters')
         if (!servings) newErrors.push("* Please enter the yield of this recipe");
         if (servings > 100) newErrors.push('* Please shrink your serving size to below 100')
         if (servings <= 0) newErrors.push("* Please enter a positive number of servings");
-        // if (Math.floor(servings) != servings) newErrors.push('* Please enter a whole number of servings');
         if (!time) newErrors.push("* Prep time is required");
         if (time.length > 20) newErrors.push("* Please limit prep time to 20 characters")
         if (time.trim() === '' && time.length) newErrors.push('* Whitespace-only inputs for prep time field are prohibited')
