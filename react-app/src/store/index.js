@@ -7,6 +7,7 @@ import steps from './steps';
 import rating from './rating'
 import shopping_list from './shopping_list';
 import search from './search';
+import images from './images';
 
 const rootReducer = combineReducers({
   session,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   rating,
   shopping_list,
   search,
+  images,
 });
 
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createRecipeThunk } from '../../store/recipes';
+import { uploadImageThunk } from '../../store/images';
 import { imageRegex } from '../../util';
 import './AddRecipe.css';
 
@@ -17,10 +18,8 @@ export default function AddRecipe() {
     const [servings, setServings] = useState('');
     const [errors, setErrors] = useState([]);
     const [hasSubmitted, setHasSubmitted] = useState(false);
+    const [hasSubmittedImage, setHasSubmittedImage] = useState(false);
 
-    // useEffect(() => {
-    //     dispatch(getAllRecipesThunk())
-    // }, [dispatch])
 
     useEffect(() => {
         const newErrors = [];
@@ -30,12 +29,12 @@ export default function AddRecipe() {
         if (!description.length) newErrors.push('* Please describe your recipe');
         if (description.length > 1000) newErrors.push('* Please keep your description under 1001 characters')
         if (description.trim() === '' && description.length) newErrors.push('* Whitespace-only inputs for description field are prohibited')
-        if (!image.length) newErrors.push('* Please enter an image URL');
-        if (!imageRegex(image)) {
-            newErrors.push('* Please enter a valid image URL')
-            newErrors.push('e.g. https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg');
-        };
-        if (image.length && image.trim() === '') newErrors.push('*Image URL must not have whitespace characters')
+        // if (!image.length) newErrors.push('* Please enter an image URL');
+        // if (!imageRegex(image)) {
+        //     newErrors.push('* Please enter a valid image URL')
+        //     newErrors.push('e.g. https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg');
+        // };
+        // if (image.length && image.trim() === '') newErrors.push('*Image URL must not have whitespace characters')
         if (!servings) newErrors.push("* Please enter the yield of this recipe");
         if (servings > 100) newErrors.push('* Please shrink your serving size to below 100')
         if (servings <= 0) newErrors.push("* Please enter a positive number of servings");
@@ -54,14 +53,25 @@ export default function AddRecipe() {
         const payload = {
             title,
             description,
-            image_url: image,
             time,
             yield_servings: servings,
             user_id: sessionUser.id,
         };
         const newRecipe = await dispatch(createRecipeThunk(payload));
+        await dispatch(uploadImageThunk({ image, recipe_id: newRecipe.id }));
+        // const test = await fetch('/api/images/upload/', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data',
+        //     },
+        //     body: formData,
+        // });
         history.push(`/recipes/${newRecipe.id}`)
     };
+
+    const uploadImage = async e => {
+        const file = e.target.files[0];
+    }
 
     if (!sessionUser) history.push('/');
 
@@ -96,17 +106,6 @@ export default function AddRecipe() {
                     placeholder='Describe your dish here.'
                     className='input'
                 />
-                <label>Image URL</label>
-                <small>&nbsp;(required)</small>
-                <input type='text'
-                    value={image}
-                    onChange={e => {
-                        setImage(e.target.value);
-                        // setIsUrlValid([]);
-                    }}
-                    placeholder='https://example.com/image.jpg'
-                    className='input'
-                />
                 <label>Servings</label>
                 <small>&nbsp;(required)</small>
                 <input type='number'
@@ -126,7 +125,15 @@ export default function AddRecipe() {
                     className='input'
                     maxLength={21}
                 />
-                <button className='add-recipe-button' type='submit'>Post Recipe</button>
+                <label>Image</label>
+                <small>&nbsp;(required)</small>
+                <input
+                    type='file'
+                    accept='.png, .jpg, jpeg, .gif'
+                    onChange={e => setImage(e.target.files[0])}
+                    name='picture'
+                />
+                <button className='add-recipe-button' type='submit' disabled={hasSubmittedImage}>Post Recipe</button>
             </form>
         </div>
     );

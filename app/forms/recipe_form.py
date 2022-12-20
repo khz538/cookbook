@@ -20,4 +20,3 @@ class RecipeForm(FlaskForm):
     description = TextAreaField('description', validators=[DataRequired(), Length(min=1, max=1000)])
     time = StringField('time', validators=[DataRequired(), Length(min=1, max=20)])
     yield_servings = IntegerField('yield_servings', validators=[DataRequired(), NumberRange(min=1, max=10000)])
-    image_url = StringField('image_url', validators=[DataRequired(), Length(min=0)])

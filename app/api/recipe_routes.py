@@ -89,8 +89,7 @@ def create_recipe():
             description=form.data['description'],
             time=form.data['time'],
             user_id=current_user.id,
-            yield_servings=form.data['yield_servings'],
-            image_url=form.data['image_url']
+            yield_servings=form.data['yield_servings']
         )
         db.session.add(recipe)
         db.session.commit()
