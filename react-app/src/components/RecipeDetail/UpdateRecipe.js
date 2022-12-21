@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { editRecipeThunk, getOneRecipeThunk } from '../../store/recipes';
-import { imageRegex } from '../../util';
+import { changeImageThunk } from '../../store/images';
 import './UpdateRecipe.css';
 
 export default function UpdateRecipe({ recipe, setShowUpdate }) {
@@ -16,7 +16,6 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
     const [servings, setServings] = useState(recipe.yield_servings);
     const [errors, setErrors] = useState([]);
     const [hasSubmitted, setHasSubmitted] = useState(false);
-    // const [isUrlValid, setIsUrlValid] = useState([]);
 
     useEffect(() => {
         const newErrors = [];
@@ -26,12 +25,12 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
         if (!description.length) newErrors.push('* Please describe your recipe');
         if (description.length > 1000) newErrors.push('* Please keep your description under 1001 characters')
         if (description.trim() === '' && description.length) newErrors.push('* Whitespace-only inputs for description field are prohibited')
-        if (!image.length) newErrors.push('* Please enter an image URL');
-        if (!imageRegex(image)) {
-            newErrors.push('* Please enter a valid image URL')
-            newErrors.push('e.g. https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg');
-        };
-        if (image.length && image.trim() === '') newErrors.push('*Image URL must not have whitespace characters')
+        // if (!image.length) newErrors.push('* Please enter an image URL');
+        // if (!imageRegex(image)) {
+        //     newErrors.push('* Please enter a valid image URL')
+        //     newErrors.push('e.g. https://res.cloudinary.com/khz538/image/upload/v1661845151/cld-sample-4.jpg');
+        // };
+        // if (image.length && image.trim() === '') newErrors.push('*Image URL must not have whitespace characters')
         if (!servings) newErrors.push("* Please enter the yield of this recipe");
         if (servings > 100) newErrors.push('* Please shrink your serving size to below 100')
         if (servings <= 0) newErrors.push("* Please enter a positive number of servings");
@@ -41,22 +40,23 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
         if (time.trim() === '' && time.length) newErrors.push('* Whitespace-only inputs for prep time field are prohibited')
 
         setErrors(newErrors);
-    }, [title, description, image, time, servings, errors.length])
+    }, [title, description, time, servings, errors.length])
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async e => {
         e.preventDefault();
-        // const isUrlValid = await isImgUrl(image)
-        // if (!isUrlValid) {await setIsUrlValid(['* Please enter a working URL']); return;};
         const editedRecipe = {
             id: recipe.id,
             title,
             description,
-            image_url: image,
             time,
             yield_servings: servings,
         }
         if (!errors.length) {
             await dispatch(editRecipeThunk(editedRecipe));
+            let formData = new FormData();
+            formData.append('image', image);
+            formData.append('recipeId', recipe.id);
+            await dispatch(changeImageThunk(formData, recipe.images[0].id));
             await dispatch(getOneRecipeThunk(recipeId));
             setShowUpdate(false);
         } else {
@@ -93,17 +93,6 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
                     placeholder='Describe your dish here.'
                     className='textarea'
                 />
-                <label>Image URL</label>
-                <small>&nbsp;(required)</small>
-                <input type='text'
-                    value={image}
-                    onChange={e => {
-                        setImage(e.target.value);
-                        // setIsUrlValid([]);
-                    }}
-                    placeholder='https://example.com/image.jpg'
-                    className='input'
-                />
                 <label>Servings</label>
                 <small>&nbsp;(required)</small>
                 <input type='number'
@@ -122,6 +111,14 @@ export default function UpdateRecipe({ recipe, setShowUpdate }) {
                     placeholder='e.g. 15 minutes'
                     className='input'
                     maxLength={21}
+                />
+                <label>Image</label>
+                <small>&nbsp;(required)</small>
+                <input
+                    type='file'
+                    accept='.png, .jpg, jpeg, .gif'
+                    onChange={e => setImage(e.target.files[0])}
+                    name='picture'
                 />
                 <button type='submit' disabled={false}>Update Recipe</button>
             </form>

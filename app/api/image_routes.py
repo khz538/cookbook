@@ -10,7 +10,7 @@ image_routes = Blueprint('images', __name__)
 @image_routes.route('/upload/', methods=["POST"])
 @login_required
 def upload_image():
-    print("request", request.files)
+    # print("request", request.files)
     if "image" not in request.files:
         return {"errors": "image required"}, 400
 
@@ -34,6 +34,34 @@ def upload_image():
     )
 
     db.session.add(image)
+    db.session.commit()
+
+    return image.to_dict()
+
+# Edit image
+@image_routes.route('/<int:id>/', methods=["PUT"])
+@login_required
+def edit_image(id):
+    if "image" not in request.files:
+        return {"errors": "image required"}, 400
+
+    image = request.files["image"]
+
+    if not allowed_file(image.filename):
+        return {"errors": "file type not permitted"}, 400
+
+    image.filename = get_unique_filename(image.filename)
+
+    upload = upload_file_to_s3(image)
+
+    if "url" not in upload:
+        return upload, 400
+
+    url = upload["url"]
+
+    db_image = Image.query.get(id)
+    db_image.url = url
+
     db.session.commit()
 
     return image.to_dict()

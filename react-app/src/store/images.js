@@ -12,7 +12,7 @@ const changeImage = (image) => ({
     image,
 });
 
-export const uploadImageThunk = formData => async (dispatch) => {
+export const uploadImageThunk = formData => async dispatch => {
     const response = await fetch('/api/images/upload/', {
         method: "POST",
         body: formData,
@@ -23,9 +23,9 @@ export const uploadImageThunk = formData => async (dispatch) => {
     }
 }
 
-export const changeImageThunk = (formData) => async (dispatch) => {
-    const response = await fetch('/api/images/upload/', {
-        method: "POST",
+export const changeImageThunk = (formData, imageId) => async dispatch => {
+    const response = await fetch(`/api/images/${imageId}/`, {
+        method: "PUT",
         body: formData,
     });
     if (response.ok) {
@@ -42,6 +42,7 @@ export default function reducer(state = {}, action) {
             return newState;
         }
         case CHANGE_IMAGE: {
+            console.log(action.image)
             return {
                 ...state,
                 [action.image.id]: action.image
