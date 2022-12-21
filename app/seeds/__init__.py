@@ -3,6 +3,7 @@ from .users import seed_users, undo_users
 from .recipes import seed_recipes, undo_recipes
 from .steps import seed_steps, undo_steps
 from .ingredients import seed_ingredients, undo_ingredients
+from .images import seed_images, undo_images
 
 # Creates a seed group to hold our commands
 # So we can type `flask seed --help`
@@ -17,6 +18,7 @@ def seed():
     seed_recipes()
     seed_ingredients()
     seed_steps()
+    seed_images()
 
 
 # Creates the `flask seed undo` command
@@ -27,3 +29,4 @@ def undo():
     undo_recipes()
     undo_ingredients()
     undo_steps()
+    undo_images()

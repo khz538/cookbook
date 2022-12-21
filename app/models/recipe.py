@@ -31,5 +31,9 @@ class Recipe(db.Model, UserMixin):
             "time": self.time,
             "user_id": self.user_id,
             "yield_servings": self.yield_servings,
-            "image_url": self.image_url
+            "image_url": self.image_url,
+            "images": [image.to_dict() for image in self.images],
+            "rating": [rating.to_dict() for rating in self.rating],
+            "ingredients": [ingredient.to_dict() for ingredient in self.ingredients],
+            "steps": [step.to_dict() for step in self.steps]
         }

@@ -9,7 +9,7 @@ import { defaultImage } from '../../util';
 const Recipes = () => {
     const dispatch = useDispatch();
     // const history = useHistory();
-    const sessionUser = useSelector(state => state.session.user);
+    // const sessionUser = useSelector(state => state.session.user);
     const recipes = Object.values(useSelector(state => state.recipes)); //array of recipes
     const randomIndex = Math.floor(Math.random() * recipes.length);
 
@@ -46,7 +46,7 @@ const Recipes = () => {
                         <div key={recipe.id} className='card'>
                             <NavLink to={`/recipes/${recipe.id}`}>
                                 <div className='image-container'>
-                                    <img className='card-image' src={recipe.image_url} onError={e => e.currentTarget.src=defaultImage}/>
+                                    <img className='card-image' src={recipe.images[0]?.url} onError={e => e.currentTarget.src=defaultImage}/>
                                 </div>
                                 <div className='card-bottom'>
                                     <div id='title-author'>

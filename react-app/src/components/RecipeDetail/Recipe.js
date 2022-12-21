@@ -9,9 +9,10 @@ import { defaultImage } from "../../util";
 import './RecipeDetail.css'
 import './Ingredient.css'
 
-export default function Recipe({ currentUser }) {
+export default function Recipe({ currentUser, recipe }) {
     const { recipeId } = useParams();
-    const recipe = useSelector(state => state.recipes)[recipeId];
+    // const recipe = useSelector(state => state.recipes)[recipeId];
+    const image = recipe?.images[0]?.url;
     const history = useHistory();
     const dispatch = useDispatch();
     const [showUpdate, setShowUpdate] = useState(false);
@@ -51,7 +52,7 @@ export default function Recipe({ currentUser }) {
                     <img
                         onError={e => e.currentTarget.src=defaultImage}
                         className='recipe-image'
-                        src={recipe.image_url}
+                        src={image}
                         alt={recipe.title}
                     />
                 </div>

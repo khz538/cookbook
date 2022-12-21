@@ -21,8 +21,8 @@ const RecipeDetail = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const recipe = useSelector(state => state.recipes)[recipeId];
-    const steps = Object.values(useSelector(state => state.steps));
-    const ingredients = Object.values(useSelector(state => state.ingredients));
+    const steps = recipe?.steps;
+    const ingredients = recipe?.ingredients;
     const currentUser = useSelector(state => state.session.user);
     const [newStep, setNewStep] = useState('');
     const [newIngredientQuantity, setNewIngredientQuantity] = useState('');
@@ -108,11 +108,6 @@ const RecipeDetail = () => {
         } else {
             setNewIngredientSubmitted(true);
         }
-        // setNewIngredientSubmitted(true);
-        // setNewIngredientQuantity('');
-        // setNewIngredientUnit('');
-        // setNewIngredientName('');
-        // history.push(`/recipes/${recipeId}`);
     }
 
     return (

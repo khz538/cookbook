@@ -51,10 +51,6 @@ def single_recipe(recipe_id):
                 sum += rating.rating
             avg_rating = sum / len(ratings)
             recipe_dict['avg_rating'] = avg_rating
-        # steps = [s.to_dict() for s in recipe.steps]
-        # ingredients = [i.to_dict() for i in recipe.ingredients]
-        # recipe_dict['steps'] = steps
-        # recipe_dict['ingredients'] = ingredients
         recipe_dict['user'] = user_dict
         return recipe_dict
 
