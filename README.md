@@ -4,7 +4,7 @@
 [CookBook](https://cookbook-khz.herokuapp.com/) takes heavy inspiration from The New York Times' [NYT Cooking](https://cooking.nytimes.com/). With a similar goal of providing a platform to share good food from anywhere the internet can reach, users can upload their own recipes for others to try, or try recipes others have uploaded.
 
 This application takes advantage of [Flask](https://flask.palletsprojects.com/en/2.2.x/), [WTForms](https://wtforms.readthedocs.io/en/3.0.x/), [SQLAlchemy](https://www.sqlalchemy.org/), and [Alembic](https://alembic.sqlalchemy.org/en/latest/) in the backend for ease of use, and [React](https://reactjs.org/) & [Redux](https://redux.js.org/) in the frontend for its ability to quickly navigate across the app.
-## [**Live Link**](https://khz538-nyt-cooking.herokuapp.com/)
+## [**Live Link**](https://cookbook-khz.herokuapp.com/)
 ## Wiki
 Take a gander at the [Wiki](https://github.com/khz538/nyt-cooking-clone/wiki) for some information about the app.
 There, you can find the Feature List, User Stories, the backend Database Schema, and a look at the site under wireframe that inspired the look and feel of the app!
